@@ -33,9 +33,9 @@ the following:
 | SECRET_KEY | Arbitrary string for Django hashing & cryptographic signing.                                                    |
 | DEBUG      | "True": Debug mode "False": Production                                                                          |
 | DB_NAME    | Name for main postgresql database. Locally hosted for now. Make sure to create this db prior to running server. |
-| PORT       | Server port number, left unspecified, will default to 3000.                                                     |
+| PORT       | Server port number. Left unspecified, it will default to 3000.                                                  |
 
-Migrate changes to the local database
+Migrate database changes to your local database
 ```shell
 python manage.py migrate
 ```
@@ -46,5 +46,5 @@ python manage.py runserver
 ```
 
 Optional: Use `do` script shortcut to run commands. Unix-only.
-- Make `do` script executable `chmod + ./do`
+- Make `do` script executable `chmod +x ./do`
 - Run python manage.py commands `./do <command>`
