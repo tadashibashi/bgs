@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        {# Branding. TODO: Add branding image or icon here? #}
+        <a class="navbar-brand" href="/">Brokeman's Game Station</a>
+
+        {# Hamburger button (for dropdown navbar on small displays) #}
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarDropdown">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {# Navbar items #}
+        <div class="collapse navbar-collapse" id="navbarDropdown">
+            <ul class="navbar-nav">
+                {# links #}
+                <li class="nav-item">
+                    <a href="{% url 'games_index' %}">Games</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    {# Login / Logout link: left at the end so it's pushed to right-most side of navbar #}
+    {# TODO: implement user authentication, research how to do this. #}
+    <div class="me-4">
+        {% if user.is_authenticated %}
+            <a>Logout</a>
+        {% else %}
+            <a>Login</a>
+        {% endif %}
+    </div>
+
+</nav>

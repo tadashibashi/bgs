@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <section class="container">
+        <h1>Games List</h1>
+        {% for game in games %}
+            {% include "games/include/game.html" %}
+        {% empty %}
+            <p>No games to show...</p>
+        {% endfor %}
+    </section>
+
+{% endblock %}
