@@ -6,7 +6,7 @@ from . import Game
 
 class Review(models.Model):
     """
-        Game review by a User for a game. Includes text and optional rating.
+        A review for a game written by a user. Includes text and optional rating.
         Limit one review per user per game.
     """
 
