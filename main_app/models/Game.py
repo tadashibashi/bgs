@@ -4,6 +4,13 @@ from django.db import models
 from .Tag import Tag
 
 class Game(models.Model):
+    """
+        A model representing user-uploaded games
+    """
+
+    url = models.URLField()
+    """Base url to the folder in Amazon S3"""
+
 
     title = models.CharField(max_length=128, default="")
     """Displayable name of the game"""
