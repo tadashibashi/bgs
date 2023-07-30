@@ -1,0 +1,3 @@
+#!/bin/zsh
+export PYTHONSTARTUP=scripts/crudhelper.py
+python3 manage.py shell
