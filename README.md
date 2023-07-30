@@ -1,5 +1,7 @@
 # Brokeman's Game Station
-HTML5 game hosting & sharing site
+![Landing Page Mockup](readme/bgs-landing-page-mockup.png)
+
+### HTML5 game hosting & sharing site
 
 
 ## Tools
