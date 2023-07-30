@@ -30,3 +30,6 @@ class Screenshot(models.Model):
 
         # perform inherited delete
         return super(self.__class__, self).delete(*args, **kwargs)
+
+    def __str__(self):
+        return f"for {self.game.title} @{self.file.filename}"
