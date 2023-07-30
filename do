@@ -1,3 +1,3 @@
 #!/bin/zsh
 
-python manage.py $@
+python3 manage.py $@
