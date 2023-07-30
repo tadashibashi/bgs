@@ -13,8 +13,15 @@ def main():
     try:
         from django.core.management import execute_from_command_line
 
+        # Set the port number from .env (or "3000" if non-existent or invalid)
         from django.core.management.commands.runserver import Command as runserver
-        runserver.default_port = os.environ["PORT"] or "3000"
+        try:
+            port = os.environ["PORT"]
+            runserver.default_port = port if port.isnumeric() else "3000"
+        except Exception as e:
+            runserver.default_port = "3000"
+
+
     except ImportError as exc:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
