@@ -2,9 +2,7 @@
     Custom forms for main_app
 """
 from django.forms import ModelForm
-
 from .models import Game
-
 
 class GameForm(ModelForm):
     class Meta:
