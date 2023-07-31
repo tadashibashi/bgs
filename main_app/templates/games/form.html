@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if game %}
+        <h1>Edit <span class="text-success">{{ game.title }}</span></h1>
+    {% else %}
+        <h1>Upload Game</h1>
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="button btn-primary" value="Submit"/>
+    </form>
+{% endblock %}

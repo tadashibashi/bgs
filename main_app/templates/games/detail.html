@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <article class="card">
+        <div class="card-header">
+            {# display title #}
+            <h1 class="card-title">{{ game.title }}</h1>
+
+            {# display hashtags #}
+            <p>
+                <strong>Tags: </strong>
+
+                {% for tag in game.tags %}
+                    <span class="rounded bg-secondary-subtle">
+                        <span class="hash">#</span>tag.text
+                    </span>
+                {% empty %}
+                    <span>none.</span>
+                {% endfor %}
+            </p>
+        </div>
+
+        <div class="card-body">
+            <iframe src="{{ game.src }}"></iframe>
+        </div>
+
+        <div class="card-footer">
+            <p><strong>Description: </strong>{{ game.description }}</p>
+
+        </div>
+
+    </article>
+
+
+{% endblock %}
