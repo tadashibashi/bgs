@@ -39,12 +39,12 @@ the following:
 
 Migrate database changes to your local database
 ```shell
-python manage.py migrate
+python3 manage.py migrate
 ```
 
 Run server
 ```shell
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 Optional: Use `do` script shortcut to run commands. Unix-only.
