@@ -1,12 +1,8 @@
 """
     Custom forms for main_app
 """
-import unicodedata
-
-from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
-from django.forms import ModelForm, FileField, CharField
 from django import forms
 
 from .models import Game, Tag
