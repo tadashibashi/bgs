@@ -28,6 +28,7 @@ class Devlog(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     """
         game this log is for
+        Relationship: Devlog >--- Game
     """
 
 

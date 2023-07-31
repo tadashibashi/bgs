@@ -56,4 +56,4 @@ class File(models.Model):
 @receiver(pre_delete, sender=File)
 def delete_file(sender, instance: File, **kwargs):
     """This callback deletes the file from Amazon S3 right before its File Model gets destroyed"""
-    raise Exception("delete_file is not implemented")
+    # raise Exception("delete_file is not implemented")
