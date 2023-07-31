@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from . import File
+from .File import File
 
 
 class Profile(models.Model):

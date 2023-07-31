@@ -1,5 +1,7 @@
 from django.db import models
-from . import File, Game
+from .File import File
+from .Game import Game
+
 
 class Screenshot(models.Model):
     """

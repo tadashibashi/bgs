@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from . import Game
+from .Game import Game
 
 
 class Review(models.Model):
