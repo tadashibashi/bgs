@@ -10,16 +10,27 @@ from .models import Game, Tag
 
 class TagsField(forms.CharField):
     def to_python(self, value: str) -> QuerySet:
-        """Normalize data to a list of  strings, create a tag if it doesn't exist"""
+        """Normalize data to a QuerySet of Tag models,
+        Create Tags if it doesn't exist"""
+
+        # return an empty QuerySet if there is no tag data
         if not value or not value.strip():
             return Tag.objects.none()
+
+        # parse strings into Tags
+        #    the implementation on the frontend separates tags with "\xa0",
+        #    which is just a non-linebreaking space.
         tag_strs = [val.strip() for val in value.split("\xa0")]
         tag_ids = []
         for tag_str in tag_strs:
+            # don't parse blank tags from any trailing spaces
             if not tag_str: continue
 
+            # create tags
             new_tag = Tag.objects.get_or_create(text=tag_str)
             tag_ids.append(new_tag[0].id)
+
+        # return a query with all tags
         return Tag.objects.filter(id__in=tag_ids)
 
     def validate(self, value):
