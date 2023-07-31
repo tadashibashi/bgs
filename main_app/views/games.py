@@ -21,8 +21,7 @@ def create(request: HttpRequest):
                       {"form": form})
     elif request.method == "POST":
         form = GameForm(request.POST, files=request.FILES)
-        print(request.POST)
-        print(form.is_valid())
+
         if form.is_valid():
             # TODO: upload game files to AWS S3
 
