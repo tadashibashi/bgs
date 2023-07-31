@@ -2,6 +2,7 @@
 {% block content %}
     <section class="container">
         <h1>Games List</h1>
+        <a class="button btn-primary" href="{% url 'games_create' %}">Add Game</a> {# Remove this later, just for testing #}
         {% for game in games %}
             {% include "games/include/game.html" %}
         {% empty %}

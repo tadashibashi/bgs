@@ -1,12 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+    <style>
+        .tag-input {
+            border: 1px gray solid;
+        }
+
+        .tag {
+            background: #aaceaa;
+            border-radius: 50vmin;
+            padding: 1px 4px;
+        }
+
+        .tag::before {
+            content: "#";
+        }
+
+    </style>
+
     {% if game %}
         <h1>Edit <span class="text-success">{{ game.title }}</span></h1>
     {% else %}
         <h1>Upload Game</h1>
     {% endif %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <input type="submit" class="button btn-primary" value="Submit"/>
-    </form>
+    <div class="container">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script src="{% static "js/tagFormatter.js" %}"></script>
+
 {% endblock %}

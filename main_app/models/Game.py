@@ -11,7 +11,7 @@ class Game(models.Model):
     # ===== fields ============================================================
 
 
-    url = models.URLField()
+    url = models.URLField(default="")
     """
         url to the folder on Amazon S3
     """
@@ -29,7 +29,7 @@ class Game(models.Model):
     """
 
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, default=list)
     """
         list of tags to be used for search purposes
     """

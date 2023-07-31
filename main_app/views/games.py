@@ -20,15 +20,21 @@ def create(request: HttpRequest):
         return render(request, "games/form.html",
                       {"form": form})
     elif request.method == "POST":
+        form = GameForm(request.POST, files=request.FILES)
         print(request.POST)
-        form = GameForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
-            # TODO: upload game here
+            # TODO: upload game files to AWS S3
 
-
+            # user and tags not saved yet -- wait to commit
             new_game = form.save(commit=False)
             new_game.user_id = user.id
-            new_game.save()
+
+            # once user_id set, the Tags will be associable
+            # form.save sets the tags
+            form.save(commit=True)
+        else:
+            print(form.errors)
         return redirect("games_index") # TODO: redirect to games_detail with pk=new_game.id
 
 def detail(request: HttpRequest, pk: int):
