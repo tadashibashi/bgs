@@ -11,8 +11,11 @@ class Profile(models.Model):
         social links, bio, profile picture, etc.
     """
 
+    # ===== fields ============================================================
+
+
     avatar = models.OneToOneField(File, on_delete=models.CASCADE)
-    """user's profile picture fit into a circle -- displayed in all reviews, profile page, etc."""
+    """user's profile picture -- displayed in reviews, profile page, etc."""
 
 
     bio = models.TextField()
@@ -25,3 +28,13 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     """associated User model"""
+
+
+    # ===== functions =========================================================
+
+
+    def __repr__(self) -> str:
+        return f"for {self.user.username}"
+
+    def __str__(self) -> str:
+        return self.__repr__()

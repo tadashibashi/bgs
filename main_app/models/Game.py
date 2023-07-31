@@ -8,41 +8,76 @@ class Game(models.Model):
         A model representing user-uploaded games
     """
 
+    # ===== fields ============================================================
+
+
     url = models.URLField()
-    """Base url to the folder in Amazon S3"""
+    """
+        url to the folder on Amazon S3
+    """
 
 
     title = models.CharField(max_length=128, default="")
-    """Displayable name of the game"""
+    """
+        displayable name of the game
+    """
 
 
     description = models.TextField(default="")
-    """Game description that appears underneath game on its detail page."""
+    """
+        game description 
+    """
 
 
     tags = models.ManyToManyField(Tag)
-    """Used for search purposes"""
+    """
+        list of tags to be used for search purposes
+    """
 
 
     times_viewed = models.IntegerField(default=0)
-    """Number of times a visitor has viewed the game's page. TODO: Move this to a metrics model?"""
+    """
+        number of times a visitor has viewed the game's page
+        TODO: Move this to a metrics model?
+    """
 
 
     is_published = models.BooleanField(default=False)
-    """Whether user has published this game for public viewing"""
+    """
+        whether user has published this game for public viewing
+    """
 
 
     frame_width = models.IntegerField(default=640)
-    """Width of the iframe, a value of -1 will use the entire view width"""
+    """
+        width of the iframe, a value of -1 will use the entire view width
+    """
 
 
     frame_height = models.IntegerField(default=480)
-    """Height of the iframe, a value of -1 will use the entire view height"""
+    """
+        height of the iframe, a value of -1 will use the entire view height
+    """
 
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    """Creator of the game"""
+    """
+        creator of the game
+    """
 
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    # ===== functions =========================================================
+
+
+    def __repr__(self) -> str:
+        """human-readable string representation"""
+        return f"{self.title} by {self.user.username}"
+
+    def __str__(self) -> str:
+        return self.__repr__()

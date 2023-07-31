@@ -4,24 +4,54 @@ from django.dispatch import receiver
 
 class File(models.Model):
     """
-        The File model represents a persistent file. In the case of our app, Amazon S3 is the backend
-        file host.
+        This model represents a persistent file.
+        In the case of our app, Amazon S3 is the backend file host.
     """
 
+    # ===== fields ============================================================
+
+
     filename = models.CharField(max_length=64)
-    """name of the file uploaded by the user, stored for human-readable debugging"""
+    """
+        name from user upload
+    """
+
 
     file_url = models.URLField()
-    """Contains the destination file path without the website portion"""
+    """
+        contains the destination filepath without the website root
+    """
+
 
     url = models.URLField()
-    """Amazon S3 url. It may be memory-efficient to construct this value with a function via file_url instead."""
+    """
+        Amazon S3 url
+    """
+
 
     mime_type = models.CharField(max_length=64)
-    """file mime type, stored just in case"""
+    """
+        file type
+    """
+
 
     created_at = models.DateTimeField(auto_now_add=True)
-    """date created"""
+    """
+        date that the file was uploaded
+    """
+
+
+    # ===== functions =========================================================
+
+
+    def __repr__(self):
+        return f"{self.filename}, created {self.created_at}"
+
+
+    def __str__(self):
+        return self.__repr__()
+
+
 
 @receiver(pre_delete, sender=File)
 def delete_file(sender, instance: File, **kwargs):
