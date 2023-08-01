@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <section class="container">
+
+        <h1>Edit Profile</h1>
+        
+        <form action="{% url "profile_edit" profile.id %}" method="POST">
+            {{ form.as_p }}
+
+            <input type="submit" class="button btn-primary" value="Submit"/>
+        </form>
+
+    </section>
+
+{% endblock %}
