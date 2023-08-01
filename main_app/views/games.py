@@ -34,7 +34,10 @@ def create(request: HttpRequest):
             form.save(commit=True)
         else:
             print(form.errors)
-        return redirect("games_index") # TODO: redirect to games_detail with pk=new_game.id
+            return render(request, "games/form.html", {
+                "form": form,
+                "errors": form.errors,
+            })
 
 def detail(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
