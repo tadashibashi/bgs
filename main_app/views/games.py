@@ -1,8 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from main_app.forms import GameForm
 from main_app.models import Game
+
+
 
 def index(request: HttpRequest):
     """
@@ -10,9 +13,14 @@ def index(request: HttpRequest):
         Routing: "games/"
         Name: "games_index"
     """
-    return render(request, "games/index.html")
+    games = Game.objects.all().order_by("-created_at")
+    return render(request, "games/index.html", {
+        "games": games,
+    })
 
 
+
+@login_required
 def create(request: HttpRequest):
     user = request.user
     if request.method == "GET":
@@ -39,15 +47,21 @@ def create(request: HttpRequest):
                 "errors": form.errors,
             })
 
+
+
 def detail(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
     return render(request, "games/detail.html",
                   {"game": game})
 
+
+
+@login_required
 def update(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
     if request.method == "GET":
-        form = GameForm()
+        form = GameForm(instance=game)
+
         return render(request, "games/form.html",
                       {"game": game, "form": form})
     elif request.method == "POST":
@@ -57,5 +71,16 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
             form.save()
     return redirect(request, "games/detail.html", pk=game.id)
 
+
+
+@login_required
 def delete(request: HttpRequest, pk: int) -> HttpResponse:
-    pass
+    game = get_object_or_404(Game, pk=pk)
+    if request.method == "POST":
+        game.delete()
+
+        return redirect("games_index")
+    else:
+        return render(request, "games/delete.html", {
+            "game": game,
+        })
