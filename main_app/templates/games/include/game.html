@@ -1,3 +1,13 @@
-<article>
-    <h4>{{ game.title }}</h4>
+<article class="card">
+    <a href="{% url 'games_detail' game.id %}">
+        <div class="card-body">
+            {% if game.screenshot_set.count %}
+                <img src="{{ game.screenshot_set.first.file.url }}" alt="game screenshot"/>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <h4>{{ game.title }}</h4>
+        </div>
+    </a>
+
 </article>

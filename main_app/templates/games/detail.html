@@ -1,34 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
-    <article class="card">
-        <div class="card-header">
-            {# display title #}
-            <h1 class="card-title">{{ game.title }}</h1>
+    <div class="container mt-4">
+        <article class="card">
+            <div class="card-header">
+                {# display title #}
+                <h1 class="card-title">{{ game.title }}
+                    {% if user.id == game.user_id %}
+                        <a href="{% url 'games_update' game.id %}" class="button btn btn-secondary float-end">Edit</a>
+                    {% endif %}
+                </h1>
+                <p class="text-sm-start">by {{ game.user.username }}</p>
 
-            {# display hashtags #}
-            <p>
-                <strong>Tags: </strong>
 
-                {% for tag in game.tags %}
-                    <span class="rounded bg-secondary-subtle">
-                        <span class="hash">#</span>tag.text
+            </div>
+
+            <div class="card-body">
+                <iframe src="{{ game.url }}"></iframe>
+            </div>
+
+            <div class="card-footer">
+
+                {# display hashtags #}
+                <p class="float-end">
+                    <strong>Tags: </strong>
+
+                    {% for tag in game.tags.all %}
+                        <span class="rounded bg-secondary-subtle p-1 me-1">
+                        <span class="hash">#</span>{{ tag.text }}
                     </span>
-                {% empty %}
-                    <span>none.</span>
-                {% endfor %}
-            </p>
-        </div>
+                    {% empty %}
+                        <span>none.</span>
+                    {% endfor %}
+                </p>
 
-        <div class="card-body">
-            <iframe src="{{ game.url }}"></iframe>
-        </div>
+                <h5>Description:</h5>
+                {# description #}
+                <p>{{ game.description }}</p>
 
-        <div class="card-footer">
-            <p><strong>Description: </strong>{{ game.description }}</p>
+            </div>
 
-        </div>
+        </article>
 
-    </article>
+
+        <h2 class="mt-4">Reviews</h2>
+        {% for review in game.review_set.all %}
+        {% empty %}
+            <p>no reviews yet...</p>
+        {% endfor %}
+        <article>
+
+        </article>
+    </div>
+
 
 
 {% endblock %}

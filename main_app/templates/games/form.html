@@ -39,7 +39,8 @@
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="button btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{% url 'games_delete' game.id %}" type="button" class="btn btn-danger float-end">Delete</a>
         </form>
     </div>
 
