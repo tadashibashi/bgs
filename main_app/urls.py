@@ -14,4 +14,5 @@ urlpatterns: list[partial] = [
     path("games/<int:pk>/", views.games.detail, name="games_detail"), # TODO: refactor to games/<str:username>/<str:game_title>/
     path("profile/", views.profile.index, name="profile_index"),
     path("profile/update/", views.profile.update, name="profile_update"),
+    path('accounts/signup/', views.accounts.signup, name='signup'),
 ]
