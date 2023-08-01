@@ -8,6 +8,17 @@ class Screenshot(models.Model):
         Model representing a screenshot image file for a game
     """
 
+    # ===== metadata ==========================================================
+
+
+    class Meta:
+        ordering = ["created_on"]
+        """
+            Order by date created.
+            Icebox feature: allow user to choose the Screenshot ordering 
+        """
+
+
     # ===== fields ============================================================
 
 
@@ -28,6 +39,9 @@ class Screenshot(models.Model):
         The associated Game that owns this Screenshot
         Relationship: Screenshot >--- Game
     """
+
+
+    created_on = models.DateTimeField(auto_now_add=True)
 
 
     # ===== functions =========================================================
