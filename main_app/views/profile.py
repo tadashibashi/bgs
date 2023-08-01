@@ -65,3 +65,8 @@ def update(request: HttpRequest) -> HttpResponse:
             profile.save()
 
         return redirect("profile_index")
+
+
+@login_required
+def delete(request: HttpRequest) -> HttpResponse:
+    pass
