@@ -8,7 +8,7 @@
         <div class="d-flex flex-row justify-content-evenly align-items-evenly">
 
             {% for game in user.game_set.all %}
-                <a href="{% url 'game_detail' game.id %}">
+                <a href="{% url 'games_detail' game.id %}">
                     <article class="card">
 
                         {# Title #}
