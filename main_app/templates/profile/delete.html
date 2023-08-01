@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Delete your account, {{ profile.display_name }}?</h1>
+    <p>All game content and reviews will be deleted</p>
+    <form>
+        <input class="btn btn-danger" type="submit" value="YES Delete" />
+        <a href="{% url 'games_detail' game.id %}" class="btn btn-outline-info">Cancel</a>
+    </form>
+{% endblock %}
