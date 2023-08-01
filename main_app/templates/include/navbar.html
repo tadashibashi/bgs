@@ -1,7 +1,10 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg pb-1">
     <div class="container-fluid">
         {# Branding. TODO: Add branding image or icon here? #}
-        <a class="navbar-brand" href="/">Brokeman's Game Station</a>
+        <a class="navbar-brand d-flex flex-column p-0" href="/">
+            <p class="m-0">Brokeman's</p>
+            <p class="m-0">Game Station</p>
+        </a>
 
         {# Hamburger button (for dropdown navbar on small displays) #}
         <button class="navbar-toggler" type="button"
@@ -14,7 +17,7 @@
             <ul class="navbar-nav">
                 {# links #}
                 <li class="nav-item">
-                    <a href="{% url 'games_index' %}">Games</a>
+                    <a href="{% url 'games_index' %}">Browse</a>
                 </li>
 
             </ul>
