@@ -37,7 +37,7 @@ class Profile(models.Model):
     """
 
 
-    display_name = models.CharField(max_length=100)
+    display_name = models.CharField(max_length=100, default="")
     """
         User's display name
     """
