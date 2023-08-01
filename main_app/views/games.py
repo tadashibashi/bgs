@@ -36,12 +36,12 @@ def create(request: HttpRequest):
             print(form.errors)
         return redirect("games_index") # TODO: redirect to games_detail with pk=new_game.id
 
-def detail(request: HttpRequest, pk: int):
+def detail(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
     return render(request, "games/detail.html",
                   {"game": game})
 
-def update(request: HttpRequest, pk: int):
+def update(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
     if request.method == "GET":
         form = GameForm()
@@ -53,3 +53,6 @@ def update(request: HttpRequest, pk: int):
             form.instance = game
             form.save()
     return redirect(request, "games/detail.html", pk=game.id)
+
+def delete(request: HttpRequest, pk: int) -> HttpResponse:
+    pass
