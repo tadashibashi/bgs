@@ -32,6 +32,7 @@ def create(request: HttpRequest):
             # once user_id set, the Tags will be associable
             # form.save sets the tags
             form.save(commit=True)
+            return redirect("games_detail", pk=new_game.id)
         else:
             print(form.errors)
             return render(request, "games/form.html", {
