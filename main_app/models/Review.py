@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -13,14 +15,14 @@ class Review(models.Model):
     # ===== fields ============================================================
 
 
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=10)
     """
         Rating 1-10, where 1 is terrible, and 10 is great. 0 for no rating. 
         Icebox: use a five star system, using half-star increments
     """
 
 
-    content = models.TextField()
+    content = models.TextField(default="")
     """
         The text body of the review
     """
@@ -38,13 +40,13 @@ class Review(models.Model):
     """
 
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
     """
         Review created date
     """
 
 
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(default=datetime.datetime.now, auto_now=True)
     """
         Review updated date. If these don't match, put an edit symbol on review.
     """

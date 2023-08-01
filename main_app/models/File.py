@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
@@ -11,31 +13,31 @@ class File(models.Model):
     # ===== fields ============================================================
 
 
-    filename = models.CharField(max_length=64)
+    filename = models.CharField(max_length=64, default="")
     """
         name from user upload
     """
 
 
-    file_url = models.URLField()
+    file_url = models.URLField(default="")
     """
         contains the destination filepath without the website root
     """
 
 
-    url = models.URLField()
+    url = models.URLField(default="")
     """
         Amazon S3 url
     """
 
 
-    mime_type = models.CharField(max_length=64)
+    mime_type = models.CharField(max_length=64, default="")
     """
         file type
     """
 
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, default=datetime.datetime.now)
     """
         date that the file was uploaded
     """

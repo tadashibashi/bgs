@@ -23,13 +23,13 @@ class Profile(models.Model):
     """
 
 
-    bio = models.TextField()
+    bio = models.TextField(default="")
     """
         Short bio text that appears next to avatar
     """
 
 
-    social_links = ArrayField(models.URLField())
+    social_links = ArrayField(models.URLField(), default=list)
     """
         An array of links to the user's social accounts
 
