@@ -1,6 +1,5 @@
-import datetime
-
 from django.db import models
+from django.db.models.functions import datetime
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
@@ -37,7 +36,7 @@ class File(models.Model):
     """
 
 
-    created_at = models.DateTimeField(auto_now_add=True, default=datetime.datetime.now)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
     """
         date that the file was uploaded
     """
