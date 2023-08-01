@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="container">
+
+        <h1>{{ profile.display_name }}</h1>
+
+        {# Display each game in a flexbox #}
+        <div class="d-flex flex-row justify-content-evenly align-items-evenly">
+
+            {% for game in user.game_set.all %}
+                <a href="{% url 'game_detail' game.id %}">
+                    <article class="card">
+
+                        {# Title #}
+                        <div class="card-header">
+                            <h3>{{ game.title }}</h3>
+                        </div>
+
+                        {# First screenshot shown #}
+                        {% if game.screenshot_set.count %}
+                            <img class="card-img-bottom"
+                                 src="{{ game.screenshot_set.first.file.url }}"
+                                 alt="screenshot for {{ game.title }}" />
+                        {% endif %}
+
+                    </article>
+                </a>
+
+
+            {% empty %}
+                <p>No games to show...</p>
+            {% endfor %}
+
+
+        </div>
+
+    </section>
+
+
+{% endblock %}
