@@ -16,7 +16,19 @@
             content: "#";
         }
 
+        .errors {
+            color: red;
+        }
+
     </style>
+
+    {% if errors %}
+        <p class="errors">
+            {% autoescape off %}
+                {{ errors }}
+            {% endautoescape %}
+        </p>
+    {% endif %}
 
     {% if game %}
         <h1>Edit <span class="text-success">{{ game.title }}</span></h1>
