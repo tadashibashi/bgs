@@ -14,20 +14,41 @@ class Profile(models.Model):
     # ===== fields ============================================================
 
 
-    avatar = models.OneToOneField(File, on_delete=models.CASCADE)
-    """user's profile picture -- displayed in reviews, profile page, etc."""
+    avatar = models.OneToOneField(File, on_delete=models.DO_NOTHING)
+    """
+        User's profile picture -- displayed in reviews, profile page, etc.
+
+        on_delete set to nothing because we would rather have the behavior
+        delete the avatar when the profile is deleted.
+    """
 
 
     bio = models.TextField()
-    """short descriptive text that appears next to avatar"""
+    """
+        Short bio text that appears next to avatar
+    """
 
 
     social_links = ArrayField(models.URLField())
-    """links to the user's social accounts"""
+    """
+        An array of links to the user's social accounts
+
+        (ArrayField is a special extension of postgreSQL)
+    """
+
+
+    display_name = models.CharField(max_length=100)
+    """
+        User's display name
+    """
 
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    """associated User model"""
+    """
+        The profile's associated user
+
+        Profile will auto-delete when User account is deleted
+    """
 
 
     # ===== functions =========================================================
