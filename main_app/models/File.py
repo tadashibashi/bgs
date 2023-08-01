@@ -37,7 +37,7 @@ class File(models.Model):
     """
 
 
-    created_at = models.DateTimeField(auto_now_add=True, default=datetime.datetime.now)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
     """
         date that the file was uploaded
     """

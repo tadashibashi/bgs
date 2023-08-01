@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -66,14 +68,18 @@ class Game(models.Model):
     """
 
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
 
 
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(default=None, blank=True, null=True)
 
 
     # ===== functions =========================================================
 
+    def save(self):
+        self.updated_at = datetime.datetime.now()
+
+        return super().save()
 
     def __repr__(self) -> str:
         """human-readable string representation"""

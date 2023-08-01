@@ -14,7 +14,6 @@ class Review(models.Model):
 
     # ===== fields ============================================================
 
-
     rating = models.IntegerField(default=10)
     """
         Rating 1-10, where 1 is terrible, and 10 is great. 0 for no rating. 
@@ -46,13 +45,19 @@ class Review(models.Model):
     """
 
 
-    updated_at = models.DateTimeField(default=datetime.datetime.now, auto_now=True)
+    updated_at = models.DateTimeField(default=None, blank=True, null=True)
     """
         Review updated date. If these don't match, put an edit symbol on review.
     """
 
 
     # ===== functions =========================================================
+
+
+    def save(self):
+        self.updated_at = datetime.datetime.now()
+
+        return super().save()
 
 
     def __repr__(self) -> str:

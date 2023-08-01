@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from .File import File
 from .Game import Game
@@ -41,7 +43,7 @@ class Screenshot(models.Model):
     """
 
 
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=datetime.datetime.now)
 
 
     # ===== functions =========================================================
