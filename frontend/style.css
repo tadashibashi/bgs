@@ -1,0 +1,13 @@
+h1{
+    font-size: 10vmin;
+    text-align: center;
+}
+nav{
+    display: flex;
+    flex-direction:row-reverse;
+    margin-top: 5vmin;
+}
+.login{
+    margin: 0 2vmin 0 3vmin
+
+}
