@@ -34,7 +34,6 @@ def create(request: HttpRequest):
             form.save(commit=True)
             return redirect("games_detail", pk=new_game.id)
         else:
-            print(form.errors)
             return render(request, "games/form.html", {
                 "form": form,
                 "errors": form.errors,
