@@ -11,7 +11,7 @@ def signup(request):
       user = form.save()
       # Automatically log in the new user
       login(request, user)
-      return redirect('index')
+      return redirect('profile_index')
     else:
       error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup template
