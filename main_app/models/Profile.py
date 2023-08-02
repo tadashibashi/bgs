@@ -41,8 +41,19 @@ class Profile(models.Model):
     """
         User's display name
     """
+    
+    
+    
+    is_dark_mode = models.BooleanField(default= False)
+    """
+        This is the modelfield for the dark mode
+        Its default is false
+    
+    """
 
-
+    
+    
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     """
         The profile's associated user
