@@ -6,6 +6,7 @@
     background: #aaceaa;
     border-radius: 50vmin;
     padding: 1px 4px;
+    font-family: "Cosmic Octo", sans-serif;
 }
 
 .tag::before {
