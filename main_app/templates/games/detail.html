@@ -9,14 +9,17 @@
                         <a href="{% url 'games_update' game.id %}" class="button btn btn-secondary float-end">Edit</a>
                     {% endif %}
                 </h1>
+
+                {# display creator #}
                 <p class="text-sm-start">by {{ game.user.username }}</p>
-
-
             </div>
 
-            <div class="card-body">
+            {# display game window #}
+            <div class="card-body overflow-scroll">
                 <iframe width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
+                <button class="float-end" id="fullscreen-btn">fullscreen</button>
             </div>
+
 
             <div class="card-footer">
 
@@ -52,6 +55,14 @@
         </article>
     </div>
 
-
+    <script>
+        window.addEventListener("load", evt => {
+            const iframe = document.querySelector("iframe");
+            const fullscreenEl = document.getElementById("fullscreen-btn");
+            fullscreenEl.addEventListener("click", evt => {
+                 iframe.classList.toggle("fullscreen");
+            });
+        });
+    </script>
 
 {% endblock %}
