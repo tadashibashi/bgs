@@ -3,19 +3,21 @@
 
 
     <section class="container">
+
+        {# title #}
         <h1 class="text-center">Games</h1>
 
+        {# display faux search bar #}
         <form>
-
             <div class="w-75 d-flex m-auto mt-4 mb-4">
                 <label for="search-input" class="w-75">
                     <input class="w-100 form-control" id="search-input" type="text" placeholder="Search"/>
                 </label>
                 <input type="submit" class="btn btn-outline-secondary ms-1" value="Go"/>
             </div>
-
         </form>
 
+        {# display games #}
         <div class="d-flex flex-wrap flex-row">
             {% for game in games %}
                 <article class="col-lg-3 p-1">
