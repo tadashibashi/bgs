@@ -66,3 +66,6 @@ input{
     text-align: center;
     width: 30%;
 }
+#dark-mode-button{
+    margin-right: 3vmin;
+}
