@@ -1,19 +1,28 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms import ProfileForm
+from ..models import Profile
 
 
 @login_required
 def index(request: HttpRequest) -> HttpResponse:
+    return redirect("profile_public", username=request.user.username)
+
+
+def profile(request: HttpRequest, username: str) -> HttpResponse:
     """
         Displays user portal, the main profile page + editing utilities
         Route: profile/
         Name: "profile"
     """
 
-    return render(request, "profile/index.html")
+    target_user = get_object_or_404(User, username=username)
+    return render(request, "profile/index.html", {
+        "target_user": target_user
+    })
 
 
 @login_required

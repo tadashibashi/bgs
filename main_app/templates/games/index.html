@@ -1,13 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-    <section class="container">
-        <h1>Games List</h1>
 
-        {% for game in games %}
-            {% include "games/include/game.html" %}
-        {% empty %}
-            <p>No games to show...</p>
-        {% endfor %}
+
+    <section class="container">
+        <h1 class="text-center">Games</h1>
+
+        <form>
+
+            <div class="w-75 d-flex m-auto mt-4 mb-4">
+                <label for="search-input" class="w-75">
+                    <input class="w-100 form-control" id="search-input" type="text" placeholder="Search"/>
+                </label>
+                <input type="submit" class="btn btn-outline-secondary ms-1" value="Go"/>
+            </div>
+
+        </form>
+
+        <div class="d-flex flex-wrap flex-row">
+            {% for game in games %}
+                <article class="col-lg-3 p-1">
+                    {% include "games/include/game.html" %}
+                </article>
+
+            {% empty %}
+                <p>No games to show...</p>
+            {% endfor %}
+        </div>
+
     </section>
 
 {% endblock %}

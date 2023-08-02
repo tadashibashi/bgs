@@ -10,7 +10,7 @@ class GameCreateForm(forms.ModelForm):
     """
     # game = forms.FileField(widget=forms.FileInput(attrs={"accept": ".zip"}))
     tags = TagsField(required=False) #ArrayField(CharField(), size=4)
-
+    tags.widget.attrs.update({"placholder": "no tags"})
 
     class Meta:
         model = Game
