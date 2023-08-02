@@ -12,6 +12,9 @@ class GameCreateForm(forms.ModelForm):
     tags = TagsField(required=False) #ArrayField(CharField(), size=4)
     tags.widget.attrs.update({"placholder": "no tags"})
 
+    add_fullscreen_btn = forms.BooleanField(label="Add fullscreen button?", required=False,
+                                            widget=forms.CheckboxInput(attrs={"class": "form-check-input ms-2"}))
+
     class Meta:
         model = Game
-        fields = ["title", "description", "tags", "frame_width", "frame_height", "url"]
+        fields = ["title", "description", "tags", "frame_width", "frame_height", "add_fullscreen_btn", "url"]
