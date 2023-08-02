@@ -65,9 +65,8 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
         return render(request, "games/form.html",
                       {"game": game, "form": form})
     elif request.method == "POST":
-        form = GameCreateForm(request.POST)
+        form = GameCreateForm(request.POST, instance=game)
         if form.is_valid():
-            form.instance = game
             form.save()
     return redirect( "games_detail",pk=game.id)
 
