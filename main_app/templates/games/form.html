@@ -70,5 +70,17 @@
 
     </section>
 
+    <script>
+        label = document.querySelector("label[for='id_add_fullscreen_btn']");
+        label.classList.add("form-check-label");
+
+        document.querySelectorAll("textarea, input").forEach(input => {
+            if (input.getAttribute("type") !== "checkbox") {
+                input.classList.add("form-control");
+            }
+        });
+
+    </script>
+
 
 {% endblock %}
