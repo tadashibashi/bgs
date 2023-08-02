@@ -1,6 +1,6 @@
 
 from django.db import models
-from django.db.models.functions import datetime
+from django.utils import timezone
 
 from .File import File
 from .Game import Game
@@ -44,7 +44,7 @@ class Screenshot(models.Model):
     """
 
 
-    created_on = models.DateTimeField(default=datetime.datetime.now)
+    created_on = models.DateTimeField(default=timezone.now)
 
 
     # ===== functions =========================================================

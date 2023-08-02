@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.functions import datetime
+from django.utils import timezone
 
 from .Game import Game
 
@@ -38,7 +39,7 @@ class Review(models.Model):
     """
 
 
-    created_at = models.DateTimeField(default=datetime.datetime.now)
+    created_at = models.DateTimeField(default=timezone.now)
     """
         Review created date
     """
@@ -54,7 +55,7 @@ class Review(models.Model):
 
 
     def save(self):
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = timezone.now()
 
         return super().save()
 

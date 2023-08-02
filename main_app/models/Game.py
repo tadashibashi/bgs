@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.functions import datetime
+from django.utils import timezone
 
 from .Tag import Tag
 
@@ -67,7 +67,7 @@ class Game(models.Model):
     """
 
 
-    created_at = models.DateTimeField(default=datetime.datetime.now)
+    created_at = models.DateTimeField(default=timezone.now)
 
 
     updated_at = models.DateTimeField(default=None, blank=True, null=True)
@@ -76,7 +76,7 @@ class Game(models.Model):
     # ===== functions =========================================================
 
     def save(self):
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = timezone.now()
 
         return super().save()
 
