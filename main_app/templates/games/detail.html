@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-    <div class="container mt-4">
-        <article class="card">
+    <div class="mt-4 container-fluid">
+        <article class="card bg-transparent">
             <div class="card-header">
                 {# display title #}
                 <h1 class="card-title">{{ game.title }}
@@ -17,7 +18,9 @@
             {# display game window #}
             <div class="card-body overflow-auto">
                 <iframe width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
-                <button class="float-end" id="fullscreen-btn">fullscreen</button>
+                {% if game.add_fullscreen_btn %}
+                    <button class="float-end btn btn-light" id="fullscreen-btn"><i class="bi bi-fullscreen"></i></button>
+                {% endif %}
             </div>
 
 
@@ -38,7 +41,7 @@
 
                 <h5>Description:</h5>
                 {# description #}
-                <p>{{ game.description }}</p>
+                <p style="white-space:pre;">{{ game.description }}</p>
 
             </div>
 
@@ -47,28 +50,15 @@
 
         <h2 class="mt-4">Reviews</h2>
         {% for review in game.review_set.all %}
+            {% include 'games/include/review.html' %}
         {% empty %}
             <p>no reviews yet...</p>
         {% endfor %}
-        <article>
 
-        </article>
     </div>
 
-    <script>
-
-        window.addEventListener("load", evt => {
-            const iframe = document.querySelector("iframe");
-            const fullscreenEl = document.getElementById("fullscreen-btn");
-            fullscreenEl.addEventListener("click", evt => {
-                 iframe.classList.toggle("fullscreen");
-            });
-
-            window.addEventListener("keydown", evt => {
-                if (evt.key === "Escape" && (evt.metaKey || evt.ctrlKey))
-                    iframe.classList.toggle("fullscreen");
-            }, true);
-        });
-    </script>
+    {% if game.add_fullscreen_btn %}
+    <script src="{% static 'js/fullscreenToggle.js' %}"></script>
+    {% endif %}
 
 {% endblock %}

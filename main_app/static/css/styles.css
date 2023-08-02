@@ -33,7 +33,7 @@
     box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6, a {
+h1, h2, h3, h4, h5, h6, a, label {
     font-family: "Cosmic Octo", sans-serif;
 }
 
@@ -65,4 +65,22 @@ iframe.fullscreen {
     left: 0;
     width: 100vw;
     height: 100vh;
+}
+
+#fullscreen-btn {
+    opacity: .5;
+    border-radius: 15%;
+    background-color: #f3f3f3;
+    transition: opacity .15s linear;
+}
+
+#fullscreen-btn:hover {
+    opacity: 1;
+}
+
+#fullscreen-btn.fullscreen {
+    position: fixed;
+    bottom: 1vmin;
+    right: 1vmin;
+    z-index: 99;
 }
