@@ -60,6 +60,10 @@ class Game(models.Model):
         height of the iframe, a value of -1 will use the entire view height
     """
 
+    add_fullscreen_btn = models.BooleanField(default=True)
+    """
+        whether to add a fullscreen button
+    """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     """
