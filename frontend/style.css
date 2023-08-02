@@ -1,6 +1,9 @@
-body{
+
+
+body.dark-mode{
     background:linear-gradient(red,yellow)
 }
+
 h1{
     font-size: 8vmin;
     text-align: center;
@@ -62,4 +65,7 @@ form{
 input{
     text-align: center;
     width: 30%;
+}
+#dark-mode-button{
+    margin-right: 3vmin;
 }
