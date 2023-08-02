@@ -9,11 +9,13 @@
 
         {# display faux search bar #}
         <form>
-            <div class="w-75 d-flex m-auto mt-4 mb-4">
-                <label for="search-input" class="w-75">
-                    <input class="w-100 form-control" id="search-input" type="text" placeholder="Search"/>
+            <div class="input-group w-75 m-auto mt-4 mb-4">
+                <label for="search-input" class="input-group-text" id="basic-addon1">
+                        <i class="bi bi-search"></i>
                 </label>
-                <input type="submit" class="btn btn-outline-secondary ms-1" value="Go"/>
+                <input class="form-control w-75" id="search-input" type="text" placeholder="Search"/>
+
+                <input type="submit" class="btn btn-light input-group-text" value="Go"/>
             </div>
         </form>
 
