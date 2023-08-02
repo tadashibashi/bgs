@@ -9,14 +9,19 @@ from ..models import Profile
 
 @login_required
 def index(request: HttpRequest) -> HttpResponse:
+    """
+        Serves as a log-in redirect route -> goes to the user's page
+        Route: profile/
+        Name: "profile_index"
+    """
     return redirect("profile_public", username=request.user.username)
 
 
 def profile(request: HttpRequest, username: str) -> HttpResponse:
     """
         Displays user portal, the main profile page + editing utilities
-        Route: profile/
-        Name: "profile"
+        Route: profile/<str:username>
+        Name: "profile_public"
     """
 
     target_user = get_object_or_404(User, username=username)
