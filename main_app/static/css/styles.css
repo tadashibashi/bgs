@@ -15,8 +15,8 @@
     font-weight: 500 700;
     font-style: normal;
     src:
-            local("Cosmic Octo"),
-            url("../fonts/CosmicOcto-Bold.woff") format("woff")
+        local("Cosmic Octo"),
+        url("../fonts/CosmicOcto-Bold.woff") format("woff")
 }
 
 @font-face {
@@ -24,8 +24,8 @@
     font-weight: 800 1000;
     font-style: normal;
     src:
-            local("Cosmic Octo"),
-            url("../fonts/CosmicOcto-Heavy.woff") format("woff")
+        local("Cosmic Octo"),
+        url("../fonts/CosmicOcto-Heavy.woff") format("woff")
 }
 
 /* ===== Styles ============================================================ */
@@ -39,4 +39,19 @@ h1, h2, h3, h4, h5, h6, a {
 
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+iframe {
+    display: block;
+    margin: auto auto
+}
+
+iframe.fullscreen {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }

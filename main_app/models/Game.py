@@ -30,7 +30,7 @@ class Game(models.Model):
     """
 
 
-    tags = models.ManyToManyField(Tag, default=list)
+    tags = models.ManyToManyField(Tag)
     """
         list of tags to be used for search purposes
     """

@@ -1,18 +1,33 @@
 """
     Custom forms for main_app
 """
+from typing import Any
+
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django import forms
 
 from ..models import Tag
 
+class TagsWidget(forms.TextInput):
+    input_type = "text"
+    is_required = False
 
-class TagsField(forms.CharField):
+    class Media:
+        css = {
+            "all": ["/static/css/widgets/TagsWidget.css"]
+        }
+        js = ["/static/js/widgets/TagsWidget.js"]
+
+
+
+class TagsField(forms.Field):
     """
         A CharField that converts space-separated tags into
         Tags for a Game.
     """
+
+    widget = TagsWidget
 
     def to_python(self, value: str) -> QuerySet:
         """

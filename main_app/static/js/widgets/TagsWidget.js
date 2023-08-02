@@ -2,7 +2,15 @@
 
 window.addEventListener("load", tagFormatterMain);
 
+
+
+
 function tagFormatterMain() {
+    // Add form-control class to each input
+    document.querySelectorAll("form input, textarea").forEach(input => {
+        input.classList.add("form-control");
+    });
+
     // Hide <input> and use an editable div to display
     const tagInputEl = document.getElementById("id_tags");
     tagInputEl.hidden = true;
@@ -10,19 +18,9 @@ function tagFormatterMain() {
     const editableEl = document.createElement("div");
 
     editableEl.setAttribute("contenteditable", "true");
-    editableEl.setAttribute("class", "tag-input");
+    editableEl.setAttribute("class", "tag-input form-control");
 
-
-    editableEl.addEventListener("click", evt => {
-        if (!evt.target.classList.contains("after")) return;
-
-        editableEl.removeChild(evt.target.parentElement);
-    });
-
-    // Automatically format tags nicely.
-    // TODO Icebox: it's hard to get the caret to jump to the correct position.
-    // Prevent the cursor from moving into the tags
-    editableEl.addEventListener("input", evt => {
+    function formatTags(evt) {
         const text = editableEl.innerText;
         let html = "";
         const tags = text.split(/\s*[\s,]\s*/);
@@ -37,18 +35,17 @@ function tagFormatterMain() {
             }
         }
 
+        return html;
+    }
+
+    function repositionCursorAndApplyHtml(html) {
         // Move cursor back to last position
         editableEl.focus();
-        const range = document.createRange();
         const sel = window.getSelection();//get the selection object (allows you to change selection)
         let focusOffset = sel.focusOffset;
-        let _range = sel.getRangeAt(0);
-        range.selectNodeContents(editableEl);
-        range.setEnd(_range.endContainer, _range.endOffset);
-        let pos = range.toString().length;
+
         let _pos;
         {
-
             let found = false;
             _pos = 0;
             for (let i = 0; i < editableEl.childNodes.length; ++i) {
@@ -66,7 +63,7 @@ function tagFormatterMain() {
         }
 
         const lastSize = editableEl.childNodes.length;
-        
+
         editableEl.innerHTML = html; // finally set the div's html
         let curSize = editableEl.childNodes.length;
         let curNode = editableEl.childNodes[_pos + Math.max(curSize - lastSize, 0)];
@@ -83,7 +80,23 @@ function tagFormatterMain() {
         const newSel = document.getSelection()
         newSel.collapse(curNode, focusOffset);
         newSel.collapseToEnd();
+    }
+
+    editableEl.addEventListener("click", evt => {
+        if (!evt.target.classList.contains("after")) return;
+
+        editableEl.removeChild(evt.target.parentElement);
     });
+
+    // Automatically format tags nicely.
+    // TODO Icebox: it's hard to get the caret to jump to the correct position.
+    // Prevent the cursor from moving into the tags
+    editableEl.addEventListener("input", evt => {
+        repositionCursorAndApplyHtml(formatTags());
+    });
+    editableEl.innerText = window["game-tags"];
+    console.log(window["game-tags"]);
+    editableEl.innerHTML = formatTags();
 
     // Transfer div innerText to the actual input on submission
     const submitEl = document.querySelector("button[type='submit']");

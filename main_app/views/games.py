@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from main_app.forms import GameForm
+from main_app.forms import GameCreateForm
 from main_app.models import Game
 
 
@@ -24,11 +24,11 @@ def index(request: HttpRequest):
 def create(request: HttpRequest):
     user = request.user
     if request.method == "GET":
-        form = GameForm()
+        form = GameCreateForm()
         return render(request, "games/form.html",
                       {"form": form})
     elif request.method == "POST":
-        form = GameForm(request.POST, files=request.FILES)
+        form = GameCreateForm(request.POST, files=request.FILES)
 
         if form.is_valid():
             # TODO: upload game files to AWS S3
@@ -60,16 +60,16 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
 def update(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
     if request.method == "GET":
-        form = GameForm(instance=game)
+        form = GameCreateForm(instance=game)
 
         return render(request, "games/form.html",
                       {"game": game, "form": form})
     elif request.method == "POST":
-        form = GameForm(request.POST)
+        form = GameCreateForm(request.POST)
         if form.is_valid():
             form.instance = game
             form.save()
-    return redirect(request, "games/detail.html", pk=game.id)
+    return redirect( "games_detail",pk=game.id)
 
 
 

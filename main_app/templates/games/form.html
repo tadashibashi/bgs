@@ -1,49 +1,69 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <style>
-        .tag-input {
-            border: 1px gray solid;
-        }
+    <script>
+        let tags = "";
+        {% for tag in game.tags.all %}
+            tags += "{{ tag.text }}\xa0";
+        {% endfor %}
+        window["game-tags"] = tags;
+    </script>
+    {{ form.media }}
 
-        .tag {
-            background: #aaceaa;
-            border-radius: 50vmin;
-            padding: 1px 4px;
-        }
+    <section class="container">
 
-        .tag::before {
-            content: "#";
-        }
+        {% if errors %}
+            <p class="errors">
+                {% autoescape off %}
+                    {{ errors }}
+                {% endautoescape %}
+            </p>
+        {% endif %}
 
-        .errors {
-            color: red;
-        }
+        {% if game %}
+            <h1>Edit <span class="text-success">{{ game.title }}</span></h1>
+        {% else %}
+            <h1>Upload Game</h1>
+        {% endif %}
+        <div class="container">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-danger float-end" data-toggle="modal" data-target="#delete-modal">
+                    Delete
+                </button>
+            </form>
+        </div>
 
-    </style>
-
-    {% if errors %}
-        <p class="errors">
-            {% autoescape off %}
-                {{ errors }}
-            {% endautoescape %}
-        </p>
-    {% endif %}
-
-    {% if game %}
-        <h1>Edit <span class="text-success">{{ game.title }}</span></h1>
-    {% else %}
-        <h1>Upload Game</h1>
-    {% endif %}
-    <div class="container">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="{% url 'games_delete' game.id %}" type="button" class="btn btn-danger float-end">Delete</a>
-        </form>
+    {# delete modal #}
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Delete Game Confirmation
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <span class="text-primary">{{ game.title }}</span>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="{% url 'games_delete' game.id %}" method="POST">
+                        <button type="submit" class="btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="{% static "js/tagFormatter.js" %}"></script>
+
+
+    </section>
+
 
 {% endblock %}
