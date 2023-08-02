@@ -2,15 +2,7 @@
 
 window.addEventListener("load", tagFormatterMain);
 
-
-
-
 function tagFormatterMain() {
-    // Add form-control class to each input
-    document.querySelectorAll("form input, textarea").forEach(input => {
-        input.classList.add("form-control");
-    });
-
     // Hide <input> and use an editable div to display
     const tagInputEl = document.getElementById("id_tags");
     tagInputEl.hidden = true;
