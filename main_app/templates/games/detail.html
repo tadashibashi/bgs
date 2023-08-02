@@ -15,7 +15,7 @@
             </div>
 
             {# display game window #}
-            <div class="card-body overflow-scroll">
+            <div class="card-body overflow-auto">
                 <iframe width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
                 <button class="float-end" id="fullscreen-btn">fullscreen</button>
             </div>
@@ -56,12 +56,18 @@
     </div>
 
     <script>
+
         window.addEventListener("load", evt => {
             const iframe = document.querySelector("iframe");
             const fullscreenEl = document.getElementById("fullscreen-btn");
             fullscreenEl.addEventListener("click", evt => {
                  iframe.classList.toggle("fullscreen");
             });
+
+            window.addEventListener("keydown", evt => {
+                if (evt.key === "Escape" && (evt.metaKey || evt.ctrlKey))
+                    iframe.classList.toggle("fullscreen");
+            }, true);
         });
     </script>
 
