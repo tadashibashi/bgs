@@ -49,7 +49,7 @@ body {
 
     background: linear-gradient(#f2eff6, #d5c5ef);
     min-height: 100vh;
-    overflow: hidden;
+    overflow: auto;
 }
 
 iframe {
