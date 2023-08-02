@@ -1,6 +1,9 @@
-body{
+
+
+body.dark-mode{
     background:linear-gradient(red,yellow)
 }
+
 h1{
     font-size: 8vmin;
     text-align: center;
