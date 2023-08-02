@@ -14,18 +14,22 @@
 
         {# Navbar items #}
         <div class="collapse navbar-collapse column-gap-4 ms-3" id="navbarDropdown">
+            {# left-side links #}
             <ul class="navbar-nav">
-                {# links #}
+                {# public links #}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'games_index' %}">Browse</a>
                 </li>
             </ul>
-            {# Login / Logout link: left at the end so it's pushed to right-most side of navbar #}
+
+            {# right-side links #}
             <div class="me-4 navbar-nav ms-auto">
                 {% if user.is_authenticated %}
+                    {# private links #}
                     <a class="nav-link me-4" href="{% url 'profile_index' %}">Profile</a>
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}
+                    {# public links #}
                     <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                 {% endif %}
