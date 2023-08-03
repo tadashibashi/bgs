@@ -27,8 +27,7 @@ window.addEventListener("load", async evt => {
 
         if (html.dataset["guest"] === "false") {
             try {
-                const result = await fetch(url);
-                console.log(result);
+                await fetch(url);
             } catch(e) {
                 console.error(e);
             }
