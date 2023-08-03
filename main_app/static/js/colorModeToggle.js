@@ -56,7 +56,7 @@
      * @param flip {boolean} whether to toggle "light"/"dark", default: `false`
      * @returns {Promise<boolean>}
      */
-    async function setColorMode(flip = false) {
+    function setColorMode(flip = false) {
         const html = document.querySelector("html");
 
         // Get mode
@@ -85,13 +85,11 @@
             const url = window.location.protocol + "//" + window.location.host +
                 "/api/color-mode/" + mode;
             try {
-                await fetch(url);
+                fetch(url).catch(err => console.error(err));
             } catch(e) {
                 console.error(e);
             }
         }
-
-        return true;
     }
 
 
@@ -102,7 +100,7 @@
      */
     function setColorModeIcon(btnEl, mode) {
         // set the icon class name based on the mode
-        const iconClass = "bi " + (mode === "light") ? "bi-sun-fill" : "bi-moon-stars-fill";
+        const iconClass = "bi " + ((mode === "light") ? "bi-sun-fill" : "bi-moon-stars-fill");
         btnEl.innerHTML = `<i class='${iconClass}'></i>`;
 
         // set any iframe background color if any are present
@@ -112,5 +110,3 @@
     }
 
 })();
-
-
