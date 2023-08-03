@@ -85,6 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ["DB_NAME"],
+        'USER': os.environ["DB_USER"],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST_DEBUG'] if DEBUG else os.environ['DB_HOST_DEPLOY'],
     }
 }
 
@@ -133,3 +136,7 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if os.environ.get("DEPLOY") == "True":
+    import django_on_heroku
+    django_on_heroku.settings(locals())
