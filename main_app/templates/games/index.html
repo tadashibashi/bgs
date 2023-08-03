@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 
-
     <section class="container">
 
         {# title #}
         <h1 class="text-center">Games</h1>
 
-        {# display faux search bar #}
+        {# display search bar. TODO: connect to search API #}
         <form>
             <div class="input-group w-75 m-auto mt-4 mb-4">
+                {# search icon #}
                 <label for="search-input" class="input-group-text" id="basic-addon1">
                         <i class="bi bi-search"></i>
                 </label>
+                {# text input #}
                 <input class="form-control w-75" id="search-input" type="text" placeholder="Search"/>
 
+                {# hidden submit button #}
                 <input type="submit" class="btn btn-light input-group-text" value="Go" hidden="hidden"/>
             </div>
         </form>
 
         {# display games #}
         <div class="d-flex flex-wrap flex-row">
+
             {% for game in games %}
                 <article class="col-lg-3 p-1">
                     {% include "games/include/game.html" %}
@@ -29,6 +32,7 @@
             {% empty %}
                 <p>No games to show...</p>
             {% endfor %}
+
         </div>
 
     </section>

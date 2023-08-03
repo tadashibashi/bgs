@@ -1,103 +1,121 @@
 // This script handles tag input in games/form.html
 
-window.addEventListener("load", tagFormatterMain);
+// use module to encapsulate code from global namespace
+(function() {
+    window.addEventListener("load", main);
 
-function tagFormatterMain() {
-    // Hide <input> and use an editable div to display
-    const tagInputEl = document.getElementById("id_tags");
-    tagInputEl.hidden = true;
+    // driver code
+    function main() {
 
-    const editableEl = document.createElement("div");
+        // Hide <input> and use an editable div to display
+        const tagInputEl = document.getElementById("id_tags");
+        tagInputEl.hidden = true;
 
-    editableEl.setAttribute("contenteditable", "true");
-    editableEl.setAttribute("class", "tag-input form-control");
+        const editableEl = document.createElement("div");
 
-    function formatTags(evt) {
-        const text = editableEl.innerText;
-        let html = "";
-        const tags = text.split(/\s*[\s,]\s*/);
-        for (let i = 0; i < tags.length; ++i) {
-            const tag = tags[i].trim();
-            if (i < tags.length - 1) {
-                if (tag) {
-                    html += "<span class='tag'>" + tag + "</span>&nbsp";
-                }
-            } else {
-                html += "<span>" + tag + "</span>";
-            }
-        }
+        editableEl.setAttribute("contenteditable", "true");
+        editableEl.setAttribute("class", "tag-input form-control");
 
-        return html;
-    }
+        function formatTags(editableEl) {
+            let html = "";
+            const tags = editableEl.innerText.split(/\s*[\s,]\s*/);
 
-    function repositionCursorAndApplyHtml(html) {
-        // Move cursor back to last position
-        editableEl.focus();
-        const sel = window.getSelection();//get the selection object (allows you to change selection)
-        let focusOffset = sel.focusOffset;
-
-        let _pos;
-        {
-            let found = false;
-            _pos = 0;
-            for (let i = 0; i < editableEl.childNodes.length; ++i) {
-                const cur = editableEl.childNodes[i];
-                if (cur.contains(sel.focusNode)) {
-                    found = true;
-                    break;
+            for (let i = 0; i < tags.length; ++i) {
+                const tag = tags[i].trim();
+                if (i < tags.length - 1) {
+                    if (tag) {
+                        html += "<span class='tag'>" + tag + "</span>&nbsp";
+                    }
                 } else {
-                    ++_pos;
+                    html += "<span>" + tag + "</span>";
                 }
             }
 
-            if (!found)
-                _pos = -1;
+            return html;
         }
 
-        const lastSize = editableEl.childNodes.length;
+        /**
+         * Helper to set html string to the contenteditable area and reposition
+         * the cursor after the html has been set.
+         * @param html {string}
+         * @param editableEl {HTMLDivElement} div with contenteditable set
+         */
+        function repositionCursorAndApplyHtml(html, editableEl) {
+            // make sure contenteditable area is focused
+            editableEl.focus();
 
-        editableEl.innerHTML = html; // finally set the div's html
-        let curSize = editableEl.childNodes.length;
-        let curNode = editableEl.childNodes[_pos + Math.max(curSize - lastSize, 0)];
-        if (!curNode)
-            curNode = editableEl.childNodes[_pos];
-        if (!curNode)
-            curNode = editableEl;
+            const sel = window.getSelection();
 
-        if (curNode.childNodes.length)
-            curNode = curNode.childNodes[0];
-        else if (focusOffset === 2)
-            curNode = editableEl.childNodes[_pos + Math.max(curSize - lastSize, 0) + 1];
+            // get position offset
+            let focusOffset = sel.focusOffset;
 
-        const newSel = document.getSelection()
-        newSel.collapse(curNode, focusOffset);
-        newSel.collapseToEnd();
+            // get node offset
+            let nodeOffset;
+            {
+                let found = false;
+                nodeOffset = 0;
+                for (let i = 0; i < editableEl.childNodes.length; ++i) {
+                    const cur = editableEl.childNodes[i];
+                    if (cur.contains(sel.focusNode)) {
+                        found = true;
+                        break;
+                    } else {
+                        ++nodeOffset;
+                    }
+                }
+
+                if (!found)
+                    nodeOffset = -1;
+            }
+
+            const lastSize = editableEl.childNodes.length;
+
+            // Get the node, making adjustments for edge-cases
+            editableEl.innerHTML = html; // finally set the div's html
+            let curSize = editableEl.childNodes.length;
+            let curNode = editableEl.childNodes[nodeOffset + Math.max(curSize - lastSize, 0)];
+            if (!curNode)
+                curNode = editableEl.childNodes[nodeOffset];
+            if (!curNode)
+                curNode = editableEl;
+
+            if (curNode.childNodes.length)
+                curNode = curNode.childNodes[0];
+            else if (focusOffset === 2)
+                curNode = editableEl.childNodes[nodeOffset + Math.max(curSize - lastSize, 0) + 1];
+
+            // done, make selection
+            const newSel = document.getSelection()
+            newSel.collapse(curNode, focusOffset);
+            newSel.collapseToEnd();
+        }
+
+
+        editableEl.addEventListener("click", evt => {
+            if (!evt.target.classList.contains("after")) return;
+
+            editableEl.removeChild(evt.target.parentElement);
+        });
+
+        // Automatically format tags nicely
+        // TODO: Try to fix caret jumping to wrong position
+        // It's hard to get the caret to jump to the correct position
+        // Prevent the cursor from moving into the tags when at offset 2
+        editableEl.addEventListener("input", evt =>
+            repositionCursorAndApplyHtml(formatTags(editableEl), editableEl));
+
+        // Set and format the initial game tags onload
+        editableEl.innerText = window["game-tags"];
+        editableEl.innerHTML = formatTags();
+
+        // Transfer div innerText to the actual input on submission
+        const submitEl = document.querySelector("button[type='submit']");
+        submitEl.onclick = () => tagInputEl.value = editableEl.innerText;
+
+        tagInputEl.parentElement.append(editableEl);
+
+        window.removeEventListener("load", main);
     }
 
-    editableEl.addEventListener("click", evt => {
-        if (!evt.target.classList.contains("after")) return;
-
-        editableEl.removeChild(evt.target.parentElement);
-    });
-
-    // Automatically format tags nicely.
-    // TODO Icebox: it's hard to get the caret to jump to the correct position.
-    // Prevent the cursor from moving into the tags
-    editableEl.addEventListener("input", evt => {
-        repositionCursorAndApplyHtml(formatTags());
-    });
-    editableEl.innerText = window["game-tags"];
-    console.log(window["game-tags"]);
-    editableEl.innerHTML = formatTags();
-
-    // Transfer div innerText to the actual input on submission
-    const submitEl = document.querySelector("button[type='submit']");
-    submitEl.onclick = function(evt) {
-        tagInputEl.value = editableEl.innerText;
-    }
-
-    tagInputEl.parentElement.append(editableEl);
-
-    window.removeEventListener("load", tagFormatterMain);
-}
+})();
 
