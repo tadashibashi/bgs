@@ -31,7 +31,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == "True"
-
+DEPLOY = True if os.environ.get("DEPLOY") == "True" else False
 ALLOWED_HOSTS = []
 
 
@@ -81,13 +81,19 @@ WSGI_APPLICATION = 'bgs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+if DEPLOY:
+    _HOST = os.environ['DB_HOST_DEBUG'] if DEBUG else os.environ['DB_HOST_DEPLOY']
+else:
+    _HOST = "localhost"
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ["DB_NAME"],
-        'USER': os.environ["DB_USER"],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST': os.environ['DB_HOST_DEBUG'] if DEBUG else os.environ['DB_HOST_DEPLOY'],
+        'USER': os.environ["DB_USER"] if DEPLOY else "",
+        'PASSWORD': os.environ['DB_PASSWORD'] if DEPLOY else "",
+        'HOST': _HOST
     }
 }
 
@@ -127,7 +133,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'main_app/static')
 
 LOGIN_REDIRECT_URL = '/profile/'
 
