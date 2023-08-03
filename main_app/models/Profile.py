@@ -14,7 +14,7 @@ class Profile(models.Model):
     # ===== fields ============================================================
 
 
-    avatar = models.OneToOneField(File, on_delete=models.DO_NOTHING)
+    avatar = models.OneToOneField(File, on_delete=models.DO_NOTHING, null=True, blank=True)
     """
         User's profile picture -- displayed in reviews, profile page, etc.
 
