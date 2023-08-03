@@ -40,10 +40,14 @@ h1, h2, h3, h4, h5, h6, a, label {
 html {
     margin: 0;
     padding: 0;
+
+}
+
+html[data-bs-theme='light'] > body {
     background: linear-gradient(#f2eff6, #d5c5ef);
 }
 
-html[data-bs-theme='dark'] {
+html[data-bs-theme='dark'] > body {
     background: linear-gradient(#5d5757, #242426);
 }
 
