@@ -49,11 +49,7 @@
 
 
         <h2 class="mt-4">Reviews</h2>
-        {% for review in game.review_set.all %}
-            {% include 'games/include/review.html' %}
-        {% empty %}
-            <p>no reviews yet...</p>
-        {% endfor %}
+        {% include "review/reviews.html" %}
 
     </div>
 

@@ -21,4 +21,6 @@ urlpatterns: list[partial] = [
     path("profile/delete/", views.profile.delete, name="profile_delete"),
     path("api/color-mode/<str:mode>/", views.profile.color_mode_set, name="profile_color_mode_set"),
     path("api/color-mode/", views.profile.color_mode_get, name="profile_color_mode_get"),
+    path('games/<int:game_id>/add_review/', views.reviews.add_review, name='add_review'),
+    path('reviews/<int:review_id>/delete/', views.reviews.delete_review, name='delete_review'),
 ]
