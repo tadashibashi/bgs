@@ -40,6 +40,11 @@ h1, h2, h3, h4, h5, h6, a, label {
 html {
     margin: 0;
     padding: 0;
+    background: linear-gradient(#f2eff6, #d5c5ef);
+}
+
+html[data-bs-theme='dark'] {
+    background: linear-gradient(#5d5757, #242426);
 }
 
 body {
@@ -47,7 +52,7 @@ body {
     margin: 0;
     padding: 0;
 
-    background: linear-gradient(#f2eff6, #d5c5ef);
+
     min-height: 100vh;
     overflow: auto;
 }
