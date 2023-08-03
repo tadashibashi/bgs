@@ -1,7 +1,10 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+
+{# set light mode if user isn't logged in, otherwise, choose user setting #}
+<html lang="en" data-guest="{% if user.is_authenticated %}false{% else %}true{% endif %}" data-bs-theme="{% if user.is_authenticated %}{% if user.profile.is_dark_mode %}dark{% else %}light{% endif %}{% endif %}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"

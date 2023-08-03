@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms import ProfileForm
 from ..models import Profile
 
+import json
 
 @login_required
 def index(request: HttpRequest) -> HttpResponse:
@@ -84,3 +85,44 @@ def update(request: HttpRequest) -> HttpResponse:
 @login_required
 def delete(request: HttpRequest) -> HttpResponse:
     pass
+
+
+def color_mode_get(request: HttpRequest) -> HttpResponse:
+    """
+        Gets the color mode
+    """
+    no_cookie = False
+    if request.user.is_authenticated:
+        prof = request.user.profile
+        mode = "dark" if prof.is_dark_mode else "light"
+    else:
+        mode = request.COOKIES.get("color_mode")
+        if not mode:
+            mode = "light"
+            no_cookie = True
+
+    res = JsonResponse({"color_mode": mode})
+    if no_cookie:
+        res.set_cookie("color_mode", mode)
+    return res
+
+
+def color_mode_set(request: HttpRequest, mode: str) -> HttpResponse:
+    """
+        Sets the color mode
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "user not logged in"})
+
+    if mode == "light" or mode == "dark":
+        prof = request.user.profile
+
+        if request.user.is_authenticated:
+            prof.is_dark_mode = mode == "dark"
+            prof.save()
+
+        res = JsonResponse({"color_mode": mode})
+        res.set_cookie("color_mode", mode)
+        return res
+    else:
+        return JsonResponse({"error": "invalid mode"})

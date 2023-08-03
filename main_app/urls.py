@@ -19,4 +19,6 @@ urlpatterns: list[partial] = [
     path("profile/update/", views.profile.update, name="profile_update"),
     path('accounts/signup/', views.accounts.signup, name='signup'),
     path("profile/delete/", views.profile.delete, name="profile_delete"),
+    path("api/color-mode/<str:mode>/", views.profile.color_mode_set, name="profile_color_mode_set"),
+    path("api/color-mode/", views.profile.color_mode_get, name="profile_color_mode_get"),
 ]
