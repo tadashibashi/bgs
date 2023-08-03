@@ -17,7 +17,7 @@
 
             {# display game window #}
             <div class="card-body overflow-auto">
-                <iframe loading="lazy" width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
+                <iframe allowtransparency="false" loading="lazy" width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
                 {% if game.add_fullscreen_btn %}
                     <button class="float-end btn btn-light" id="fullscreen-btn"><i class="bi bi-fullscreen"></i></button>
                 {% endif %}
