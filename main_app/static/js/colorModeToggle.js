@@ -2,14 +2,14 @@
  * Used by dark/light mode button in the navbar.html
  * Handles toggling color mode, sets
  */
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
     const colorModeBtn = document.getElementById("color-mode-btn");
     colorModeBtn.addEventListener("click", () => {
         setColorMode(true);
         setColorModeText(colorModeBtn, getColorMode());
     });
 
-    await setColorMode(false);
+    setColorMode(false);
     setColorModeText(colorModeBtn, getColorMode());
 });
 
