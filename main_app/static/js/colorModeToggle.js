@@ -17,8 +17,9 @@ window.addEventListener("load", async evt => {
         if (flip)
             mode = (mode === "light") ? "dark" : "light";
 
-
-        document.cookie = "color_mode=" + mode + "; expires=" + Date.now() + "; path=/;";
+        const yearFromNow = new Date;
+        yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);
+        document.cookie = "color_mode=" + mode + "; expires=" + yearFromNow + "; path=/;";
 
         html.setAttribute("data-bs-theme", mode);
 
