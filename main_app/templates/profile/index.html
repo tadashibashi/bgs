@@ -6,6 +6,9 @@
 
         {# Add game button #}
         <a class="nav-link" href="{% url 'games_create' %}">Add Game <i class="bi bi-plus-circle"></i></a>
+        
+        <p class="text-sm-start">{{ user.username }}</p>
+
 
         {# Display each game in a flexbox #}
         <div class="d-flex flex-row justify-content-evenly align-items-evenly">
