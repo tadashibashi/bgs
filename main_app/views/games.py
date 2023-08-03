@@ -78,8 +78,4 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
     if request.method == "POST":
         game.delete()
 
-        return redirect("games_index")
-    else:
-        return render(request, "games/delete.html", {
-            "game": game,
-        })
+    return redirect("games_index")
