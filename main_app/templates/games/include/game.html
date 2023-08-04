@@ -17,6 +17,10 @@
     .game-image:hover {
        transform: scale(1.1);
     }
+
+    .fixed-height-box {
+        height: 24px;
+    }
 </style>
 
 <article class="card">
@@ -32,15 +36,29 @@
 
     </div>
     <div class="card-footer">
+        {# game title #}
         <a href="{% url 'games_detail' game.id %}" class="text-decoration-none" >
             <h6 class="text-primary">{{ game.title }}</h6>
         </a>
 
-        <p class="text-sm-start text-secondary">
+        {# by username #}
+        <p class="text-sm-start text-secondary overflow-hidden fixed-height-box">
             by <a class="text-decoration-none text-secondary"
                   href="{% url 'profile_public' game.user.username %}" style="font-family: unset;">
                     {{ game.user.username }}
                 </a>
+        </p>
+
+        {# tag display #}
+        <p class="m-0 overflow-hidden text-sm-start fixed-height-box">
+            {% if game.tags.count %}
+                <span class="text-tiny">#</span>
+                {% for tag in game.tags.all %}
+                    <span class="rounded m-0 text-tiny">
+                        {{ tag.text }}
+                    </span>
+                {% endfor %}
+            {% endif %}
         </p>
     </div>
 
