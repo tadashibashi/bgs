@@ -106,7 +106,7 @@
 
         // Set and format the initial game tags onload
         editableEl.innerText = window["game-tags"];
-        editableEl.innerHTML = formatTags();
+        editableEl.innerHTML = formatTags(editableEl);
 
         // Transfer div innerText to the actual input on submission
         const submitEl = document.querySelector("button[type='submit']");
