@@ -10,4 +10,4 @@ from .Screenshot import Screenshot
 from .Tag import Tag
 from django.contrib.auth.models import User
 
-import helpers
+from . import helpers
