@@ -1,36 +1,66 @@
-{% for review in game.review_set.all %}
-    <p>{{ review.content }}</p>
-    <p>Rating: {{ review.rating }}</p>
-    <p class="text-sm-start">by {{ review.user.username }}</p>
-    {% if user.is_authenticated and user == review.user %}
-        <button type="button" class="btn text-secondary edit-review-btn"
-                data-review-id="{{ review.id }}"
-                data-review-content="{{ review.content }}"
-                data-review-rating="{{ review.rating }}">
-            <i class="bi bi-pencil-fill"></i> Edit
-        </button>
-        <form action="{% url 'delete_review' review.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Delete</button>
-        </form>
-    {% endif %}
-{% endfor %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+<body>
+    {% for review in game.review_set.all %}
+        <div class="review-box">
+            <div class="review-header">
+                <div class="review-user">
+                    {% comment %} <img src="{{user.profile.avatar.url }}" alt="User Avatar"> {% endcomment %}
+                    <p>{{ review.user.username }}</p>
+                </div>
+                <p class="review-rating">Rating: {{ review.rating }}</p>
+            </div>
+            <p class="review-content">{{ review.content }}</p>
+            {% if user.is_authenticated and user == review.user %}
+                <button type="button" class="btn text-secondary edit-review-btn"
+                        data-review-id="{{ review.id }}"
+                        data-review-content="{{ review.content }}"
+                        data-review-rating="{{ review.rating }}">
+                    <i class="bi bi-pencil-fill"></i> Edit
+                </button>
+                <form action="{% url 'delete_review' review.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
 
-{% if user.is_authenticated %}
-    <h3>Write a Review</h3>
-    <form method="post" action="{% url 'add_review' game.id %}">
-        {% csrf_token %}
-        <textarea name="content"></textarea>
-        <select name="rating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <button type="submit">Submit Review</button>
-    </form>
-{% endif %}
+    {% if user.is_authenticated %}
+        <div class="review-box">
+            <h3>Write a Review</h3>
+            <form method="post" action="{% url 'add_review' game.id %}">
+                {% csrf_token %}
+                <textarea name="content"></textarea>
+                <select name="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    {% endif %}
+
+    {% include 'review/include/edit-modal.html' %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.edit-review-btn').click(function() {
+                let reviewId = $(this).data('review-id');
+                $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
+                let reviewContent = $(this).data('review-content');
+                let reviewRating = $(this).data('review-rating');
+                $('#edit-text').val(reviewContent);
+                $('#edit-rating').val(reviewRating);
+                $('#edit-modal').modal('show');
+            });
+        });
+    </script>
+</body>
 
 {% include 'review/include/edit-modal.html' %}
 
