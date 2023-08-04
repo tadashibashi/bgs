@@ -36,6 +36,12 @@ def create_file(uploaded_file: UploadedFile, key: str) -> File:
                 filename=uploaded_file.name)
 
 
+def get_fileext(uploaded_file: UploadedFile) -> str:
+    if uploaded_file.name:
+        return uploaded_file.name[uploaded_file.name.rfind("."):]
+    else:
+        return ""
+
 def get_filename(uploaded_file: UploadedFile, prepend_hash=6) -> str:
     """
         Creates filename from UploadedFile, prepends 6 random characters to
