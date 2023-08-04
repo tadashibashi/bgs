@@ -43,7 +43,7 @@ class TagsField(forms.Field):
         # Parse strings into Tags
         #    the implementation on the frontend separates tags with "\xa0",
         #    which is just a non-linebreaking space.
-        tag_strs = [val.strip() for val in value.split("\xa0")]
+        tag_strs = [val.strip().lower() for val in value.split("\xa0")]
         tag_ids = []
         for tag_str in tag_strs:
             # don't parse blank tags from any trailing spaces
