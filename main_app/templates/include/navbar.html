@@ -33,7 +33,7 @@
             <div class="me-4 navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     {# private links #}
-                    <a class="nav-link me-4" href="{% url 'profile_index' %}">Profile</a>
+                    <a class="nav-link me-4" href="{% url 'profile_index' %}">{{ user.username }}</a>
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     {# public links #}

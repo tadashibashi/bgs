@@ -71,7 +71,8 @@
             mode = (mode === "light") ? "dark" : "light";
 
         // apply the mode to the html element (a catch-all if it wasn't set before)
-        html.setAttribute("data-bs-theme", mode);
+        if (html.getAttribute("data-bs-theme") !== mode)
+            html.setAttribute("data-bs-theme", mode);
 
         // save mode
         // set color_mode cookie, expires in one year

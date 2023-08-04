@@ -30,8 +30,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ["DEBUG"] == "True"
-
+DEBUG = "True" if not os.environ.get("DEBUG") else os.environ.get("DEBUG") == "True"
+DEPLOY = True if os.environ.get("DEPLOY") == "True" else False
 ALLOWED_HOSTS = []
 
 
@@ -81,10 +81,19 @@ WSGI_APPLICATION = 'bgs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+if DEPLOY:
+    _HOST = os.environ.get('DB_HOST_DEBUG') if DEBUG else os.environ.get('DB_HOST_DEPLOY')
+else:
+    _HOST = "localhost"
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ["DB_NAME"],
+        'USER': os.environ.get("DB_USER") if DEPLOY else "",
+        'PASSWORD': os.environ.get('DB_PASSWORD') if DEPLOY else "",
+        'HOST': _HOST
     }
 }
 
@@ -133,3 +142,7 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if os.environ.get("DEPLOY") == "True":
+    import django_on_heroku
+    django_on_heroku.settings(locals())

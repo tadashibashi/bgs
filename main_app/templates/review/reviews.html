@@ -3,6 +3,10 @@
     <p>Rating: {{ review.rating }}</p>
     <p class="text-sm-start">by {{ review.user.username }}</p>
     {% if user.is_authenticated and user == review.user %}
+        <button type="button" class="btn text-secondary" data-bs-toggle="modal" data-bs-target="#edit-modal">
+            <i class="bi bi-pencil-fill"></i> Edit
+        </button>
+        {% include 'review/include/edit-modal.html' %}
       <form action="{% url 'delete_review' review.id %}" method="post">
         {% csrf_token %}
         <button type="submit">Delete</button>

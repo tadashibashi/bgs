@@ -1,6 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    <style>
+        iframe {
+            display: block;
+            margin: auto auto
+        }
+
+        iframe.fullscreen {
+            margin: 0;
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #fullscreen-btn {
+            opacity: .5;
+            border-radius: 15%;
+            background-color: #f3f3f3;
+            transition: opacity .15s linear;
+        }
+
+        #fullscreen-btn:hover {
+            opacity: 1;
+        }
+
+        #fullscreen-btn.fullscreen {
+            position: fixed;
+            bottom: 1vmin;
+            right: 1vmin;
+            z-index: 99;
+        }
+    </style>
+
+
     <div class="mt-4 container-fluid">
         <article class="card bg-transparent">
             <div class="card-header">
@@ -47,6 +83,12 @@
 
         </article>
 
+        <h2>Upload Screenshot</h2>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'screenshots_add' game.id %}">
+            {% csrf_token %}
+            <input type="file" name="screenshot" />
+            <input type="submit" class="btn btn-outline-success"/>
+        </form>
 
     <h2 class="mt-4">Reviews</h2>
 

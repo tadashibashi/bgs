@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.utils import timezone
 
@@ -14,6 +13,7 @@ class Screenshot(models.Model):
     # ===== metadata ==========================================================
 
 
+
     class Meta:
         ordering = ["created_on"]
         """
@@ -25,7 +25,7 @@ class Screenshot(models.Model):
     # ===== fields ============================================================
 
 
-    file = models.OneToOneField(File, on_delete=models.DO_NOTHING)
+    file = models.OneToOneField(File, on_delete=models.DO_NOTHING, null=True)
     """
         The associated image File
         Relationship: Screenshot ---- File
@@ -52,7 +52,11 @@ class Screenshot(models.Model):
 
     def delete(self, *args, **kwargs):
         """Clean up File when screenshot is deleted"""
-        self.file.delete()
+        file = self.file
+
+        self.file = None
+        self.save()
+        file.delete()
 
         # perform inherited delete
         return super(self.__class__, self).delete(*args, **kwargs)

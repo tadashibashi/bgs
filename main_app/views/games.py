@@ -58,6 +58,11 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
 
 @login_required
 def update(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+        Handles both GET & POST methods.
+        GET: Displays the Game edit form
+        POST: Submits Game edits made on the form
+    """
     game = get_object_or_404(Game, id=pk)
     if request.method == "GET":
         form = GameCreateForm(instance=game)
@@ -68,6 +73,7 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
         form = GameCreateForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
+
     return redirect( "games_detail",pk=game.id)
 
 
