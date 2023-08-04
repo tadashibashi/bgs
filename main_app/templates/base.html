@@ -12,10 +12,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Brokeman's Game Station</title>
 
+    {# Favicon #}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/rocket-takeoff.png' %}" />
+
     {# Stylesheets #}
     <link rel="stylesheet" href="{% static 'thirdparty/bootstrap/bootstrap@5.3.1.css' %}" />
     <link rel="stylesheet" href="{% static 'thirdparty/bootstrap/bootstrap-icons.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
 
     {% if css %}
         {% for file in css %}
