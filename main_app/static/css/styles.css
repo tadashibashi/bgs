@@ -67,3 +67,15 @@ body {
     overflow: auto;
 }
 
+.brand-text {
+    font-family: "Cosmic Octo", sans-serif;
+    font-size: 12px;
+}
+
+.text-tiny {
+    font-size: 12px;
+}
+
+.text-lg {
+    font-size: 32px;
+}
