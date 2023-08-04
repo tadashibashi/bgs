@@ -89,7 +89,7 @@ def create_screenshot(uploaded_file: UploadedFile, game_id: int) -> Screenshot |
     file = create_file(uploaded_file, folder + filename)
 
     # attach file to new screenshot
-    return Screenshot.objects.create(file=file, user_id=user_id)
+    return Screenshot.objects.create(file=file, game_id=game_id)
 
 
 def update_screenshot(screenshot_id: int, uploaded_file: UploadedFile):
@@ -132,16 +132,14 @@ def create_or_update_single_screenshot(uploaded_file: UploadedFile, game_id: int
         print("create_or_update_single_screenshot error: invalid game_id")
         return False
 
-    if game.screenshot_set.count() == 0:
-        screenshot = create_screenshot(uploaded_file, game_id)
-        if not screenshot:
-            print("create_or_update_single_screenshot error: failed to create_screenshot")
-            return False
-        game.screenshot_set.add(screenshot)
-    else:
+    if game.screenshot_set.count() > 0:
         screenshot = game.screenshot_set.first()
-        if not update_screenshot(screenshot.id, uploaded_file):
-            print("create_or_update_single_screenshot: failed to update screenshot")
-            return False
+        screenshot.delete()
+
+    screenshot = create_screenshot(uploaded_file, game_id)
+    if not screenshot:
+        print("create_or_update_single_screenshot error: failed to create_screenshot")
+        return False
+    game.screenshot_set.add(screenshot)
 
     return True
