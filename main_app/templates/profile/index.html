@@ -2,17 +2,19 @@
 {% block content %}
     <section class="container">
 
-        <h1>{{ profile.display_name }}</h1>
+        {# User heading #}
+        <h1 class="mt-4 mb-4">{{ target_user.username }}</h1>
+        <p>{{ target_user.bio }}</p>
 
         {# Add game button #}
-        {% if user.is_authenticated and user.id == profile.user.id %}
+        {% if user.is_authenticated and user.id == target_user.id %}
             <a class="nav-link" href="{% url 'games_create' %}">Add Game <i class="bi bi-plus-circle"></i></a>
         {% endif %}
 
         {# Display each game in a flexbox #}
         <div class="d-flex flex-row justify-content-evenly align-items-evenly">
 
-            {% for game in user.game_set.all %}
+            {% for game in target_user.game_set.all %}
                 <a href="{% url 'games_detail' game.id %}">
                     <article class="card">
 
