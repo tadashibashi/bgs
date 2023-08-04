@@ -44,13 +44,13 @@ class ProfileForm(forms.Form):
     """
 
 
-    bio = forms.CharField(widget=forms.Textarea)
+    bio = forms.CharField(widget=forms.Textarea, required=False)
     """
         Text area for user bio / about me.
     """
 
 
-    social_links = SimpleArrayField(forms.URLField())
+    social_links = SimpleArrayField(forms.URLField(), required=False)
     """
         List of social links.
     """
