@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms import ProfileForm
 from ..models import Profile
+from ..models.helpers import create_file, get_fileext
 
 
 @login_required
@@ -38,7 +39,6 @@ def update(request: HttpRequest) -> HttpResponse:
         Name: "profile_update"
     """
 
-
     if request.method == "GET":
         form = ProfileForm()
         return render(request, "profile/form.html", {
@@ -66,10 +66,12 @@ def update(request: HttpRequest) -> HttpResponse:
             if request.POST["password"]:
                 user.password = request.POST["password"]
 
-            # TODO: upload profile image file to S3
             if request.FILES["avatar"]:
-                # profile.avatar = request.FILES["avatar"]
-                pass
+                avatar = create_file(request.FILES["avatar"], "user/" + user.id + "/profile/avatar" + get_fileext(request.FILES["avatar"]))
+                if not avatar:
+                    print("view profile/update error: failed to upload avatar")
+                profile.avatar = avatar
+
 
             profile.bio = request.POST["bio"]
 
