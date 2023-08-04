@@ -9,6 +9,9 @@ from . import Screenshot, File, Game
 
 
 def boto3_client(service_name: str):
+    """
+        Get boto3 client with keys from the environment automatically added
+    """
     return boto3.client(service_name,
                  aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
                  aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"])
