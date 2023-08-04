@@ -52,5 +52,27 @@
             <script type="text/javascript" src="{% static file %}" ></script>
         {% endfor %}
     {% endif %}
+    <script>
+  
+        window.onload = function() {
+          const buttonEl = document.getElementById('color-mode-btn');
+          const signupBtn = document.getElementById('signup');
+      
+          const handleThemeChange = () => {
+            const theme = document.documentElement.getAttribute('data-bs-theme');
+            if (theme === 'dark') {
+              signupBtn.classList.add('btn-outline-light');
+              signupBtn.classList.remove('btn-outline-dark');
+            } else {
+              signupBtn.classList.add('btn-outline-dark');
+              signupBtn.classList.remove('btn-outline-light');
+            }
+          };
+      
+          handleThemeChange();
+      
+          buttonEl.addEventListener('click', handleThemeChange);
+        }
+      </script>
 </body>
 </html>
