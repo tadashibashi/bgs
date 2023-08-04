@@ -1,11 +1,35 @@
+<style>
+    .game-image-container {
+        overflow: hidden;
+        border-radius: 5px 5px 0 0;
+        padding: 0;
+        margin: 0;
+        aspect-ratio: 8/4;
+    }
+
+    .game-image {
+       width:100%;
+       height:100%;
+       object-fit:cover;
+       transition: transform .75s ease-in-out;
+    }
+
+    .game-image:hover {
+       transform: scale(1.1);
+    }
+</style>
+
 <article class="card">
 
-    <div class="card-body">
-        {% if game.screenshot_set.count %}
-            <a href="{% url 'games_detail' game.id %}" class="text-secondary text-decoration-none">
-                <img style="width:100%;height:100%;object-fit:cover" src="{{ game.screenshot_set.first.file.url }}" alt="game screenshot"/>
-            </a>
-        {% endif %}
+    <div class="card-body p-0">
+        <div class="game-image-container">
+            {% if game.screenshot_set.count %}
+                <a href="{% url 'games_detail' game.id %}" class="text-secondary text-decoration-none">
+                    <img class="game-image" src="{{ game.screenshot_set.first.file.url }}" alt="game screenshot"/>
+                </a>
+            {% endif %}
+        </div>
+
     </div>
     <div class="card-footer">
         <a href="{% url 'games_detail' game.id %}" class="text-decoration-none" >
