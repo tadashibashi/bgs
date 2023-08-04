@@ -67,7 +67,7 @@
                     <strong>Tags: </strong>
 
                     {% for tag in game.tags.all %}
-                        <span class="rounded bg-secondary-subtle p-1 me-1">
+                        <span class="rounded bg-primary-subtle p-1 me-1">
                         <span class="hash">#</span>{{ tag.text }}
                     </span>
                     {% empty %}
@@ -93,8 +93,6 @@
     <h2 class="mt-4">Reviews</h2>
 
         {% include "review/reviews.html" %}
-        
-        
     </div>
 
     {% if game.add_fullscreen_btn %}
