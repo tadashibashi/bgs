@@ -4,12 +4,18 @@
     <div class="container-fluid">
 
         {# Branding #}
-        <div class="navbar-brand">
-            <a class="d-flex flex-column p-0 text-decoration-none nav-link" href="/">
-                <!-- <p class="m-0">Brokeman' <i class="bi bi-rocket-takeoff"></i></p> -->
-                <!-- <p class="m-0">Game Station</p> -->
-                <p class="m-0"><i class="bi bi-rocket-takeoff"></i></p>
-            </a>
+        <div class="d-flex">
+
+            <div class="pt-1">
+
+                <a class="d-flex flex-column p-0 text-decoration-none nav-link justify-content-center" href="/">
+                    <p class="brand-text m-0">Brokeman's   </p>
+                    <p class="brand-text m-0">Game Station</p>
+                </a>
+
+            </div>
+            <i class="bi bi-rocket-takeoff navbar-brand text-lg ms-2 me-2 m-0 p-0"></i>
+
         </div>
 
 
@@ -27,7 +33,7 @@
             <ul class="navbar-nav">
                 {# public links #}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'games_index' %}">Browse</a>
+                    <a class="nav-link ms-2" href="{% url 'games_index' %}">Browse</a>
                 </li>
             </ul>
 
