@@ -1,0 +1,32 @@
+.review-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .review-user {
+    display: flex;
+    align-items: center;
+  }
+  
+  .review-user img {
+    border-radius: 50%;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .review-rating {
+    font-weight: bold;
+  }
+  
+  .review-content {
+    font-size: 14px;
+  }
