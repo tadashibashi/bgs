@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.utils import timezone
 
@@ -12,6 +11,7 @@ class Screenshot(models.Model):
     """
 
     # ===== metadata ==========================================================
+
 
 
     class Meta:
