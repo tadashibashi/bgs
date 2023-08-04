@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from main_app.forms import GameCreateForm
 from main_app.models import Game
-
+from main_app.models.helpers import create_screenshot, create_or_update_single_screenshot
 
 
 def index(request: HttpRequest):
@@ -34,12 +34,19 @@ def create(request: HttpRequest):
             # TODO: upload game files to AWS S3
 
             # user and tags not saved yet -- wait to commit
-            new_game = form.save(commit=False)
+            new_game: Game = form.save(commit=False)
             new_game.user_id = user.id
 
             # once user_id set, the Tags will be associable
             # form.save sets the tags
-            form.save(commit=True)
+            new_game.save()
+
+            if request.FILES.get("screenshot"):
+                screenshot = create_screenshot(request.FILES.get("screenshot"), new_game.id)
+                new_game.screenshot_set.add(screenshot)
+                new_game.save()
+
+
             return redirect("games_detail", pk=new_game.id)
         else:
             return render(request, "games/form.html", {
@@ -66,12 +73,14 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
     if request.method == "GET":
         form = GameCreateForm(instance=game)
-
         return render(request, "games/form.html",
                       {"game": game, "form": form})
     elif request.method == "POST":
         form = GameCreateForm(request.POST, instance=game)
         if form.is_valid():
+            if request.FILES.get("screenshot"):
+                if not create_or_update_single_screenshot(request.FILES.get("screenshot"), game.id):
+                    print("error while creating or updating Game's screenshot")
             form.save()
 
     return redirect( "games_detail",pk=game.id)
