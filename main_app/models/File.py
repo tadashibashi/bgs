@@ -19,7 +19,7 @@ class File(models.Model):
     """
 
 
-    file_url = models.URLField(default="")
+    key = models.URLField(default="")
     """
         contains the destination filepath without the website root
     """
