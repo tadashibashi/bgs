@@ -29,7 +29,7 @@ class Profile(models.Model):
     """
 
 
-    social_links = ArrayField(models.URLField(), default=list)
+    social_links = ArrayField(models.URLField(), default=list, null=True, blank=True)
     """
         An array of links to the user's social accounts
 
@@ -41,9 +41,8 @@ class Profile(models.Model):
     """
         User's display name
     """
-    
-    
-    
+
+
     is_dark_mode = models.BooleanField(default= False)
     """
         This is the modelfield for the dark mode
@@ -51,9 +50,7 @@ class Profile(models.Model):
     
     """
 
-    
-    
-    
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     """
         The profile's associated user
