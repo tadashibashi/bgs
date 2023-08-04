@@ -28,3 +28,20 @@ def delete_review(request, review_id):
         review.delete()
 
     return redirect('games_detail', pk=game_id)
+
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        rating = int(request.POST.get('rating'))
+        
+        review.content = content
+        review.rating = rating
+        review.save()
+
+        return redirect('games_detail', pk=review.game.id)
+    else:
+        return render(request, 'edit-modal.html', {'review': review})
