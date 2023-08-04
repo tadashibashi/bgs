@@ -83,13 +83,6 @@
 
         </article>
 
-        <h2>Upload Screenshot</h2>
-        <form method="POST" enctype="multipart/form-data" action="{% url 'screenshots_add' game.id %}">
-            {% csrf_token %}
-            <input type="file" name="screenshot" />
-            <input type="submit" class="btn btn-outline-success"/>
-        </form>
-
     <h2 class="mt-4">Reviews</h2>
 
         {% include "review/reviews.html" %}

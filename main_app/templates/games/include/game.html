@@ -8,9 +8,9 @@
     }
 
     .game-image {
-       width:100%;
-       height:100%;
-       object-fit:cover;
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
        transition: transform .75s ease-in-out;
     }
 
@@ -38,11 +38,11 @@
     <div class="card-footer">
         {# game title #}
         <a href="{% url 'games_detail' game.id %}" class="text-decoration-none" >
-            <h6 class="text-primary">{{ game.title }}</h6>
+            <h6 class="text-primary m-0">{{ game.title }}</h6>
         </a>
 
         {# by username #}
-        <p class="text-sm-start text-secondary overflow-hidden fixed-height-box">
+        <p class="text-sm-start text-secondary overflow-hidden fixed-height-box m-0 text-tiny">
             by <a class="text-decoration-none text-secondary"
                   href="{% url 'profile_public' game.user.username %}" style="font-family: unset;">
                     {{ game.user.username }}

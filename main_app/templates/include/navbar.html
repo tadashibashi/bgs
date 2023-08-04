@@ -1,4 +1,11 @@
 {% load static %}
+<style>
+    #color-mode-btn.btn {
+        padding: 0;
+        text-align: center;
+        margin: 0;
+    }
+</style>
 <nav class="navbar navbar-expand-lg pb-1">
     {# navbar container #}
     <div class="container-fluid">
@@ -33,7 +40,7 @@
             <ul class="navbar-nav">
                 {# public links #}
                 <li class="nav-item">
-                    <a class="nav-link ms-2" href="{% url 'games_index' %}">Browse</a>
+                    <a class="nav-link" href="{% url 'games_index' %}">Browse</a>
                 </li>
             </ul>
 
@@ -42,16 +49,16 @@
                 {% if user.is_authenticated %}
                     {# private links #}
                     <a class="nav-link me-4" href="{% url 'profile_index' %}">{{ user.username }}</a>
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-link me-4" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     {# public links #}
-                    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    <a class="nav-link me-4" href="{% url 'signup' %}">Sign Up</a>
+                    <a class="nav-link me-4" href="{% url 'login' %}">Login</a>
 
                 {% endif %}
 
                 {# dark/light mode button #}
-                <button id="color-mode-btn" class="btn ms-4 rounded-circle"></button>
+                <button id="color-mode-btn" class="btn mt-1" style="width:32px;height:32px;"></button>
 
             </div>
             {# end right-side links #}
