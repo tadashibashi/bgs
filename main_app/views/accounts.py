@@ -4,6 +4,9 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
+from ..models import Profile
+
+
 class SignupForm(UserCreationForm):
     email = forms.EmailField()
 
@@ -16,7 +19,10 @@ def signup(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user: User = form.save()
+            user.profile = Profile(user=user, display_name=user.username)
+            user.profile.save()
+            user.save()
             login(request, user)
             return redirect("profile_index")
         else: 
