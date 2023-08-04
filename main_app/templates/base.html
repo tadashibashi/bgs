@@ -56,5 +56,44 @@
             <script type="text/javascript" src="{% static file %}" ></script>
         {% endfor %}
     {% endif %}
+    <script>
+  //windowonload makes sure everything is loaded first
+        window.onload = function() {
+            const buttonEl = document.getElementById('color-mode-btn');
+            const signupBtn = document.getElementById('signup');
+            const loginBtn = document.getElementById('login');
+          
+            const handleThemeChange = () => {
+              const theme = document.documentElement.getAttribute('data-bs-theme');
+        //we need to make sure the signup btn exists or else js will crash and will halt the whole thing
+              if (signupBtn) {
+                if (theme === 'dark') {
+                  signupBtn.classList.add('btn-outline-light');
+                  signupBtn.classList.remove('btn-outline-dark');
+                } else {
+                  signupBtn.classList.add('btn-outline-dark');
+                  signupBtn.classList.remove('btn-outline-light');
+                }
+              }
+        //same as above we need to make sure the login button exists
+              if (loginBtn) {
+                if (theme === 'dark') {
+                  loginBtn.classList.add('btn-outline-light');
+                  loginBtn.classList.remove('btn-outline-dark');
+                } else {
+                  loginBtn.classList.add('btn-outline-dark');
+                  loginBtn.classList.remove('btn-outline-light');
+                }
+              }
+            };
+          
+            handleThemeChange();
+          
+            if(buttonEl) {
+              buttonEl.addEventListener('click', handleThemeChange);
+            }
+          }
+          
+    </script>
 </body>
 </html>
