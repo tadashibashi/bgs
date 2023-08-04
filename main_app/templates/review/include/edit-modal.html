@@ -1,9 +1,9 @@
+<!-- Edit Modal -->
 
-{# edit modal #}
 <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="" method="GET">
+            <form action="" method="post" id="edit-form">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title">
@@ -14,10 +14,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                        <label for="edit-text" class="form-label">Content:</label>
-                        <textarea id="edit-text" class="form-control mb-4" name="text" rows="10"></textarea>
-                        <label for="edit-rating" class="form-label">Rating: </label>
-                        <input id="edit-rating" class="form-control" type="number" min="1" max="5" name="rating"/>
+                    <label for="edit-text" class="form-label">Content:</label>
+                    <textarea id="edit-text" class="form-control mb-4" name="content" rows="10"></textarea>
+                    <label for="edit-rating" class="form-label">Rating: </label>
+                    <input id="edit-rating" class="form-control" type="number" min="1" max="5" name="rating"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
