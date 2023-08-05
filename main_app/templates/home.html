@@ -4,154 +4,43 @@
 <head>
     {% include 'include/meta-title.html' %}
     {% include 'include/stylesheets.html' %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 </head>
-<style>
-    body {
-        background: rgb(147, 80, 255);
-        display: grid;
-        grid-template-rows: 1fr 2fr 1fr;
-        grid-template-columns: 1fr;
-        height: 100vh;
-        width: 100vw;
-        overflow-x: hidden;
-    }
 
-
-
-    #branding-img {
-        width: 100px;
-        opacity: .8;
-        mix-blend-mode: normal;
-        margin-left: 4vmin;
-    }
-
-    #branding-title {
-        color: #e8e8e8;
-        opacity: .9;
-        font-weight: 400;
-    }
-
-    h1 {
-        font-family: Arial, sans-serif;
-        font-weight: 900;
-        font-size: 5vw;
-        letter-spacing: -4px;
-        word-spacing: 4px;
-        margin-top: -18px;
-    }
-
-    #brand-statement {
-        margin-left: 15vmin;
-        color: rgb(255, 247, 39);
-
-    }
-
-    #brand-actions {
-        margin-left: 25vmin;
-        margin-right: 0;
-    }
-
-    #brand-actions.container {
-        width: 75%;
-    }
-
-    #brand-actions > a {
-        {#margin: 0 2vmin;#}
-        font-size: 1.6rem;
-    }
-
-    #brand-actions .btn {
-        background: rgb(255, 56, 181);
-        border-color: transparent;
-        color: #e7e7e7;
-        min-width: 200px;
-    }
-
-    #brand-body {
-        display: flex;
-    }
-    #rocket-img {
-        width: 40vw;
-        aspect-ratio: 1/1;
-        object-fit: contain;
-        margin-right: -5vw;
-    }
-
-
-
-    @media(max-width: 1000px) {
-        h1 {
-            letter-spacing: -.25vw;
-            margin: 0;
-        }
-
-        #brand-statement {
-            margin-right: 0;
-        }
-
-        #brand-body {
-            margin-top: 2vh;
-            flex-direction: column-reverse;
-            align-items: center;
-        }
-        #rocket-img-container {
-            margin: 2vh 0 0;
-            display: flex;
-            justify-items: center;
-        }
-
-        #brand-actions {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        #brand-actions .btn {
-            margin: auto;
-        }
-
-    }
-
-    @media(max-width: 400px) {
-        h1 {
-            letter-spacing: 0;
-            font-size: 4vw;
-            word-spacing: 0;
-            margin: 0;
-        }
-    }
-</style>
 <body>
     {# small rocket image and site name #}
-    <div class="container d-flex flex-column align-content-start">
-        <img id="branding-img" class="mb-2" src="{% static 'images/bgs-logo-notext.png' %}" />
+    <div id="branding-small">
         <div id="branding-title">
             <h4 class="mb-0">Brokeman's</h4>
             <h4 class="mt-0">Game Station</h4>
         </div>
+        <img id="branding-img" src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
     </div>
 
     <div id="brand-body">
         {# brand statement #}
-        <div id="brand-statement" class="col col-6 container d-flex flex-column justify-content-center">
-            <h1>Launching HTML5</h1>
-            <h1>Games that are</h1>
-            <h1>Out of this world</h1>
+        <div id="brand-statement-and-actions" class="col col-6 container d-flex flex-column justify-content-center row-gap-2">
+            <div id="brand-statement" class="">
+                <h1>Launching HTML5</h1>
+                <h1>Games that are</h1>
+                <h1>Out of this world</h1>
+            </div>
+            <div id="brand-actions">
+                <a href="{% url 'games_index' %}" class="btn btn-info">BROWSE</a>
+                <a href="{% url 'games_index' %}" class="btn btn-signin">SIGN IN</a>
+            </div>
         </div>
+
 
         {# rocket image #}
-        <div id="rocket-img-container" class="col col-4 me-5 d-flex flex-column justify-content-center">
-            <img id="rocket-img" src="{% static 'images/rocket-branding.png' %}" />
+        <div id="rocket-img-container" class="col col-5 me-5 d-flex flex-column justify-content-center">
+            <img id="rocket-img" src="{% static 'images/rocket-branding.png' %}" alt="a large rocketship with toys"/>
         </div>
     </div>
 
 
 
-    <div class="container" id="brand-actions">
-        <a href="{% url 'games_index' %}" class="btn btn-info">BROWSE</a>
-{#        <button>Sign In</button>#}
-    </div>
+
 </body>
 </html>
 
