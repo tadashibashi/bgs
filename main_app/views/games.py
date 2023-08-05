@@ -60,12 +60,13 @@ def create(request: HttpRequest):
 def detail(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
 
-    # set times_viewed, using F to prevent potential race condition
-    game.times_viewed = F("times_viewed") + 1
-    game.save()
+    if request.user.id != game.user_id:
+        # set times_viewed, using F to prevent potential race condition
+        game.times_viewed = F("times_viewed") + 1
+        game.save()
 
-    # get the object again to read from db
-    game = Game.objects.get(id=pk)
+        # get the object again to read from db
+        game = Game.objects.get(id=pk)
 
     return render(request, "games/detail.html",
                   {"game": game})
