@@ -4,10 +4,10 @@
     <section class="container">
 
         {# title #}
-        <h1 class="text-center">Games</h1>
+        <h1 class="text-center mb-5">Games</h1>
 
         {# display search bar. TODO: connect to search API #}
-        <form>
+        <form class="mb-5">
             <div class="input-group w-75 m-auto mt-4 mb-4">
                 {# search icon #}
                 <label for="search-input" class="input-group-text" id="basic-addon1">
@@ -22,7 +22,7 @@
         </form>
 
         {# display games #}
-        <div class="d-flex flex-wrap flex-row">
+        <div class="d-flex flex-wrap flex-row mb-5">
 
             {% for game in games %}
                 <article class="col-lg-3" style="padding:12px;">
