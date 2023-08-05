@@ -27,32 +27,36 @@
         </div>
     {% endfor %}
 
+    {# review writing/editing available only to registered users #}
     {% if user.is_authenticated %}
-        <div class="card bg-transparent">
-            <div class="card-header">
-                <h3>Write a Review</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" action="{% url 'add_review' game.id %}">
-                    {% csrf_token %}
-                    <textarea class="form-control mb-3" name="content"></textarea>
-                    <label for="rating-input">
-                        Rating:
-                    </label>
-                    <select id="rating-input" class="mb-4" name="rating">
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-                    </select>
-                    <div>
-                        <button class="btn btn-secondary" type="submit">Submit Review</button>
-                    </div>
+        {# only allow user to write review if they are not the game's creator #}
+        {% if user.id != game.user_id %}
+            <div class="card bg-transparent">
+                <div class="card-header">
+                    <h3>Write a Review</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_review' game.id %}">
+                        {% csrf_token %}
+                        <textarea class="form-control mb-3" name="content"></textarea>
+                        <label for="rating-input">
+                            Rating:
+                        </label>
+                        <select id="rating-input" class="mb-4" name="rating">
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                        <div>
+                            <button class="btn btn-secondary" type="submit">Submit Review</button>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        {% endif %}
         {% include 'review/include/edit-modal.html' %}
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
