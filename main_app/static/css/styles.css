@@ -28,6 +28,20 @@
         url("../fonts/CosmicOcto-Heavy.woff") format("woff")
 }
 
+@font-face {
+    font-family: "League Spartan";
+    font-style: normal;
+    font-weight: 800;
+    src: local("League Spartan"), url("../fonts/LeagueSpartan.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "League Spartan";
+    font-style: normal;
+    font-weight: 400;
+    src: local("League Spartan"), url("../fonts/LeagueSpartan.ttf") format("truetype");
+}
+
 /* ===== Styles ============================================================ */
 * {
     box-sizing: border-box;
