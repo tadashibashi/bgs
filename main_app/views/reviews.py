@@ -27,7 +27,7 @@ def delete_review(request, review_id):
         game_id = review.game.id
         review.delete()
 
-    return redirect('games_detail', pk=game_id)
+    return redirect('games_detail', pk=review.game.id)
 
 
 @login_required
