@@ -5,8 +5,7 @@
 
 {# review writing/editing available only to registered users #}
 {% if user.is_authenticated %}
-    {# only allow user to write review if they are not the game's creator #}
-    {% if user.id != game.user_id %}
+    {% if can_review %}
         <div id="write-review" class="card bg-transparent mt-4">
             <div class="card-header">
                 <h6>Write Review</h6>

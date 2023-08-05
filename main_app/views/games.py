@@ -60,6 +60,7 @@ def create(request: HttpRequest):
 def detail(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
 
+    # inc times_viewed when any user except the creator views
     if request.user.id != game.user_id:
         # set times_viewed, using F to prevent potential race condition
         game.times_viewed = F("times_viewed") + 1
@@ -68,8 +69,20 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
         # get the object again to read from db
         game = Game.objects.get(id=pk)
 
+    # can review?
+    if request.user.is_authenticated:
+        if request.user.id == game.user_id:
+            can_review = False
+        else:
+            if request.user.review_set.filter(game=game).count():
+                can_review = False
+            else:
+                can_review = True
+    else:
+        can_review = False
+
     return render(request, "games/detail.html",
-                  {"game": game})
+                  {"game": game, "can_review": can_review})
 
 
 
