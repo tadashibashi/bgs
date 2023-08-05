@@ -41,7 +41,7 @@ function setClassOnLightDarkMode(elementIds, darkModeClass, lightModeClass) {
         }
     };
 
-    // set the button theme once onload
+    // set the classes once onload
     handleThemeChange();
 
     // and every time the light/dark mode button is clicked
