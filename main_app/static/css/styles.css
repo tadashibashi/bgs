@@ -56,6 +56,7 @@ html {
     --background-dark: linear-gradient(#5d5757, #242426);
     margin: 0;
     padding: 0;
+    overflow: auto;
 }
 
 
