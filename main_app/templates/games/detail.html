@@ -8,7 +8,6 @@
             z-index: 999;
 
             border-radius: 2px;
-            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.27);
         }
 
         iframe.fullscreen {
@@ -41,26 +40,33 @@
             right: 1vmin;
             z-index: 9999;
         }
+
+        .screenshot-container {
+            aspect-ratio: 2/1;
+            width: 100%;
+        }
+
+        #container {
+            max-width: 1080px;
+        }
     </style>
 
+    {% if user.id == game.user_id %}
+        <a href="{% url 'games_update' game.id %}" class="button btn btn-secondary float-end me-5">Edit <i class="ms-1 bi bi-pencil"></i> </a>
+    {% endif %}
 
-    <div class="mt-4 container-fluid">
-        <article class="card bg-transparent">
-            <div class="card-header">
-                {# display title #}
-                <h1 class="card-title">{{ game.title }}
-                    {% if user.id == game.user_id %}
-                        <a href="{% url 'games_update' game.id %}" class="button btn btn-secondary float-end">Edit</a>
-                    {% endif %}
-                </h1>
-
-                {# display creator #}
-                <p class="text-sm-start">by {{ game.user.username }}</p>
-            </div>
+    <div id="container" class="mt-4 container-fluid w-75">
+        <article class="card bg-transparent shadow-lg">
+        {# should we display the screenshot on the game page? #}
+{#            {% if game.screenshot_set.count %} #}
+{#                <div class="screenshot-container card-header p-0 overflow-hidden"> #}
+{#                    <img src="{{ game.screenshot_set.first.file.url }}" class="object-fit-cover w-100 h-100"> #}
+{#                </div> #}
+{#            {% endif %} #}
 
             {# display game window #}
             <div class="card-body overflow-auto">
-                <iframe allowtransparency="false" loading="lazy" width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
+                <iframe class="shadow-sm" allowtransparency="false" loading="lazy" width="{{ game.frame_width }}" height="{{ game.frame_height }}" src="{{ game.url }}"></iframe>
                 {% if game.add_fullscreen_btn %}
                     <button class="float-end btn btn-light" id="fullscreen-btn"><i class="bi bi-fullscreen"></i></button>
                 {% endif %}
@@ -68,11 +74,7 @@
 
 
             <div class="card-footer">
-
-
                 <p class="float-end">
-                    {# views #}
-                    <span class="text-secondary me-2">Views {{ game.times_viewed }} </span>
 
                     {# hashtags #}
                     <strong>Tags: </strong>
@@ -84,9 +86,19 @@
                     {% empty %}
                         <span>none.</span>
                     {% endfor %}
+
+                    {# views #}
+                    <span class="text-secondary mt-2 d-block text-end">Views: {{ game.times_viewed }} </span>
                 </p>
 
-                <h5>Description:</h5>
+                {# display title #}
+                <h1 class="card-title">{{ game.title }}</h1>
+
+                {# display creator #}
+                <p class="text-sm-start">by {{ game.user.username }}</p>
+
+
+                {# description #}
                 <p style="white-space:pre-wrap;overflow-x:auto;width:100%;">{{ game.description }}</p>
 
             </div>
