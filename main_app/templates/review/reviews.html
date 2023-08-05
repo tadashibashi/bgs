@@ -1,7 +1,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
 {% for review in game.review_set.all %}
-    <div class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mb-4">
+    <div class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mb-5">
         {% if user.is_authenticated and user == review.user %}
             <div class="position-absolute end-0 me-2">
                 <button type="button" class="btn text-secondary edit-review-btn" style="width:60px;padding:0;"

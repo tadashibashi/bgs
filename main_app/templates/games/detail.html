@@ -47,15 +47,15 @@
         }
 
         #container {
-            max-width: 1080px;
+            max-width: 1000px;
         }
     </style>
 
     {% if user.id == game.user_id %}
-        <a href="{% url 'games_update' game.id %}" class="button btn btn-secondary float-end me-5">Edit <i class="ms-1 bi bi-pencil"></i> </a>
+        <a href="{% url 'games_update' game.id %}" class="button btn btn-secondary float-end me-4">Edit <i class="ms-1 bi bi-pencil"></i> </a>
     {% endif %}
 
-    <div id="container" class="mt-4 container-fluid w-75">
+    <div id="container" class="mt-4 container-fluid">
         <article class="card bg-transparent shadow-lg">
         {# should we display the screenshot on the game page? #}
 {#            {% if game.screenshot_set.count %} #}
@@ -74,11 +74,21 @@
 
 
             <div class="card-footer">
-                <p class="float-end">
+                {# views #}
+                <span class="text-secondary mt-2 d-block text-end float-end">Views: {{ game.times_viewed }} </span>
+
+                {# display title #}
+                <h2 class="card-title">{{ game.title }}</h2>
+
+                {# display creator #}
+                <p class="text-sm-start mb-4">
+                    <a class="text-decoration-none nav-link" href="{% url 'profile_public' game.user_id %}">
+                        by {{ game.user.username }}
+                    </a>
+                </p>
+                <p class="text-tiny">
 
                     {# hashtags #}
-                    <strong>Tags: </strong>
-
                     {% for tag in game.tags.all %}
                         <span class="rounded bg-primary-subtle p-1 me-1">
                         <span class="hash">#</span>{{ tag.text }}
@@ -87,16 +97,10 @@
                         <span>none.</span>
                     {% endfor %}
 
-                    {# views #}
-                    <span class="text-secondary mt-2 d-block text-end">Views: {{ game.times_viewed }} </span>
+
                 </p>
 
-                {# display title #}
-                <h1 class="card-title">{{ game.title }}</h1>
-
-                {# display creator #}
-                <p class="text-sm-start">by {{ game.user.username }}</p>
-
+                <hr class="mb-4"/>
 
                 {# description #}
                 <p style="white-space:pre-wrap;overflow-x:auto;width:100%;">{{ game.description }}</p>
@@ -105,9 +109,9 @@
 
         </article>
 
-    <h2 class="mt-4">Reviews</h2>
-        {% include "review/reviews.html" %}
-    </div>
+    <h5 class="mt-5">Reviews</h5>
+    {% include "review/reviews.html" %}
+</div>
 
     {% if game.add_fullscreen_btn %}
         <script src="{% static 'js/fullscreenToggle.js' %}"></script>
