@@ -69,8 +69,12 @@
 
             <div class="card-footer">
 
-                {# display hashtags #}
+
                 <p class="float-end">
+                    {# views #}
+                    <span class="text-secondary me-2">Views {{ game.times_viewed }} </span>
+
+                    {# hashtags #}
                     <strong>Tags: </strong>
 
                     {% for tag in game.tags.all %}

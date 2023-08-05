@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -58,6 +59,14 @@ def create(request: HttpRequest):
 
 def detail(request: HttpRequest, pk: int) -> HttpResponse:
     game = get_object_or_404(Game, id=pk)
+
+    # set times_viewed, using F to prevent potential race condition
+    game.times_viewed = F("times_viewed") + 1
+    game.save()
+
+    # get the object again to read from db
+    game = Game.objects.get(id=pk)
+
     return render(request, "games/detail.html",
                   {"game": game})
 
