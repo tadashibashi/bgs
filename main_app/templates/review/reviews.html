@@ -1,82 +1,76 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
-<body>
-    {% for review in game.review_set.all %}
-        <div class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mb-4">
-            {% if user.is_authenticated and user == review.user %}
-                <div class="position-absolute end-0 me-2">
-                    <button type="button" class="btn text-secondary edit-review-btn" style="width:60px;padding:0;"
-                            data-review-id="{{ review.id }}"
-                            data-review-content="{{ review.content }}"
-                            data-review-rating="{{ review.rating }}">
-                        <i class="bi bi-pencil-fill"></i> Edit
-                    </button>
-                </div>
-
-            {% endif %}
-            <div class="review-headeri mb-0">
-                <div class="review-user">
-                    {% comment %} <img src="{{user.profile.avatar.url }}" alt="User Avatar"> {% endcomment %}
-                    <p class="mb-0">{{ review.user.username }}</p>
-                </div>
-
+{% for review in game.review_set.all %}
+    <div class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mb-4">
+        {% if user.is_authenticated and user == review.user %}
+            <div class="position-absolute end-0 me-2">
+                <button type="button" class="btn text-secondary edit-review-btn" style="width:60px;padding:0;"
+                        data-review-id="{{ review.id }}"
+                        data-review-content="{{ review.content }}"
+                        data-review-rating="{{ review.rating }}">
+                    <i class="bi bi-pencil-fill"></i> Edit
+                </button>
             </div>
-            <p class="text-secondary">Rating: {{ review.rating }}/5</p>
-            <p class="review-content">{{ review.content }}</p>
+
+        {% endif %}
+        <div class="review-headeri mb-0">
+            <div class="review-user">
+                {% comment %} <img src="{{user.profile.avatar.url }}" alt="User Avatar"> {% endcomment %}
+                <p class="mb-0">{{ review.user.username }}</p>
+            </div>
 
         </div>
-    {% endfor %}
+        <p class="text-secondary">Rating: {{ review.rating }}/5</p>
+        <p class="review-content">{{ review.content }}</p>
 
-    {# review writing/editing available only to registered users #}
-    {% if user.is_authenticated %}
-        {# only allow user to write review if they are not the game's creator #}
-        {% if user.id != game.user_id %}
-            <div class="card bg-transparent">
-                <div class="card-header">
-                    <h3>Write a Review</h3>
-                </div>
-                <div class="card-body">
-                    <form method="post" action="{% url 'add_review' game.id %}">
-                        {% csrf_token %}
-                        <textarea class="form-control mb-3" name="content"></textarea>
-                        <label for="rating-input">
-                            Rating:
-                        </label>
-                        <select id="rating-input" class="mb-4" name="rating">
-                            <option value="5">5</option>
-                            <option value="4">4</option>
-                            <option value="3">3</option>
-                            <option value="2">2</option>
-                            <option value="1">1</option>
-                        </select>
-                        <div>
-                            <button class="btn btn-secondary" type="submit">Submit Review</button>
-                        </div>
+    </div>
+{% endfor %}
 
-                    </form>
-                </div>
+{# review writing/editing available only to registered users #}
+{% if user.is_authenticated %}
+    {# only allow user to write review if they are not the game's creator #}
+    {% if user.id != game.user_id %}
+        <div class="card bg-transparent">
+            <div class="card-header">
+                <h3>Write a Review</h3>
             </div>
-        {% endif %}
-        {% include 'review/include/edit-modal.html' %}
+            <div class="card-body">
+                <form method="post" action="{% url 'add_review' game.id %}">
+                    {% csrf_token %}
+                    <textarea class="form-control mb-3" name="content"></textarea>
+                    <label for="rating-input">
+                        Rating:
+                    </label>
+                    <select id="rating-input" class="mb-4" name="rating">
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                    <div>
+                        <button class="btn btn-secondary" type="submit">Submit Review</button>
+                    </div>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.edit-review-btn').click(function() {
-                    let reviewId = $(this).data('review-id');
-                    $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
-                    $('#delete-review-form').attr('action', '{% url "delete_review" 0 %}'.replace('0', reviewId));
-                    let reviewContent = $(this).data('review-content');
-                    let reviewRating = $(this).data('review-rating');
-                    $('#edit-text').val(reviewContent);
-                    $('#edit-rating').val(reviewRating);
-                    $('#edit-modal').modal('show');
-                });
-            });
-        </script>
+                </form>
+            </div>
+        </div>
     {% endif %}
+    {% include 'review/include/edit-modal.html' %}
 
-
-
-
-</body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.edit-review-btn').click(function() {
+                let reviewId = $(this).data('review-id');
+                $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
+                $('#delete-review-form').attr('action', '{% url "delete_review" 0 %}'.replace('0', reviewId));
+                let reviewContent = $(this).data('review-content');
+                let reviewRating = $(this).data('review-rating');
+                $('#edit-text').val(reviewContent);
+                $('#edit-rating').val(reviewRating);
+                $('#edit-modal').modal('show');
+            });
+        });
+    </script>
+{% endif %}
