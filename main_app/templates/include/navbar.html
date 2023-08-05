@@ -5,25 +5,29 @@
         text-align: center;
         margin: 0;
     }
+
+    #brand-image {
+        width: 50px;
+    }
 </style>
 <nav class="navbar navbar-expand-lg pb-1">
     {# navbar container #}
     <div class="container-fluid">
 
         {# Branding #}
-        <div class="d-flex">
+        <a class="d-flex nav-link" href="/">
 
             <div class="pt-1">
 
-                <a class="d-flex flex-column p-0 text-decoration-none nav-link justify-content-center" href="/">
+                <div class="d-flex flex-column p-0 text-decoration-none nav-link justify-content-center">
                     <p class="brand-text m-0">Brokeman's   </p>
                     <p class="brand-text m-0">Game Station</p>
-                </a>
+                </div>
 
             </div>
-            <i class="bi bi-rocket-takeoff navbar-brand text-lg ms-2 me-2 m-0 p-0"></i>
+            <img id="brand-image" class=" ms-2 me-2 m-0 p-0" src="{% static 'images/bgs-logo-notext.png' %}" alt="small rocket logo">
 
-        </div>
+        </a>
 
 
         {# Hamburger button (for dropdown navbar on small displays) #}
@@ -40,7 +44,7 @@
             <ul class="navbar-nav">
                 {# public links #}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'games_index' %}">Browse</a>
+                    <a class="nav-link" href="{% url 'games_index' %}">Games</a>
                 </li>
             </ul>
 

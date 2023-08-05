@@ -9,12 +9,12 @@
 
 <body>
     {# small rocket image and site name #}
-    <div id="branding-small">
-        <div id="branding-title">
+    <div id="branding-logo-small">
+        <div>
             <h4 class="mb-0">Brokeman's</h4>
             <h4 class="mt-0">Game Station</h4>
         </div>
-        <img id="branding-img" src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
+        <img src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
     </div>
 
     <div id="brand-body">
@@ -26,7 +26,7 @@
                 <h1>Out of this world</h1>
             </div>
             <div id="brand-actions">
-                <a href="{% url 'games_index' %}" class="btn btn-info">BROWSE</a>
+                <a href="{% url 'games_index' %}" class="btn btn-browse">BROWSE</a>
                 <a href="{% url 'games_index' %}" class="btn btn-signin">SIGN IN</a>
             </div>
         </div>
@@ -35,6 +35,7 @@
         {# rocket image #}
         <div id="rocket-img-container" class="col col-5 me-5 d-flex flex-column justify-content-center">
             <img id="rocket-img" src="{% static 'images/rocket-branding.png' %}" alt="a large rocketship with toys"/>
+            <canvas id="rocket-canvas"></canvas>
         </div>
     </div>
 
