@@ -48,5 +48,32 @@
         {% endfor %}
     {% endif %}
 
+
+    <script>
+        // set favicon for light and dark mode browsers
+        if (window.matchMedia) {
+
+            window.addEventListener("load", evt => {
+                const faviconEl = document.querySelector("link[rel='icon']");
+
+                const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+                mediaQuery.addEventListener("change", evt => {
+                    setIcon(evt.matches);
+                });
+
+                setIcon(mediaQuery.matches);
+
+                function setIcon(isDark) {
+                    console.log("setting", isDark);
+                    if (isDark) {
+                        faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff-light.png' %}");
+                    } else {
+                        faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff.png' %}");
+                    }
+                }
+            });
+
+        }
+    </script>
 </body>
 </html>
