@@ -43,7 +43,13 @@ body {
     font-size: max(2vmin, 1.2rem);
 }
 
-
+#login {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 4vmin;
+    margin-top: 4vmin;
+}
 
 /* ===== bottom section ===== */
 
@@ -137,21 +143,23 @@ body {
 }
 
 #rocket-img:hover {
-    transform: scale(1.1)
+    transform: scale(1.1) rotate(2deg)
 }
 
-#rocket-img-container > canvas {
+#rocket-img-container canvas {
     position: absolute;
     top: 0;
     left: 0;
 
     width: 40vw;
     aspect-ratio: 1/1;
+
+    z-index: -1;
 }
 
 
 /* kind of patchy... but it scales for mobile */
-@media(max-width: 800px) {
+@media(max-width: 1050px) {
     h1 {
         font-size: max(3vmin, 1.2rem);
         text-align: center;
@@ -190,6 +198,11 @@ body {
 
     #rocket-img {
         max-width: 250px;
-        margin-left: 10vmin;
+        margin-left: 5vmin;
+    }
+
+    canvas {
+        max-width: 250px;
+        margin-left: 5vmin;
     }
 }

@@ -16,6 +16,7 @@
         </div>
         <img src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
     </div>
+    <a id="login" class="nav-link text-light opacity-75" href="{% url 'login' %}">LOG IN</a>
 
     <div id="brand-body">
         {# brand statement #}
@@ -27,21 +28,25 @@
             </div>
             <div id="brand-actions">
                 <a href="{% url 'games_index' %}" class="btn btn-browse">BROWSE</a>
-                <a href="{% url 'games_index' %}" class="btn btn-signin">SIGN IN</a>
+                <a href="{% url 'signup' %}" class="btn btn-signin">SIGN UP</a>
             </div>
         </div>
 
 
         {# rocket image #}
-        <div id="rocket-img-container" class="col col-5 me-5 d-flex flex-column justify-content-center">
-            <img id="rocket-img" src="{% static 'images/rocket-branding.png' %}" alt="a large rocketship with toys"/>
-            <canvas id="rocket-canvas"></canvas>
+        <div class="col col-5 d-flex justify-content-center">
+            <div id="rocket-img-container">
+                <img id="rocket-img" src="{% static 'images/rocket-branding.png' %}" alt="a toy rocketship"/>
+                <canvas width="1000" height="1000" id="rocket-canvas"></canvas>
+            </div>
+
+
         </div>
     </div>
 
 
 
-
+    <script src="{% static 'js/homeSparkles.js' %}"></script>
 </body>
 </html>
 
