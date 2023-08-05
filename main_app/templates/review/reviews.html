@@ -53,23 +53,26 @@
                 </form>
             </div>
         </div>
+        {% include 'review/include/edit-modal.html' %}
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.edit-review-btn').click(function() {
+                    let reviewId = $(this).data('review-id');
+                    $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
+                    $('#delete-review-form').attr('action', '{% url "delete_review" 0 %}'.replace('0', reviewId));
+                    let reviewContent = $(this).data('review-content');
+                    let reviewRating = $(this).data('review-rating');
+                    $('#edit-text').val(reviewContent);
+                    $('#edit-rating').val(reviewRating);
+                    $('#edit-modal').modal('show');
+                });
+            });
+        </script>
     {% endif %}
 
-    {% include 'review/include/edit-modal.html' %}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.edit-review-btn').click(function() {
-                let reviewId = $(this).data('review-id');
-                $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
-                $('#delete-review-form').attr('action', '{% url "delete_review" 0 %}'.replace('0', reviewId));
-                let reviewContent = $(this).data('review-content');
-                let reviewRating = $(this).data('review-rating');
-                $('#edit-text').val(reviewContent);
-                $('#edit-rating').val(reviewRating);
-                $('#edit-modal').modal('show');
-            });
-        });
-    </script>
+
+
 </body>
