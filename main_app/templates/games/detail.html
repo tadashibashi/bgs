@@ -77,7 +77,6 @@
                 </p>
 
                 <h5>Description:</h5>
-                {# description #}
                 <p style="white-space:pre-wrap;overflow-x:auto;width:100%;">{{ game.description }}</p>
 
             </div>
@@ -85,12 +84,11 @@
         </article>
 
     <h2 class="mt-4">Reviews</h2>
-
         {% include "review/reviews.html" %}
     </div>
 
     {% if game.add_fullscreen_btn %}
-    <script src="{% static 'js/fullscreenToggle.js' %}"></script>
+        <script src="{% static 'js/fullscreenToggle.js' %}"></script>
     {% endif %}
 
 {% endblock %}
