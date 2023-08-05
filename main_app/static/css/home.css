@@ -49,6 +49,12 @@ body {
     right: 0;
     margin-right: 4vmin;
     margin-top: 4vmin;
+    opacity: .75;
+    transition: opacity .15s linear;
+}
+
+#login:hover {
+    opacity: 1;
 }
 
 /* ===== bottom section ===== */
@@ -159,9 +165,9 @@ body {
 
 
 /* kind of patchy... but it scales for mobile */
-@media(max-width: 1050px) {
+@media(max-width: 900px) {
     h1 {
-        font-size: max(3vmin, 1.2rem);
+        font-size: max(3vh, .8rem);
         text-align: center;
         margin-bottom: max(2.6vmin, 1rem);
     }

@@ -16,7 +16,7 @@
         </div>
         <img src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
     </div>
-    <a id="login" class="nav-link text-light opacity-75" href="{% url 'login' %}">LOG IN</a>
+    <a id="login" class="nav-link text-light" href="{% url 'login' %}">LOG IN</a>
 
     <div id="brand-body">
         {# brand statement #}
@@ -44,7 +44,9 @@
         </div>
     </div>
 
-
+    <footer class="position-absolute bottom-0 d-flex justify-content-center">
+        <p class="text-secondary ms-4">© 2023 The Broke Coders</p>
+    </footer>
 
     <script src="{% static 'js/homeSparkles.js' %}"></script>
     <script> // todo: refactor since this also appears in base.html
