@@ -30,13 +30,17 @@ function setClassOnLightDarkMode(elementIds, darkModeClass, lightModeClass) {
         // set the class based on the current theme
         if (theme === "dark") {    // on dark mode
             els.forEach(el => {
-                el.classList.add(darkModeClass);
-                el.classList.remove(lightModeClass);
+                if (darkModeClass)
+                    el.classList.add(darkModeClass);
+                if (lightModeClass)
+                    el.classList.remove(lightModeClass);
             });
         } else {                   // on light mode
             els.forEach(el => {
-                el.classList.add(lightModeClass);
-                el.classList.remove(darkModeClass);
+                if (lightModeClass)
+                    el.classList.add(lightModeClass);
+                if (darkModeClass)
+                    el.classList.remove(darkModeClass);
             });
         }
     };
