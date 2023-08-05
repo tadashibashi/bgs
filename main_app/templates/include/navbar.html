@@ -8,6 +8,11 @@
 
     #brand-image {
         width: 50px;
+        opacity: .8;
+    }
+
+    #brand-image.invert {
+        filter: invert(100%);
     }
 </style>
 <nav class="navbar navbar-expand-lg pb-1">
@@ -75,3 +80,10 @@
 
 <script src="{% static 'js/getCookies.js' %}"></script>
 <script src="{% static 'js/colorModeToggle.js' %}"></script>
+<script src="{% static 'js/setClassOnLightDarkMode.js' %}"></script>
+
+<script>
+    window.addEventListener("load", evt => {
+        setClassOnLightDarkMode(["brand-image"], "", "invert");
+    });
+</script>
