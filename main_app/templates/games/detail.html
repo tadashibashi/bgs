@@ -82,7 +82,7 @@
 
                 {# display creator #}
                 <p class="text-sm-start mb-4">
-                    <a class="text-decoration-none nav-link" href="{% url 'profile_public' game.user_id %}">
+                    <a class="text-decoration-none nav-link" href="{% url 'profile_public' game.user.username %}">
                         by {{ game.user.username }}
                     </a>
                 </p>
