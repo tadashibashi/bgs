@@ -14,14 +14,14 @@ class Review(models.Model):
 
     # ===== fields ============================================================
 
-    rating = models.IntegerField(default=10)
+    rating = models.IntegerField(default=0, blank=True)
     """
         Rating 1-10, where 1 is terrible, and 10 is great. 0 for no rating. 
         Icebox: use a five star system, using half-star increments
     """
 
 
-    content = models.TextField(default="")
+    content = models.TextField(default="", blank=False)
     """
         The text body of the review
     """
@@ -39,13 +39,13 @@ class Review(models.Model):
     """
 
 
-    created_at = models.DateTimeField(default=timezone.now)
+    created_on = models.DateTimeField(default=timezone.now)
     """
         Review created date
     """
 
 
-    updated_at = models.DateTimeField(default=None, blank=True, null=True)
+    updated_on = models.DateTimeField(default=None, blank=True, null=True)
     """
         Review updated date. If these don't match, put an edit symbol on review.
     """
@@ -55,7 +55,9 @@ class Review(models.Model):
 
 
     def save(self):
-        self.updated_at = timezone.now()
+        # auto-set updated_at
+        self.updated_on = timezone.now()
+
 
         return super().save()
 
