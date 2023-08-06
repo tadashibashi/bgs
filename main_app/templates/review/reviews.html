@@ -6,33 +6,70 @@
 {# review writing/editing available only to registered users #}
 {% if user.is_authenticated %}
     {% if can_review %}
-        <div id="write-review" class="card bg-transparent mt-4">
-            <div class="card-header">
-                <h6>Write Review</h6>
-            </div>
-            <div class="card-body">
-                <form method="post" action="{% url 'add_review' game.id %}">
-                    {% csrf_token %}
-                    <textarea class="form-control mb-3" name="content"></textarea>
-                    <label for="rating-input">
-                        Rating
-                    </label>
-                    <select id="rating-input" class="ms-2" name="rating">
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-                    </select>
-                    <div class="float-end">
-                        <button class="btn btn-secondary" type="submit">Submit</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
+        <button id="write-review-btn" class="btn btn-outline-primary mt-4">Write Review</button>
+{#        <div id="write-review" class="card bg-transparent mt-4">#}
+{#            <div class="card-header">#}
+{#                <h6>Write Review</h6>#}
+{#            </div>#}
+{#            <div class="card-body">#}
+{#                <form method="post" action="{% url 'add_review' game.id %}">#}
+{#                    {% csrf_token %}#}
+{#                    <textarea class="form-control mb-3" name="content"></textarea>#}
+{#                    <label for="rating-input">#}
+{#                        Rating#}
+{#                    </label>#}
+{#                    <select id="rating-input" class="ms-2" name="rating">#}
+{#                        <option value="5">5</option>#}
+{#                        <option value="4">4</option>#}
+{#                        <option value="3">3</option>#}
+{#                        <option value="2">2</option>#}
+{#                        <option value="1">1</option>#}
+{#                    </select>#}
+{#                    <div class="float-end">#}
+{#                        <button class="btn btn-secondary" type="submit">Submit</button>#}
+{#                    </div>#}
+{##}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
     {% endif %}
     {% include 'review/include/edit-modal.html' %}
+
+    {% if can_review %}
+    <script>
+        window.addEventListener("load", () => {
+            const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
+            if (!editModal) {
+                console.error("Failed to create edit modal");
+                return;
+            }
+
+            const writeReviewEl = document.getElementById("write-review-btn");
+            if (!writeReviewEl) {
+                console.error("Failed to find write review button");
+                return;
+            }
+
+            writeReviewEl.addEventListener("click", () => {
+                const editForm = document.getElementById("edit-form");
+                if (!editForm) {
+                    console.error("Failed to find review edit form");
+                    return;
+                }
+
+                const editTitleEl = document.getElementById("edit-title");
+                if (!editTitleEl) {
+                    console.error("Failed to find edit title element");
+                    return;
+                }
+
+                editTitleEl.innerText = "Write Review";
+                editForm.setAttribute("action", "{% url 'add_review' game.id %}");
+                editModal.show();
+            });
+        });
+    </script>
+    {% endif %}
 
     <script>
         window.addEventListener("load", () => {
@@ -87,6 +124,8 @@
                         return;
                     }
 
+                    const editTitleEl = document.getElementById("edit-title");
+
                     const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
 
 
@@ -103,6 +142,7 @@
 
                     editTextEl.value = reviewContent;
                     editRatingEl.value = reviewRating;
+                    editTitleEl.innerText = "Edit Review";
 
                     editModal.show();
                 });
@@ -140,6 +180,8 @@
             <p class="review-content">{{ review.content }}</p>
 
         </div>
+    {% empty %}
+        <p class="mt-3 ms-2">No reviews...</p>
     {% endfor %}
 </div>
 
