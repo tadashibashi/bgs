@@ -157,7 +157,18 @@
     {% for review in game.review_set.all %}
         <div id="review-{{ review.id }}" class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mt-4 mb-4 shadow-sm border-1 border-secondary-subtle">
             {# Rating #}
-            <span class="text-secondary position-absolute end-0 me-3 text-end">Rating: <span class="review-rating">{{ review.rating }}</span>/5</span>
+            <span class="text-secondary position-absolute end-0 me-3 text-end">
+                {% if review.rating == 0 %}
+                    no rating
+                {% else %}
+                    {% with ''|center:review.rating as range %}
+                        {% for i in range %}
+                            ☆
+                        {% endfor %}
+                    {% endwith %}
+                {% endif %}
+                <span class="review-rating" hidden>{{ review.rating }}</span>
+            </span>
 
             {# Edit button #}
             {% if user.is_authenticated and user == review.user %}

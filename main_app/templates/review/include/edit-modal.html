@@ -17,7 +17,14 @@
                     <label for="edit-text" class="form-label">Content:</label>
                     <textarea id="edit-text" class="form-control mb-4" name="content" rows="10"></textarea>
                     <label for="edit-rating" class="form-label">Rating: </label>
-                    <input id="edit-rating" class="form-control" type="number" min="1" max="5" name="rating"/>
+                    <select id="edit-rating" class="form-control" type="number" name="rating">
+                        <option value="5">☆☆☆☆☆</option>
+                        <option value="4">☆☆☆☆</option>
+                        <option value="3">☆☆☆</option>
+                        <option value="2">☆☆</option>
+                        <option value="1">☆</option>
+                        <option value="0">No Rating</option>
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-outline-danger position-absolute start-0 bottom-0 mb-3 ms-3" id="delete-review-form-submit-delegate" type="button">Delete</button>
