@@ -33,8 +33,8 @@ DEBUG = "True" if not os.environ.get("DEBUG") else os.environ.get("DEBUG") == "T
 DEPLOY = True if os.environ.get("DEPLOY") == "True" else False
 
 # Force production mode when deployed
-if DEPLOY:
-    DEBUG = False
+# if DEPLOY:
+#     DEBUG = False
 
 ALLOWED_HOSTS = []
 
