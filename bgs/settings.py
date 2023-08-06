@@ -29,9 +29,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "True" if not os.environ.get("DEBUG") else os.environ.get("DEBUG") == "True"
 DEPLOY = True if os.environ.get("DEPLOY") == "True" else False
+
+# Force production mode when deployed
+if DEPLOY:
+    DEBUG = False
+
 ALLOWED_HOSTS = []
 
 
