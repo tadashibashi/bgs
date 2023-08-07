@@ -82,8 +82,10 @@
 
             for (const btn of btns) {
                 btn.addEventListener("click", () => {
-                    const reviewId = btn.dataset["review-id"];
+                    const reviewId = btn.dataset["reviewid"];
+                    console.dir(btn.dataset);
                     const reviewElId = "review-" + reviewId;
+
 
                     // Find all necessary elements to do work
 
@@ -174,7 +176,7 @@
             {# Edit button #}
             {% if user.is_authenticated and user == review.user %}
             <div class="position-absolute end-0 bottom-0 me-2 mb-2">
-                <button type="button" class="btn text-secondary edit-review-btn" style="width:60px;padding:0;" data-review-id="{{ review.id }}">
+                <button type="button" class="btn text-secondary edit-review-btn" style="width:60px;padding:0;" data-reviewid="{{ review.id }}">
                     <i class="bi bi-pencil-fill"></i> Edit
                 </button>
             </div>
