@@ -4,22 +4,24 @@
     <section class="container">
 
         {# title #}
-        <h1 class="text-center mb-5">Games</h1>
+        <h1 class="text-center mb-5"><a class="nav-link" href="{% url 'games_index' %}">Games</a></h1>
 
         {# display search bar. TODO: connect to search API #}
-        <form class="mb-5">
+        <form id="search-form" action="{% url 'games_index' %}" method="GET" class="mb-5">
             <div class="input-group w-75 m-auto mt-4 mb-4">
                 {# search icon #}
                 <label for="search-input" class="input-group-text" id="basic-addon1">
                         <i class="bi bi-search"></i>
                 </label>
                 {# text input #}
-                <input class="form-control w-75" id="search-input" type="text" placeholder="Search"/>
+                <input class="form-control w-75" id="search-input" type="text" name="q" placeholder="Search" value="{{ request.GET.q }}"/>
 
                 {# hidden submit button #}
-                <input type="submit" class="btn btn-light input-group-text" value="Go" hidden="hidden"/>
+                <input id="search-submit-btn" type="submit" class="btn btn-light input-group-text" value="Go" hidden="hidden"/>
             </div>
         </form>
+
+
 
         {# display games #}
         <div class="d-flex flex-wrap flex-row mb-5">
@@ -30,11 +32,14 @@
                 </article>
 
             {% empty %}
-                <p>No games to show...</p>
+                {% if request.GET.q %}
+                    <p>Sorry, there were no games found for your search...</p>
+                {% else %}
+                    <p>No games to show...</p>
+                {% endif %}
             {% endfor %}
 
         </div>
 
     </section>
-
 {% endblock %}
