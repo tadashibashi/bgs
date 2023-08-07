@@ -155,7 +155,7 @@
 {# posted reviews for game #}
 <div class="mb-5">
     {% for review in game.review_set.all %}
-        <div id="review-{{ review.id }}" class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mt-4 mb-4 shadow-sm border-1 border-secondary-subtle">
+        <div id="review-{{ review.id }}" class="card bg-secondary-subtle pt-3 ps-4 pe-4 pb-2 mt-4 mb-4 shadow-sm border-1 border-secondary-subtle">
             {# Rating #}
             <span class="text-secondary position-absolute end-0 me-3 text-end">
                 {% if review.rating == 0 %}
