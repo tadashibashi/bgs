@@ -2,21 +2,20 @@
  * Based on color-mode, set a list of HTMLElements with `ids` to
  * a class in light mode or dark mode.
  *
- * @param elementIds {string[]} list of target element id's
+ * @param elementQueries {string[]} list of target element querySelector values
  * @param darkModeClass {string} class name to set when dark mode
  * @param lightModeClass {string} class name to set when light mode
  */
-function setClassOnLightDarkMode(elementIds, darkModeClass, lightModeClass) {
+function setClassOnLightDarkMode(elementQueries, darkModeClass, lightModeClass) {
     const modeBtnEl = document.getElementById('color-mode-btn');
     if (!modeBtnEl) return; // no mode button available
 
 
     // get elements from ids
     const els = [];
-    elementIds.forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn)
-            els.push(btn);
+    elementQueries.forEach(query => {
+        const subEls = document.querySelectorAll(query);
+        subEls.forEach(el => els.push(el));
     });
 
 

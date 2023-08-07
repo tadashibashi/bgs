@@ -6,12 +6,12 @@
         margin: 0;
     }
 
-    #brand-image {
+    .branding-image {
         width: 50px;
         opacity: .8;
     }
 
-    #brand-image.invert {
+    .branding-image.invert {
         filter: invert(100%);
     }
 </style>
@@ -30,7 +30,7 @@
                 </div>
 
             </div>
-            <img id="brand-image" class=" ms-2 me-2 m-0 p-0" src="{% static 'images/bgs-logo-notext.png' %}" alt="small rocket logo">
+            <img class="branding-image ms-2 me-2 m-0 p-0" src="{% static 'images/bgs-logo-notext.png' %}" alt="small rocket logo">
 
         </a>
 
@@ -84,7 +84,7 @@
 
 <script>
     window.addEventListener("load", evt => {
-        setClassOnLightDarkMode(["brand-image"], "", "invert");
+        setClassOnLightDarkMode([".branding-image"], "", "invert");
 
         document.querySelectorAll("a.nav-link").forEach(item => {
              if (item.getAttribute("href") === "{{ request.path }}") {
