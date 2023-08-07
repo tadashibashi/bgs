@@ -155,7 +155,7 @@
 {# posted reviews for game #}
 <div class="mb-5">
     {% for review in game.review_set.all %}
-        <div id="review-{{ review.id }}" class="card bg-secondary-subtle pt-3 ps-4 pe-4 pb-2 mt-4 mb-4 shadow-sm border-1 border-secondary-subtle">
+        <div id="review-{{ review.id }}" class="card bg-transparent pt-3 ps-4 pe-4 pb-2 mt-4 mb-4 shadow-lg border-0">
             {# Rating #}
             <span class="text-secondary position-absolute end-0 me-3 text-end">
                 {% if review.rating == 0 %}
@@ -182,13 +182,13 @@
             <div class="review-headeri mb-0">
                 <div class="">
                     {% comment %} <img src="{{user.profile.avatar.url }}" alt="User Avatar"> {% endcomment %}
-                    <p class="mb-0">by <a class="text-decoration-none d-inline nav-link">{{ review.user.username }}</a></p>
+                    <p class="mb-0 text-secondary-emphasis">by <a class="d-inline text-secondary-emphasis author" href="{% url 'profile_public' review.user.username %}">{{ review.user.username }}</a></p>
                     <p class="text-secondary text-tiny">{{ review.created_at }}</p>
                 </div>
 
             </div>
 
-            <p class="review-content">{{ review.content }}</p>
+            <p class="review-content text-secondary">{{ review.content }}</p>
 
         </div>
     {% empty %}
