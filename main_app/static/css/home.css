@@ -93,7 +93,8 @@ body {
 /* button container */
 #brand-actions {
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    padding-left: 4.5vmin;
     margin-top: 5vmin;
     margin-right: 0;
     column-gap: 4vmin;
