@@ -22,6 +22,13 @@
         height: 24px;
     }
 
+    .tag {
+        text-decoration: none;
+    }
+
+    .tag:hover {
+        text-decoration: underline;
+    }
 </style>
 
 <article class="card">
@@ -56,7 +63,7 @@
                 <span class="text-tiny">#</span>
                 {% for tag in game.tags.all %}
                     <span class="rounded m-0 text-tiny">
-                        {{ tag.text }}
+                        <a class="tag text-secondary-emphasis" href="{% url 'games_index' %}?q={{ tag.text }}">{{ tag.text }}</a>
                     </span>
                 {% endfor %}
             {% endif %}
