@@ -6,10 +6,10 @@
 {# review writing/editing available only to registered users #}
 {% if user.is_authenticated %}
     {% if can_review %}
-        <button id="write-review-btn" class="btn btn-outline-primary mt-4">Write Review</button>
+        <button id="write-review-btn" class="btn btn-outline-primary mt-4">Create Comment</button>
 {#        <div id="write-review" class="card bg-transparent mt-4">#}
 {#            <div class="card-header">#}
-{#                <h6>Write Review</h6>#}
+{#                <h6>Create Comment</h6>#}
 {#            </div>#}
 {#            <div class="card-body">#}
 {#                <form method="post" action="{% url 'add_review' game.id %}">#}
@@ -46,7 +46,7 @@
 
             const writeReviewEl = document.getElementById("write-review-btn");
             if (!writeReviewEl) {
-                console.error("Failed to find write review button");
+                console.error("Failed to find write comment button");
                 return;
             }
 
@@ -63,30 +63,92 @@
                     return;
                 }
 
-                editTitleEl.innerText = "Write Review";
+                editTitleEl.innerText = "Write Comment";
                 editForm.setAttribute("action", "{% url 'add_review' game.id %}");
                 editModal.show();
             });
         });
     </script>
-</body>
+    {% endif %}
 
-{% include 'review/include/edit-modal.html' %}
+    <script>
+        window.addEventListener("load", () => {
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.edit-review-btn').click(function() {
-            let reviewId = $(this).data('review-id');
-            $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
-            let reviewContent = $(this).data('review-content');
-            let reviewRating = $(this).data('review-rating');
-            $('#edit-text').val(reviewContent);
-            $('#edit-rating').val(reviewRating);
-            $('#edit-modal').modal('show');
+            if (!bootstrap) {
+                console.error("Bootstrap 5.3 was not found: plase load it for review edit modal to function.");
+                return;
+            }
+            const btns = document.getElementsByClassName("edit-review-btn");
+
+            for (const btn of btns) {
+                btn.addEventListener("click", () => {
+                    const reviewId = btn.dataset["review-id"];
+                    const reviewElId = "review-" + reviewId;
+
+                    // Find all necessary elements to do work
+
+                    const editForm = document.getElementById("edit-form");
+                    if (!editForm) {
+                        console.error("Failed to find review edit form");
+                        return;
+                    }
+
+                    const deleteReviewForm = document.getElementById("delete-review-form");
+
+                    if (!deleteReviewForm) {
+                        console.error("Failed to find delete review form");
+                        return;
+                    }
+
+                    // Get content and rating from corresponding review
+                    const reviewContentEl = document.querySelector(`#${reviewElId} .review-content`);
+                    if (!reviewContentEl) {
+                        console.error("Failed to find review content element");
+                        return;
+                    }
+
+                    const reviewRatingEl = document.querySelector(`#${reviewElId} .review-rating`);
+                    if (!reviewRatingEl) {
+                        console.error("Failed to find review rating element");
+                        return;
+                    }
+
+                    // get edit form inputs
+                    const editTextEl = document.getElementById("edit-text");
+                    if (!editTextEl) {
+                        console.error("Failed to find edit modal text element");
+                        return;
+                    }
+
+                    const editRatingEl = document.getElementById("edit-rating");
+                    if (!editRatingEl) {
+                        console.error("Failed to find edit modal rating element");
+                        return;
+                    }
+
+                    const editTitleEl = document.getElementById("edit-title");
+                    const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
+
+
+                    // found everything, now commit changes
+
+                    const reviewContent = reviewContentEl.innerText;
+                    const reviewRating = reviewRatingEl.innerText;
+
+                    // set form actions to point to review id info
+                    deleteReviewForm.setAttribute("action", '{% url "delete_review" 0 %}'.replace('0', reviewId));
+                    editForm.setAttribute("action", '{% url "edit_review" 0 %}'.replace('0', reviewId));
+
+                    editTextEl.value = reviewContent;
+                    editRatingEl.value = reviewRating;
+                    editTitleEl.innerText = "Edit Comment";
+
+                    editModal.show();
+                });
+            }
         });
+    </script>
 
-</script>
 {% endif %}
 
 
@@ -97,8 +159,9 @@
             {# Rating #}
             <span class="text-secondary position-absolute end-0 me-3 text-end">
                 {% if review.rating == 0 %}
-                    no rating
+
                 {% else %}
+                    Rating:
                     {% with ''|center:review.rating as range %}
                         {% for i in range %}
                             ★
@@ -120,7 +183,13 @@
             <div class="review-headeri mb-0">
                 <div class="">
                     {% comment %} <img src="{{user.profile.avatar.url }}" alt="User Avatar"> {% endcomment %}
-                    <p class="mb-0 text-secondary-emphasis">by <a class="d-inline text-secondary-emphasis author" href="{% url 'profile_public' review.user.username %}">{{ review.user.username }}</a></p>
+                    <p class="mb-0 text-secondary-emphasis">
+                        by <a class="d-inline text-secondary-emphasis author"
+                              href="{% url 'profile_public' review.user.username %}">
+                            {{ review.user.username }}
+                        </a>
+                    </p>
+
                     <p class="text-secondary text-tiny">{{ review.created_at }}</p>
                 </div>
 
@@ -130,6 +199,6 @@
 
         </div>
     {% empty %}
-        <p class="mt-3 ms-2">No reviews...</p>
+        <p class="mt-3 ms-2">No comments yet...</p>
     {% endfor %}
 </div>
