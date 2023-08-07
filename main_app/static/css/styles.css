@@ -95,6 +95,10 @@ body {
     font-size: 32px;
 }
 
-a.nav-link.active {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.62);
+[data-bs-theme="light"] a.nav-link.active {
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.29);
+}
+
+[data-bs-theme="dark"] a.nav-link.active {
+    text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.55);
 }

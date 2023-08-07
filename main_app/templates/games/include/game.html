@@ -14,7 +14,7 @@
        transition: transform .75s ease-in-out;
     }
 
-    .game-image:hover {
+    .card:hover .game-image {
        transform: scale(1.1);
     }
 
@@ -22,9 +22,20 @@
         height: 24px;
     }
 
+    .tag, .author {
+        text-decoration: none;
+    }
+
+    .tag:hover, .author:hover {
+        text-decoration: underline;
+    }
+
+    .empty-screenshot {
+        font-size: 12vmin;
+    }
 </style>
 
-<article class="card">
+<article class="card shadow-sm hover-shadow">
 
     <div class="card-body p-0">
         <div class="game-image-container">
@@ -32,6 +43,14 @@
                 <a href="{% url 'games_detail' game.id %}" class="text-secondary text-decoration-none">
                     <img class="game-image" src="{{ game.screenshot_set.first.file.url }}" alt="game screenshot"/>
                 </a>
+            {% else %}
+                <a href="{% url 'games_detail' game.id %}">
+                    <p class="game-image empty-screenshot w-100 h-100 d-flex justify-content-center align-items-center">
+                        <i class="bi bi-controller text-secondary mt-4"></i>
+                    </p>
+                </a>
+
+
             {% endif %}
         </div>
     </div>
@@ -39,12 +58,12 @@
     <div class="card-footer">
         {# game title #}
         <a href="{% url 'games_detail' game.id %}" class="text-decoration-none" >
-            <h6 class="text-primary m-0">{{ game.title }}</h6>
+            <h6 class="nav-link m-0">{{ game.title }}</h6>
         </a>
 
         {# by username #}
         <p class="text-sm-start text-secondary overflow-hidden fixed-height-box m-0 text-tiny">
-            by <a class="text-decoration-none text-secondary"
+            by <a class="text-secondary author"
                   href="{% url 'profile_public' game.user.username %}" style="font-family: unset;">
                     {{ game.user.username }}
                 </a>
@@ -56,7 +75,7 @@
                 <span class="text-tiny">#</span>
                 {% for tag in game.tags.all %}
                     <span class="rounded m-0 text-tiny">
-                        {{ tag.text }}
+                        <a class="tag text-secondary-emphasis" href="{% url 'games_index' %}?q={{ tag.text }}">{{ tag.text }}</a>
                     </span>
                 {% endfor %}
             {% endif %}

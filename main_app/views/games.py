@@ -13,6 +13,7 @@ def index(request: HttpRequest):
     """
         Displays the games listing page
         Routing: "games/"
+        Query param: q=search+terms+here
         Name: "games_index"
     """
     q = request.GET.get("q", None)

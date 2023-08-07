@@ -63,6 +63,14 @@
             background-color: transparent !important;
             border: 0 !important;
         }
+
+        .tag, .author {
+            text-decoration: none;
+        }
+
+        .tag-text:hover, .author:hover {
+            text-decoration: underline;
+        }
     </style>
 
 
@@ -71,11 +79,11 @@
 
         <article class="card bg-transparent shadow-lg border-0 mb-5">
 
-            {% if game.screenshot_set.count %}
-                <div class="screenshot-container card-header p-0 overflow-hidden">
-                        <img src="{{ game.screenshot_set.first.file.url }}" class="object-fit-cover w-100 h-100" alt="screenshot of game">
-                </div>
-            {% endif %}
+{#            {% if game.screenshot_set.count %}#}
+{#                <div class="screenshot-container card-header p-0 overflow-hidden">#}
+{#                        <img src="{{ game.screenshot_set.first.file.url }}" class="object-fit-cover w-100 h-100" alt="screenshot of game">#}
+{#                </div> #}
+{#            {% endif %} #}
 
 
             {# display game window #}
@@ -88,36 +96,55 @@
 
 
             <div class="card-footer p-3">
+
                 {# views #}
                 <span class="text-secondary position-absolute end-0 me-3">{{ game.times_viewed }} views</span>
 
+
                 {# hashtags #}
                 <p class="text-tiny mt-1">
+
                     {% for tag in game.tags.all %}
-                        <span class="rounded bg-secondary-subtle p-1 me-1">
-                        <span class="hash">#</span>{{ tag.text }}
-                    </span>
+
+                        {# if any hash tags #}
+                        <span class="rounded bg-secondary-subtle p-1 me-1 shadow-sm">
+                            <a class="tag text-secondary-emphasis"
+                               href="{% url 'games_index' %}?q={{ tag.text }}">
+                                    <span class="hash">#</span>
+                                    <span class="tag-text">{{ tag.text }}</span>
+                            </a>
+                        </span>
+
                     {% empty %}
+
+                        {# no hashtags #}
                         <span class="p-1">Tags: none</span>
+
                     {% endfor %}
                 </p>
 
+
                 {# display title #}
-                <h3 class="card-title"><a class="nav-link" href="{% url 'games_detail' game.id %}">{{ game.title }}</a>
+                <h3 class="card-title d-flex justify-content-between">
+                    <a class="nav-link" href="{% url 'games_detail' game.id %}">{{ game.title }}</a>
                     {% if user.id == game.user_id or user.is_superuser %}
-                        <a href="{% url 'games_update' game.id %}" class="button btn btn-outline-secondary ms-2 float-end">EDIT <i class="ms-1 bi bi-pencil"></i> </a>
+                        <a href="{% url 'games_update' game.id %}" class="button btn btn-outline-secondary">EDIT <i class="ms-1 bi bi-pencil"></i> </a>
                     {% endif %}
                 </h3>
 
+
                 {# display creator #}
                 <p class="ms-1 mb-3">
-                    <a class="text-decoration-none text-secondary-emphasis" href="{% url 'profile_public' game.user.username %}">
-                        <strong>by <i>{{ game.user.username }}</i></strong>
-                    </a>
+                    <strong>by
+                        <a class="text-secondary-emphasis text-decoration-none" href="{% url 'profile_public' game.user.username %}">
+                            <i class="author">{{ game.user.username }}</i>
+                        </a>
+                    </strong>
                 </p>
 
+
                 {# description #}
-                <p class="ps-2 pe-2" style="line-height:18px; white-space:pre-wrap;overflow-x:auto;width:100%;">{{ game.description }}</p>
+                <p class="card ms-2 me-2 p-4 bg-transparent shadow-lg border-0" style="line-height:18px; white-space:pre-wrap;overflow-x:auto;width:100%;">{{ game.description }}</p>
             </div>
 
         </article>
