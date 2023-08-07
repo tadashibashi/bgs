@@ -63,6 +63,14 @@
             background-color: transparent !important;
             border: 0 !important;
         }
+
+        .tag {
+            text-decoration: none;
+        }
+
+        .tag-text:hover {
+            text-decoration: underline;
+        }
     </style>
 
 
@@ -95,7 +103,7 @@
                 <p class="text-tiny mt-1">
                     {% for tag in game.tags.all %}
                     <span class="rounded bg-secondary-subtle p-1 me-1">
-                           <a class="text-decoration-none text-secondary-emphasis" href="{% url 'games_index' %}?q={{ tag.text }}"><span class="hash">#</span>{{ tag.text }}</a>
+                        <a class="tag text-secondary-emphasis" href="{% url 'games_index' %}?q={{ tag.text }}"><span class="hash">#</span><span class="tag-text">{{ tag.text }}</span></a>
                     </span>
                     {% empty %}
                         <span class="p-1">Tags: none</span>
