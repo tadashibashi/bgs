@@ -64,7 +64,6 @@
                 setIcon(mediaQuery.matches);
 
                 function setIcon(isDark) {
-                    console.log("setting", isDark);
                     if (isDark) {
                         faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff-light.png' %}");
                     } else {
