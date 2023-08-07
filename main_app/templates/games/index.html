@@ -45,7 +45,7 @@
         }
 
         .featured-img {
-            aspect-ratio: 3/1;
+            aspect-ratio: 2/1;
         }
 
         .carousel-caption {
@@ -60,8 +60,13 @@
         .tag:hover, .author:hover {
             text-decoration: underline;
         }
+
+        .main-container {
+            max-width: 1200px;
+            width: 75%;
+        }
     </style>
-    <section class="container">
+    <section class="main-container container-fluid">
 
         {# title #}
         <h1 class="text-center mb-5"><a class="nav-link" href="{% url 'games_index' %}">Games</a></h1>
@@ -110,7 +115,7 @@
                 <input class="form-control w-75" id="search-input" type="text" name="q" placeholder="Search" value="{{ request.GET.q }}"/>
 
                 {# hidden submit button #}
-                <input id="search-submit-btn" type="submit" class="btn btn-light input-group-text border-0" value="Go"/>
+                <input id="search-submit-btn" type="submit" class="btn btn-light input-group-text border-0" value="Go" hidden/>
             </div>
         </form>
 
@@ -120,7 +125,7 @@
         <div class="d-flex flex-wrap flex-row mb-5 mt-4">
 
             {% for game in games %}
-                <article class="col-lg-3" style="padding:12px;">
+                <article class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" style="padding:12px;">
                     {% include "games/include/game.html" %}
                 </article>
 
