@@ -1,17 +1,80 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Brokeman's Game Station</title>
-    <link  />
+    {% include 'include/meta-title.html' %}
+    {% include 'include/stylesheets.html' %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 </head>
+
 <body>
-    <section class="container flex-container align-items-center justify-content-center">
-        <h1 class="text-center">Brokeman's GameStation</h1>
-    </section>
+    {# small rocket image and site name #}
+    <div id="branding-logo-small">
+        <div>
+            <h4 class="mb-0">Brokeman's</h4>
+            <h4 class="mt-0">Game Station</h4>
+        </div>
+        <img src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
+    </div>
+    <a id="login" class="nav-link text-light" href="{% url 'login' %}">LOG IN</a>
+
+    <div id="brand-body">
+        {# brand statement #}
+        <div id="brand-statement-and-actions" class="col col-7 container d-flex flex-column justify-content-center row-gap-2">
+            <div id="brand-statement" class="">
+                <h1>Launching HTML5</h1>
+                <h1>Games that are</h1>
+                <h1>Out of this world</h1>
+            </div>
+            <div id="brand-actions">
+                <a href="{% url 'games_index' %}" class="btn btn-browse">BROWSE</a>
+                <a href="{% url 'signup' %}" class="btn btn-signin">SIGN UP</a>
+            </div>
+        </div>
+
+
+        {# rocket image #}
+        <div class="col col-5 d-flex justify-content-center">
+            <div id="rocket-img-container">
+                <img id="rocket-img" src="{% static 'images/rocket-branding.png' %}" alt="a toy rocketship"/>
+                <canvas width="1000" height="1000" id="rocket-canvas"></canvas>
+            </div>
+
+
+        </div>
+    </div>
+
+    <footer class="position-absolute bottom-0 d-flex justify-content-center">
+        <p class="text-secondary ms-4">© 2023 The Broke Coders</p>
+    </footer>
+
+    <script src="{% static 'js/homeSparkles.js' %}"></script>
+    <script> // todo: refactor since this also appears in base.html
+            // set favicon for light and dark mode browsers
+            if (window.matchMedia) {
+
+            window.addEventListener("load", evt => {
+                const faviconEl = document.querySelector("link[rel='icon']");
+
+                const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+                mediaQuery.addEventListener("change", evt => {
+                    setIcon(evt.matches);
+                });
+
+                setIcon(mediaQuery.matches);
+
+                function setIcon(isDark) {
+                    console.log("setting", isDark);
+                    if (isDark) {
+                        faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff-light.png' %}");
+                    } else {
+                        faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff.png' %}");
+                    }
+                }
+            });
+
+        }
+    </script>
 </body>
 </html>
 

@@ -1,22 +1,38 @@
 {% load static %}
+<style>
+    #color-mode-btn.btn {
+        padding: 0;
+        text-align: center;
+        margin: 0;
+    }
+
+    #brand-image {
+        width: 50px;
+        opacity: .8;
+    }
+
+    #brand-image.invert {
+        filter: invert(100%);
+    }
+</style>
 <nav class="navbar navbar-expand-lg pb-1">
     {# navbar container #}
     <div class="container-fluid">
 
         {# Branding #}
-        <div class="d-flex">
+        <a class="d-flex nav-link" href="/">
 
             <div class="pt-1">
 
-                <a class="d-flex flex-column p-0 text-decoration-none nav-link justify-content-center" href="/">
+                <div class="d-flex flex-column p-0 text-decoration-none nav-link justify-content-center">
                     <p class="brand-text m-0">Brokeman's   </p>
                     <p class="brand-text m-0">Game Station</p>
-                </a>
+                </div>
 
             </div>
-            <i class="bi bi-rocket-takeoff navbar-brand text-lg ms-2 me-2 m-0 p-0"></i>
+            <img id="brand-image" class=" ms-2 me-2 m-0 p-0" src="{% static 'images/bgs-logo-notext.png' %}" alt="small rocket logo">
 
-        </div>
+        </a>
 
 
         {# Hamburger button (for dropdown navbar on small displays) #}
@@ -33,7 +49,7 @@
             <ul class="navbar-nav">
                 {# public links #}
                 <li class="nav-item">
-                    <a class="nav-link ms-2" href="{% url 'games_index' %}">Browse</a>
+                    <a class="nav-link" href="{% url 'games_index' %}">Games</a>
                 </li>
             </ul>
 
@@ -41,17 +57,17 @@
             <div class="me-4 navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     {# private links #}
-                    <a class="nav-link me-4" href="{% url 'profile_index' %}">{{ user.username }}</a>
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-link me-4" href="{% url 'profile_public' user.username %}">{{ user.username }}</a>
+                    <a class="nav-link me-4" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     {# public links #}
-                    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    <a class="nav-link me-4" href="{% url 'signup' %}">Sign Up</a>
+                    <a class="nav-link me-4" href="{% url 'login' %}">Login</a>
 
                 {% endif %}
 
                 {# dark/light mode button #}
-                <button id="color-mode-btn" class="btn ms-4 rounded-circle"></button>
+                <button id="color-mode-btn" class="btn mt-1" style="width:32px;height:32px;"></button>
 
             </div>
             {# end right-side links #}
@@ -64,3 +80,16 @@
 
 <script src="{% static 'js/getCookies.js' %}"></script>
 <script src="{% static 'js/colorModeToggle.js' %}"></script>
+<script src="{% static 'js/setClassOnLightDarkMode.js' %}"></script>
+
+<script>
+    window.addEventListener("load", evt => {
+        setClassOnLightDarkMode(["brand-image"], "", "invert");
+
+        document.querySelectorAll("a.nav-link").forEach(item => {
+             if (item.getAttribute("href") === "{{ request.path }}") {
+                 item.classList.add("active");
+             }
+        });
+    });
+</script>

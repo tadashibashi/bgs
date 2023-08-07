@@ -67,7 +67,7 @@ def update(request: HttpRequest) -> HttpResponse:
                 user.password = request.POST["password"]
 
             if request.FILES["avatar"]:
-                avatar = create_file(request.FILES["avatar"], "user/" + user.id + "/profile/avatar" + get_fileext(request.FILES["avatar"]))
+                avatar = create_file(request.FILES["avatar"], "user/" + str(user.id) + "/profile/avatar" + get_fileext(request.FILES["avatar"]))
                 if not avatar:
                     print("view profile/update error: failed to upload avatar")
                 if profile.avatar:

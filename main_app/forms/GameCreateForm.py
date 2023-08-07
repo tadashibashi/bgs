@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import FileField
 
 from ..models import Game
 from .TagsField import TagsField
@@ -17,7 +18,9 @@ class GameCreateForm(forms.ModelForm):
 
     add_fullscreen_btn = CheckboxField(label="Add fullscreen button?")
 
-    is_published = CheckboxField(label="Publish")
+    is_published = CheckboxField(label="Publish", required=False)
+
+    screenshot = FileField(required=False)
 
     class Meta:
         model = Game

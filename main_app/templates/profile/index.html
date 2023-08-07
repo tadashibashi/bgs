@@ -3,7 +3,7 @@
     <section class="container">
 
         {# User heading #}
-        <h1 class="mt-4 mb-4">{{ target_user.username }}</h1>
+        <h1 class="mt-4 mb-4"><a class="nav-link" href="{% url 'profile_public' target_user.username %}">{{ target_user.username }}</a></h1>
         <p>{{ target_user.bio }}</p>
 
         {# Add game button #}

@@ -25,4 +25,6 @@ urlpatterns: list[partial] = [
     path('reviews/<int:review_id>/delete/', views.reviews.delete_review, name='delete_review'),
     path('games/<int:game_id>/add_screenshot/', views.screenshots.create, name="screenshots_add"),
     path('reviews/<int:review_id>/edit/', views.reviews.edit_review, name='edit_review'),
+
+    path("api/search", views.api.search.search_games, name="search_games"),
 ]

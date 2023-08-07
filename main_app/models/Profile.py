@@ -14,7 +14,7 @@ class Profile(models.Model):
     # ===== fields ============================================================
 
 
-    avatar = models.OneToOneField(File, on_delete=models.DO_NOTHING, null=True, blank=True)
+    avatar = models.OneToOneField(File, on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
     """
         User's profile picture -- displayed in reviews, profile page, etc.
 
@@ -23,7 +23,7 @@ class Profile(models.Model):
     """
 
 
-    bio = models.TextField(default="")
+    bio = models.TextField(default="", blank=True)
     """
         Short bio text that appears next to avatar
     """
@@ -37,13 +37,13 @@ class Profile(models.Model):
     """
 
 
-    display_name = models.CharField(max_length=100, default="")
+    display_name = models.CharField(max_length=100, default="", blank=True)
     """
         User's display name
     """
 
 
-    is_dark_mode = models.BooleanField(default= False)
+    is_dark_mode = models.BooleanField(default=False, blank=True)
     """
         This is the modelfield for the dark mode
         Its default is false

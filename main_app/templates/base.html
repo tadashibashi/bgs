@@ -6,19 +6,10 @@
 <html lang="en" data-guest="{% if user.is_authenticated %}false{% else %}true{% endif %}" data-bs-theme="{% if user.is_authenticated %}{% if user.profile.is_dark_mode %}dark{% else %}light{% endif %}{% elif request.COOKIES.color_mode %}{{ request.COOKIES.color_mode }}{% endif %}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Brokeman's Game Station</title>
-
-    {# Favicon #}
-    <link rel="icon" type="image/x-icon" href="{% static 'images/rocket-takeoff.png' %}" />
+    {% include 'include/meta-title.html' %}
 
     {# Stylesheets #}
-    <link rel="stylesheet" href="{% static 'thirdparty/bootstrap/bootstrap@5.3.1.css' %}" />
-    <link rel="stylesheet" href="{% static 'thirdparty/bootstrap/bootstrap-icons.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    {% include 'include/stylesheets.html' %}
 
 
     {% if css %}
@@ -56,44 +47,33 @@
             <script type="text/javascript" src="{% static file %}" ></script>
         {% endfor %}
     {% endif %}
+
+
     <script>
-  //windowonload makes sure everything is loaded first
-        window.onload = function() {
-            const buttonEl = document.getElementById('color-mode-btn');
-            const signupBtn = document.getElementById('signup');
-            const loginBtn = document.getElementById('login');
-          
-            const handleThemeChange = () => {
-              const theme = document.documentElement.getAttribute('data-bs-theme');
-        //we need to make sure the signup btn exists or else js will crash and will halt the whole thing
-              if (signupBtn) {
-                if (theme === 'dark') {
-                  signupBtn.classList.add('btn-outline-light');
-                  signupBtn.classList.remove('btn-outline-dark');
-                } else {
-                  signupBtn.classList.add('btn-outline-dark');
-                  signupBtn.classList.remove('btn-outline-light');
+        // set favicon for light and dark mode browsers
+        if (window.matchMedia) {
+
+            window.addEventListener("load", evt => {
+                const faviconEl = document.querySelector("link[rel='icon']");
+
+                const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+                mediaQuery.addEventListener("change", evt => {
+                    setIcon(evt.matches);
+                });
+
+                setIcon(mediaQuery.matches);
+
+                function setIcon(isDark) {
+                    console.log("setting", isDark);
+                    if (isDark) {
+                        faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff-light.png' %}");
+                    } else {
+                        faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff.png' %}");
+                    }
                 }
-              }
-        //same as above we need to make sure the login button exists
-              if (loginBtn) {
-                if (theme === 'dark') {
-                  loginBtn.classList.add('btn-outline-light');
-                  loginBtn.classList.remove('btn-outline-dark');
-                } else {
-                  loginBtn.classList.add('btn-outline-dark');
-                  loginBtn.classList.remove('btn-outline-light');
-                }
-              }
-            };
-          
-            handleThemeChange();
-          
-            if(buttonEl) {
-              buttonEl.addEventListener('click', handleThemeChange);
-            }
-          }
-          
+            });
+
+        }
     </script>
 </body>
 </html>

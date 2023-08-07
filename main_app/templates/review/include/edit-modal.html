@@ -6,24 +6,47 @@
             <form action="" method="post" id="edit-form">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title">
+                    <h5 class="modal-title" id="edit-title">
                         Edit Review
                     </h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <label for="edit-text" class="form-label">Content:</label>
                     <textarea id="edit-text" class="form-control mb-4" name="content" rows="10"></textarea>
                     <label for="edit-rating" class="form-label">Rating: </label>
-                    <input id="edit-rating" class="form-control" type="number" min="1" max="5" name="rating"/>
+                    <select id="edit-rating" class="form-control" type="number" name="rating">
+                        <option value="5">★★★★★</option>
+                        <option value="4">★★★★</option>
+                        <option value="3">★★★</option>
+                        <option value="2">★★</option>
+                        <option value="1">★</option>
+                        <option value="0">No Rating</option>
+                    </select>
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-outline-danger position-absolute start-0 bottom-0 mb-3 ms-3" id="delete-review-form-submit-delegate" type="button">Delete</button>
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
+            </form>
+            <form id="delete-review-form" action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" id="delete-review-form-submit" hidden>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    window.addEventListener("load", evt => {
+        const deleteFormSubmitEl = document.getElementById("delete-review-form-submit");
+        const deleteFormSubmitDelegateEl = document.getElementById("delete-review-form-submit-delegate");
+
+        deleteFormSubmitDelegateEl.addEventListener("click", evt => {
+            deleteFormSubmitEl.click();
+        });
+    });
+</script>

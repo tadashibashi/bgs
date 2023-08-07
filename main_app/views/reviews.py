@@ -7,7 +7,7 @@ from ..models import Game, Review
 def add_review(request, game_id):
     if request.method == 'POST':
         content = request.POST.get('content')
-        rating = int(request.POST.get('rating'))
+        rating = int(request.POST.get('rating') or 0)
         game = get_object_or_404(Game, id=game_id)
 
         review = Review(
@@ -24,10 +24,9 @@ def delete_review(request, review_id):
     review = get_object_or_404(Review, id=review_id)
 
     if review.user == request.user:
-        game_id = review.game.id
         review.delete()
 
-    return redirect('games_detail', pk=game_id)
+    return redirect('games_detail', pk=review.game.id)
 
 
 @login_required
@@ -36,7 +35,7 @@ def edit_review(request, review_id):
 
     if request.method == 'POST':
         content = request.POST.get('content')
-        rating = int(request.POST.get('rating'))
+        rating = int(request.POST.get('rating') or 0)
         
         review.content = content
         review.rating = rating

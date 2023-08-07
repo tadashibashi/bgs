@@ -28,20 +28,35 @@
         url("../fonts/CosmicOcto-Heavy.woff") format("woff")
 }
 
+@font-face {
+    font-family: "League Spartan";
+    font-style: normal;
+    font-weight: 800;
+    src: local("League Spartan"), url("../fonts/LeagueSpartan.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "League Spartan";
+    font-style: normal;
+    font-weight: 400;
+    src: local("League Spartan"), url("../fonts/LeagueSpartan.ttf") format("truetype");
+}
+
 /* ===== Styles ============================================================ */
 * {
     box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6, a, label {
+h1, h2, h3, h4, h5, h6, a.nav-link {
     font-family: "Cosmic Octo", sans-serif;
 }
 
 html {
-    --background-light: linear-gradient(#f2eff6, #d5c5ef);
+    --background-light: linear-gradient(#f2eff6, #c5bbe7);
     --background-dark: linear-gradient(#5d5757, #242426);
     margin: 0;
     padding: 0;
+    overflow: auto;
 }
 
 
@@ -58,7 +73,7 @@ html[data-bs-theme='dark'] > body {
 
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: "League Spartan", Arial, sans-serif;
     margin: 0;
     padding: 0;
 
@@ -78,4 +93,8 @@ body {
 
 .text-lg {
     font-size: 32px;
+}
+
+a.nav-link.active {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.62);
 }

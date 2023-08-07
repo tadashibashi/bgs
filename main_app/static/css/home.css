@@ -1,0 +1,214 @@
+/*
+    CSS for main landing page
+    Features: brand logo, statement, imagery, and buttons
+ */
+
+body {
+    background: rgb(147, 80, 255);
+    font-family: "League Spartan", Arial, sans-serif;
+
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+
+
+/* ===== small gray logo ===== */
+
+#branding-logo-small {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin: 4vmin 0 0 4vmin;
+}
+
+/* small rocketship image */
+#branding-logo-small > img {
+    width: max(7vmin, 60px);
+    margin-left: 1vmin;
+
+    opacity: .8;
+}
+
+/* brokeman's gamestation title */
+#branding-logo-small > div {
+    color: #e8e8e8;
+    opacity: .9;
+    font-weight: 400;
+}
+
+/* text elements inside title */
+#branding-logo-small h4 {
+    font-size: max(2vmin, 1.2rem);
+}
+
+#login {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 4vmin;
+    margin-top: 4vmin;
+    opacity: .75;
+    transition: opacity .15s linear;
+}
+
+#login:hover {
+    opacity: 1;
+}
+
+/* ===== bottom section ===== */
+
+/* container holding brand statement, actions, and rocket image */
+#brand-body {
+    display: flex;
+    margin-top: 8vh;
+}
+
+/* container for large yellow text */
+#brand-statement {
+    margin-left: 5vmin;
+    color: rgb(255, 247, 39);
+}
+
+/*
+    Brand statement:
+    "Launching HTML5
+    Games that are
+    Out of this world"
+
+   Each line is an `<h1>`
+*/
+#brand-statement h1 {
+    font-family: "League Spartan", Arial, sans-serif;
+    font-weight: 1000;
+    font-size: max(6vw, 2rem);
+    word-spacing: 4px;
+    margin-top: -18px;
+}
+
+
+/* ===== buttons ===== */
+
+/* button container */
+#brand-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 5vmin;
+    margin-right: 0;
+    column-gap: 4vmin;
+}
+
+/* all buttons */
+#brand-actions .btn {
+    font-size: 1.4rem;
+    min-width: 200px;
+    padding: 1.2vmin;
+
+    border-radius: 4vmin;
+    border-color: transparent;
+    color: #e7e7e7;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.14);
+
+    transition: background .5s ease;
+}
+
+
+/* button BROWSE */
+#brand-actions .btn-browse {
+    background: rgb(255, 56, 181);
+}
+
+#brand-actions .btn-browse:hover {
+    background: rgb(250, 131, 171);
+    color: white;
+}
+
+/* button SIGN IN */
+#brand-actions .btn-signin {
+    background: #f18f0d;
+}
+
+#brand-actions .btn-signin:hover {
+    background: #dab43a;
+    color: white;
+}
+
+/* ===== giant rocket image ===== */
+
+#rocket-img-container {
+    position: relative;
+}
+
+#rocket-img-container > img {
+    width: 40vw;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+
+    transition: transform 1s;
+}
+
+#rocket-img:hover {
+    transform: scale(1.1) rotate(2deg)
+}
+
+#rocket-img-container canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 40vw;
+    aspect-ratio: 1/1;
+
+    z-index: -1;
+}
+
+
+/* kind of patchy... but it scales for mobile */
+@media(max-width: 900px) {
+    h1 {
+        font-size: max(3vh, .8rem);
+        text-align: center;
+        margin-bottom: max(2.6vmin, 1rem);
+    }
+
+    #brand-statement {
+        margin-right: 0;
+        margin-top: 6vmin;
+    }
+
+    #brand-body {
+        margin-top: min(12vh, 200px);
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    #rocket-img-container {
+        margin: 2vh 0 0;
+        display: flex;
+        justify-items: center;
+    }
+
+    #brand-actions {
+        margin-top: -4vmin;
+        display: flex;
+        justify-content: center;
+    }
+
+    #brand-actions .btn {
+        margin: 6vh 0 0 0;
+        min-width: max(5vmin, 100px);
+        font-size: .8rem;
+        padding: .7rem 1.6rem;
+    }
+
+    #rocket-img {
+        max-width: 250px;
+        margin-left: 5vmin;
+    }
+
+    canvas {
+        max-width: 250px;
+        margin-left: 5vmin;
+    }
+}
