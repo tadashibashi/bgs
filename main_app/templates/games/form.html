@@ -29,10 +29,10 @@
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
 
                 {% if game %}
-                    <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                    <button type="button" class="btn btn-outline-danger float-end mt-3" data-bs-toggle="modal" data-bs-target="#delete-modal">
                         Delete
                     </button>
                 {% endif %}
@@ -46,10 +46,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            Delete Game Confirmation
+                            Confirm deletion
                         </h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                        <button class="btn" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="bi bi-x-lg"></i></span>
                         </button>
                     </div>
                     <div class="modal-body">

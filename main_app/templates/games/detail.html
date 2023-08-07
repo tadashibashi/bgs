@@ -46,7 +46,7 @@
         }
 
         .screenshot-container {
-            aspect-ratio: 6/1;
+            aspect-ratio: 8/1;
             width: 100%;
         }
 
@@ -82,8 +82,8 @@
 {#            {% if game.screenshot_set.count %}#}
 {#                <div class="screenshot-container card-header p-0 overflow-hidden">#}
 {#                        <img src="{{ game.screenshot_set.first.file.url }}" class="object-fit-cover w-100 h-100" alt="screenshot of game">#}
-{#                </div> #}
-{#            {% endif %} #}
+{#                </div>#}
+{#            {% endif %}#}
 
 
             {# display game window #}
@@ -107,7 +107,7 @@
                     {% for tag in game.tags.all %}
 
                         {# if any hash tags #}
-                        <span class="rounded bg-secondary-subtle p-1 me-1 shadow-sm">
+                        <span class="rounded bg-secondary-subtle bg-opacity-50 p-1 me-1 shadow-sm">
                             <a class="tag text-secondary-emphasis"
                                href="{% url 'games_index' %}?q={{ tag.text }}">
                                     <span class="hash">#</span>

@@ -102,3 +102,8 @@ body {
 [data-bs-theme="dark"] a.nav-link.active {
     text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.55);
 }
+
+img {
+    object-fit: cover;
+    object-position: top;
+}

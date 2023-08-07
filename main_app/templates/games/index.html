@@ -11,7 +11,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            box-shadow: 0 4px 24px 2px rgba(40, 41, 42, 0.14);
+            box-shadow: 0 4px 24px 2px rgba(40, 41, 42, 0.18);
             transition: opacity .5s ease-in-out;
 
             position: absolute;
@@ -48,11 +48,6 @@
             aspect-ratio: 2/1;
         }
 
-        .carousel-caption {
-            background: rgba(0, 0, 0, 0.26);
-            border-radius: 4px;
-        }
-
         .tag, .author {
             text-decoration: none;
         }
@@ -65,6 +60,30 @@
             max-width: 1200px;
             width: 75%;
         }
+
+        img {
+            object-position: top;
+        }
+
+
+        [data-bs-theme="dark"] .carousel-caption {
+            background: rgba(24, 24, 24, 0.94);
+        }
+
+        [data-bs-theme="light"] .carousel-caption {
+            background: rgba(239, 239, 239, 0.96);
+        }
+
+        .branding-image-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .branding-image-container img {
+            width: 10vmin;
+            margin-bottom: -.5rem;
+        }
+
     </style>
     <section class="main-container container-fluid">
 
@@ -74,12 +93,16 @@
 
         {# featured games #}
         {% if featured_games %}
-            <h4 class="text-center mt-4 mb-4 text-secondary-emphasis"><i>Featured This Week</i></h4>
-            <article id="carousel-featured" class="carousel slide rounded-2 mb-4" data-bs-ride="carousel">
+{#            <div class="branding-image-container">#}
+{#                <img src="{% static 'images/bgs-logo-notext.png' %}" class="branding-image" alt="rocket logo"/>#}
+{#            </div>#}
+
+            <h4 class="text-center mt-4 mb-4 text-secondary-emphasis"><i class="bi bi-rocket-takeoff-fill me-2"></i><i>Featured This Week</i> <i class="bi bi-rocket-takeoff-fill ms-2"></i></h4>
+            <article id="carousel-featured" class="carousel slide rounded-2 mb-4 hover-shadow shadow-lg" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="0" class="active bg-secondary" aria-current="true" aria-label="Slide 1"></button>
+                    <button class="bg-secondary" type="button" data-bs-target="#carousel-featured" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button class="bg-secondary" type="button" data-bs-target="#carousel-featured" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner rounded-2 mb-4">
                     {% for game in featured_games %}
@@ -88,10 +111,10 @@
                             <a href="{% url 'games_detail' game.id %}">
                                 <img class="featured-img object-fit-cover w-100" src="{{ game.screenshot_set.first.file.url }}" alt="screenshot for game: {{ game.title }}">
                             </a>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5 class="text-primary-emphasis"><a href="{% url 'games_detail' game.id %}" class="text-secondary-emphasis text-decoration-none">{{ game.title }}</a></h5>
-                                <p class="text-tiny text-secondary">by <a class="author text-secondary" href="{% url 'profile_public' game.user.username %}">{{ game.user.username }}</a></p>
-                                <p class="text-secondary">{{ game.description }}</p>
+                            <div class="carousel-caption rounded-2 d-none d-md-block p-3">
+                                    <h5 class=""><a href="{% url 'games_detail' game.id %}" class="text-secondary-emphasis text-decoration-none">{{ game.title }}</a></h5>
+                                    <p class="text-tiny text-secondary">by <a class="author text-secondary" href="{% url 'profile_public' game.user.username %}">{{ game.user.username }}</a></p>
+                                    <p class="text-secondary overflow-hidden">{{ game.description }}</p>
                             </div>
                         </div>
                         {% endif %}
@@ -125,7 +148,7 @@
         <div class="d-flex flex-wrap flex-row mb-5 mt-4">
 
             {% for game in games %}
-                <article class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" style="padding:12px;">
+                <article class="col-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3" style="padding:12px;">
                     {% include "games/include/game.html" %}
                 </article>
 
@@ -144,7 +167,7 @@
     <script src="{% static "js/setClassOnLightDarkMode.js" %}"></script>
     <script>
         window.addEventListener("load", evt => {
-            setClassOnLightDarkMode(["search-submit-btn"], "btn-dark", "btn-light");
+            setClassOnLightDarkMode(["#search-submit-btn"], "btn-dark", "btn-light");
         });
     </script>
 {% endblock %}
