@@ -69,86 +69,24 @@
             });
         });
     </script>
-    {% endif %}
+</body>
 
-    <script>
-        window.addEventListener("load", () => {
-            if (!bootstrap) {
-                console.error("Bootstrap 5.3 was not found: plase load it for review edit modal to function.");
-                return;
-            }
-            const btns = document.getElementsByClassName("edit-review-btn");
+{% include 'review/include/edit-modal.html' %}
 
-            for (const btn of btns) {
-                btn.addEventListener("click", () => {
-                    const reviewId = btn.dataset["review-id"];
-                    const reviewElId = "review-" + reviewId;
-
-                    // Find all necessary elements to do work
-
-                    const editForm = document.getElementById("edit-form");
-                    if (!editForm) {
-                        console.error("Failed to find review edit form");
-                        return;
-                    }
-
-                    const deleteReviewForm = document.getElementById("delete-review-form");
-                    if (!deleteReviewForm) {
-                        console.error("Failed to find delete review form");
-                        return;
-                    }
-
-                    // Get content and rating from corresponding review
-                    const reviewContentEl = document.querySelector(`#${reviewElId} .review-content`);
-                    if (!reviewContentEl) {
-                        console.error("Failed to find review content element");
-                        return;
-                    }
-
-                    const reviewRatingEl = document.querySelector(`#${reviewElId} .review-rating`);
-                    if (!reviewRatingEl) {
-                        console.error("Failed to find review rating element");
-                        return;
-                    }
-
-                    // get edit form inputs
-                    const editTextEl = document.getElementById("edit-text");
-                    if (!editTextEl) {
-                        console.error("Failed to find edit modal text element");
-                        return;
-                    }
-
-                    const editRatingEl = document.getElementById("edit-rating");
-                    if (!editRatingEl) {
-                        console.error("Failed to find edit modal rating element");
-                        return;
-                    }
-
-                    const editTitleEl = document.getElementById("edit-title");
-
-                    const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
-
-
-                    // found everything, now commit changes
-
-                    const reviewContent = reviewContentEl.innerText;
-                    const reviewRating = reviewRatingEl.innerText;
-
-                    console.log(reviewRatingEl);
-
-                    // set form actions to point to review id info
-                    deleteReviewForm.setAttribute("action", '{% url "delete_review" 0 %}'.replace('0', reviewId));
-                    editForm.setAttribute("action", '{% url "edit_review" 0 %}'.replace('0', reviewId));
-
-                    editTextEl.value = reviewContent;
-                    editRatingEl.value = reviewRating;
-                    editTitleEl.innerText = "Edit Review";
-
-                    editModal.show();
-                });
-            }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.edit-review-btn').click(function() {
+            let reviewId = $(this).data('review-id');
+            $('#edit-form').attr('action', '{% url "edit_review" 0 %}'.replace('0', reviewId));
+            let reviewContent = $(this).data('review-content');
+            let reviewRating = $(this).data('review-rating');
+            $('#edit-text').val(reviewContent);
+            $('#edit-rating').val(reviewRating);
+            $('#edit-modal').modal('show');
         });
-    </script>
+
+</script>
 {% endif %}
 
 
@@ -195,5 +133,3 @@
         <p class="mt-3 ms-2">No reviews...</p>
     {% endfor %}
 </div>
-
-
