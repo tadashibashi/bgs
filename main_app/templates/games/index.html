@@ -11,7 +11,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            box-shadow: 0 4px 24px 2px rgba(47, 48, 52, 0.42);
+            box-shadow: 0 4px 24px 2px rgba(40, 41, 42, 0.14);
             transition: opacity .5s ease-in-out;
 
             position: absolute;
@@ -28,7 +28,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            box-shadow: 0 2px 32px 4px rgba(175, 174, 174, 0.44);
+            box-shadow: 0 2px 32px 4px rgba(175, 174, 174, 0.21);
             transition: opacity .5s ease-in-out;
 
             position: absolute;
@@ -43,14 +43,64 @@
         .hover-shadow:hover::after {
             opacity: 1;
         }
+
+        .featured-img {
+            aspect-ratio: 3/1;
+        }
+
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.26);
+            border-radius: 4px;
+        }
+
+        .tag, .author {
+            text-decoration: none;
+        }
+
+        .tag:hover, .author:hover {
+            text-decoration: underline;
+        }
     </style>
     <section class="container">
 
         {# title #}
         <h1 class="text-center mb-5"><a class="nav-link" href="{% url 'games_index' %}">Games</a></h1>
 
-        {# display search bar. TODO: connect to search API #}
-        <form id="search-form" action="{% url 'games_index' %}" method="GET" class="mb-5">
+
+        {# featured games #}
+        {% if featured_games %}
+            <h4 class="text-center mt-4 mb-4 text-secondary-emphasis"><i>Featured This Week</i></h4>
+            <article id="carousel-featured" class="carousel slide rounded-2 mb-4" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner rounded-2 mb-4">
+                    {% for game in featured_games %}
+                        {% if game %}
+                        <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                            <a href="{% url 'games_detail' game.id %}">
+                                <img class="featured-img object-fit-cover w-100" src="{{ game.screenshot_set.first.file.url }}" alt="screenshot for game: {{ game.title }}">
+                            </a>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 class="text-primary-emphasis"><a href="{% url 'games_detail' game.id %}" class="text-secondary-emphasis text-decoration-none">{{ game.title }}</a></h5>
+                                <p class="text-tiny text-secondary">by <a class="author text-secondary" href="{% url 'profile_public' game.user.username %}">{{ game.user.username }}</a></p>
+                                <p class="text-secondary">{{ game.description }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </article>
+            <hr class="mt-5 mb-5 border-secondary-subtle"/>
+        {% endif %}
+
+
+
+        {# search bar #}
+        <form id="search-form" action="{% url 'games_index' %}" method="GET" class="mb-5 mt-5">
             <div class="hover-shadow shadow-sm input-group w-75 m-auto mt-4 mb-4 rounded-3">
                 {# search icon #}
                 <label for="search-input" class="input-group-text" id="basic-addon1">
@@ -64,11 +114,10 @@
             </div>
         </form>
 
-        {# featured games #}
-    
+
 
         {# display games #}
-        <div class="d-flex flex-wrap flex-row mb-5">
+        <div class="d-flex flex-wrap flex-row mb-5 mt-4">
 
             {% for game in games %}
                 <article class="col-lg-3" style="padding:12px;">

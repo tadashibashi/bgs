@@ -18,6 +18,7 @@ def index(request: HttpRequest):
     """
     q = request.GET.get("q", None)
     games = None
+    featured_games = []
     if q:
         try:
             print(q)
@@ -32,11 +33,16 @@ def index(request: HttpRequest):
 
         query_title = "Results for: " + q
     else:
+        featured_games.append(Game.objects.filter(user__username="aaron").first())
+        featured_games.append(Game.objects.filter(user__username="aaron").last())
+        featured_games.append(Game.objects.filter(user__username="user1").first())
+
         games = Game.objects.all().order_by("-created_at")
         query_title = "Latest Games"
     return render(request, "games/index.html", {
         "games": games,
-        "query_title": query_title
+        "query_title": query_title,
+        "featured_games": featured_games
     })
 
 
