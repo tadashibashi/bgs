@@ -48,6 +48,8 @@
 
             // get position offset
             let focusOffset = sel.focusOffset;
+            if (editableEl.innerText.length && editableEl.innerText[editableEl.innerText.length-1] === " ")
+                focusOffset = 0;
 
             // get node offset
             let nodeOffset;
@@ -81,13 +83,26 @@
 
             if (curNode.childNodes.length)
                 curNode = curNode.childNodes[0];
-            else if (focusOffset === 2)
+            else if (focusOffset === 2) {
                 curNode = editableEl.childNodes[nodeOffset + Math.max(curSize - lastSize, 0) + 1];
+                focusOffset -= 1;
+            }
+
+
 
             // done, make selection
-            const newSel = document.getSelection()
-            newSel.collapse(curNode, focusOffset);
-            newSel.collapseToEnd();
+            const newSel = document.getSelection();
+            console.log(curNode, focusOffset);
+            if (curNode.textContent.length <= focusOffset)
+                focusOffset = curNode.textContent.length;
+
+            try {
+                newSel.collapse(curNode, focusOffset);
+                // newSel.collapseToEnd();
+            } catch(e) {
+                console.error(e);
+            }
+
         }
 
 
