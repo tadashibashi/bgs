@@ -1,15 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .container {
+        max-width: 600px !important;
+    }
+</style>
 
-<h1>Log In</h1>
+<div class="container">
+    <h1 class="text-center mb-4">Log In</h1>
 
-<form method="POST" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ next }}">
-    <button type="submit" id="login" class="btn btn-outline-light">LOG IN</button>
-</form>
+    <form method="POST" action="{% url 'login' %}" class="mb-4">
+        {% csrf_token %}
+
+        <label class="form-label" for="id_username">Username</label>
+        <div class="input-group mb-4">
+            <div class="input-group-append input-group-text">
+                <i class="bi bi-person"></i>
+            </div>
+            <input class="form-control" type="text" id="id_username" name="username" />
+        </div>
+
+        <label class="form-label" for="id_password">Password</label>
+        <div class="input-group mb-5">
+            <div class="input-group-append input-group-text">
+                <i class="bi bi-key"></i>
+            </div>
+            <input class="form-control" type="password" id="id_password" name="password" />
+        </div>
+
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="d-flex justify-content-center mb-4">
+            <button type="submit" id="login" class="btn btn-outline-light">LOG IN</button>
+        </div>
+        <p class="text-end mb-5">Don't have an account? <a href="{% url 'signup' %}">Create One</a></p>
+    </form>
+</div>
+
 
 <script src="{% static 'js/setClassOnLightDarkMode.js' %}"></script>
 <script>

@@ -1,8 +1,29 @@
-{% extends 'base.html' %}
-{% block content %}
+<!-- Signin Modal -->
 
-<div class="modal">
-
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{% url 'login' %}" method="POST" id="signin-form">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signin-title">
+                        Sign In
+                    </h5>
+                    <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="signin-username" class="form-label">Username</label>
+                    <input id="signin-username" class="form-control mb-4" name="username">
+                    <label for="signin-password" class="form-label">Password</label>
+                    <input id="signin-password" class="form-control" type="password" name="password" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
-{% endblock %}

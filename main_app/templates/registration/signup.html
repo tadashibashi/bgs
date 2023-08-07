@@ -1,45 +1,76 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .tooltip-inner {
+        max-width: 100% !important;
+        text-align: left !important;
+    }
 
-<h1>Sign Up</h1>
+    .container {
+        max-width: 600px !important;
+    }
+</style>
 
-{% if error_message %}
-<p class="red-text">{{ error_message }}</p>
-{% endif %}
 
-<form action="{% url 'signup' %}" method="POST">
-  {% csrf_token %}
-  
-  <div class="form-group">
-    <label for="{{ form.username.id_for_label }}">Username:</label>
-    {{ form.username }}
-    <small class="form-text text-danger">{{ form.username.errors }}</small>
-    <small class="form-text">{{ form.username.help_text }}</small>
-  </div>
-  
-  <div class="form-group">
-    <label for="{{ form.email.id_for_label }}">Email:</label>
-    {{ form.email }}
-    <small class="form-text text-danger">{{ form.email.errors }}</small>
-  </div>
-  
-  <div class="form-group">
-    <label for="{{ form.password1.id_for_label }}">Password:</label>
-    {{ form.password1 }}
-    <small class="form-text text-danger">{{ form.password1.errors }}</small>
-    <small class="form-text">{{ form.password1.help_text }}</small>
-  </div>
-  
-  <div class="form-group">
-    <label for="{{ form.password2.id_for_label }}">Password Confirmation:</label>
-    {{ form.password2 }}
-    <small class="form-text text-danger">{{ form.password2.errors }}</small>
-  </div>
-  
-  <button type="submit" id="signup" class="btn btn-outline-light">SIGN UP</button>
 
-</form>
+<div class="container mb-4 d-flex flex-column justify-content-center">
+
+    {# title #}
+    <div class="d-flex justify-content-center mt-4">
+        <i class="bi bi-controller" style="font-size:6vmin;margin-bottom:-2vmin;"></i>
+    </div>
+    <h1 class="text-center mb-4">Sign Up</h1>
+    {% if error_message %}
+        <p class="red-text mb-4">{{ error_message }}</p>
+    {% endif %}
+    {# signup form #}
+    <form action="{% url 'signup' %}" method="POST" class="mb-5">
+        {% csrf_token %}
+
+        {# username #}
+        <div class="form-group mb-4">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            <i data-bs-toggle="tooltip" data-popper-placement="bottom" class="bi bi-info-circle float-end text-secondary" title="{{ form.username.help_text }}"></i>
+            <input type="text" class="form-control" name="username" id="id_username" required />
+            <small class="form-text text-danger text-tiny">{{ form.username.errors }}</small>
+        </div>
+
+        {# email #}
+        <div class="form-group mb-4">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            <input id="id_email" class="form-control" type="email" name="email" required>
+            <small class="form-text text-danger text-tiny">{{ form.email.errors }}</small>
+        </div>
+
+        {# password #}
+        <div class="form-group mb-4">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            <i data-bs-toggle="tooltip" data-popper-placement="bottom" class="bi bi-info-circle float-end text-secondary" title="{{ form.password1.help_text }}"></i>
+            <input id="id_password1" type="password" class="form-control" name="password1" required/>
+            <small class="form-text text-danger text-tiny">{{ form.password1.errors }}</small>
+        </div>
+
+        {# password confirmation #}
+        <div class="form-group mb-5">
+            <label for="{{ form.password2.id_for_label }}">Password Confirmation</label>
+            <input id="id_password2" type="password" class="form-control" name="password2" required/>
+            <small class="form-text text-danger text-tiny">{{ form.password2.errors }}</small>
+        </div>
+
+
+
+        {# submit button #}
+        <div class="d-flex justify-content-center mb-4">
+            <button type="submit" id="signup" class="btn btn-outline-light">SUBMIT</button>
+
+        </div>
+        <span class="text-tiny text-end float-end text-secondary">Already have an account? <a href="{% url 'login' %}">Log In</a></span>
+
+
+    </form>
+</div>
+
 
 <script src="{% static 'js/setClassOnLightDarkMode.js' %}"></script>
 <script>

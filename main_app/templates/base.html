@@ -40,6 +40,7 @@
     </footer>
 
     {# JavaScript #}
+    <script src="{% static 'thirdparty/bootstrap/popper.min.js' %}"></script>
     <script src="{% static 'thirdparty/bootstrap/bootstrap@5.3.1.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     {% if js %}
@@ -50,10 +51,9 @@
 
 
     <script>
-        // set favicon for light and dark mode browsers
-        if (window.matchMedia) {
-
-            window.addEventListener("load", evt => {
+        window.addEventListener("load", evt => {
+            // set favicon for light and dark mode browsers
+            if (window.matchMedia) {
                 const faviconEl = document.querySelector("link[rel='icon']");
 
                 const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -70,9 +70,23 @@
                         faviconEl.setAttribute("href", "{% static 'images/rocket-takeoff.png' %}");
                     }
                 }
-            });
+            }
 
-        }
+            const bootstrap = window.bootstrap;
+            if (bootstrap) {
+
+                // activate all popovers
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl, {
+                        html: true,
+                        boundary: document.body,
+                    });
+                });
+            }
+        });
+
+
     </script>
 </body>
 </html>

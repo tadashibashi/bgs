@@ -16,7 +16,7 @@
         </div>
         <img src="{% static 'images/bgs-logo-notext.png' %}" alt="navbar branding logo"/>
     </div>
-    <a id="login" class="nav-link text-light" href="{% url 'login' %}">LOG IN</a>
+    <a id="login" type="button" class="btn nav-link text-light" data-bs-toggle="modal" data-bs-target="#signin-modal">LOG IN</a>
 
     <div id="brand-body">
         {# brand statement #}
@@ -48,6 +48,8 @@
         <p class="text-secondary ms-4">© 2023 The Broke Coders</p>
     </footer>
 
+    {% include 'registration/include/signin-modal.html' %}
+    <script src="{% static 'thirdparty/bootstrap/bootstrap@5.3.1.min.js' %}"></script>
     <script src="{% static 'js/homeSparkles.js' %}"></script>
     <script> // todo: refactor since this also appears in base.html
             // set favicon for light and dark mode browsers
@@ -76,5 +78,4 @@
     </script>
 </body>
 </html>
-
 
