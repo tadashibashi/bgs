@@ -44,7 +44,7 @@
             opacity: 1;
         }
 
-        .featured-img {
+        .featured-img, .img-container {
             aspect-ratio: 2/1;
         }
 
@@ -84,6 +84,11 @@
             margin-bottom: -.5rem;
         }
 
+        .empty-carousel-img {
+            margin-top: 6vmin;
+            font-size: 24vmin;
+        }
+
     </style>
     <section class="main-container container-fluid">
 
@@ -97,7 +102,7 @@
 {#                <img src="{% static 'images/bgs-logo-notext.png' %}" class="branding-image" alt="rocket logo"/>#}
 {#            </div>#}
 
-            <h4 class="text-center mt-4 mb-4 text-secondary-emphasis"><i class="bi bi-rocket-takeoff-fill me-2"></i><i>Featured This Week</i> <i class="bi bi-rocket-takeoff-fill ms-2"></i></h4>
+            <h4 class="text-center mt-4 mb-4 text-secondary-emphasis"><i class="bi bi-rocket-takeoff-fill me-3"></i><i>Featured This Week</i> <i class="bi bi-rocket-takeoff-fill ms-3"></i></h4>
             <article id="carousel-featured" class="carousel slide rounded-2 mb-4 hover-shadow shadow-lg" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carousel-featured" data-bs-slide-to="0" class="active bg-secondary" aria-current="true" aria-label="Slide 1"></button>
@@ -109,7 +114,16 @@
                         {% if game %}
                         <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
                             <a href="{% url 'games_detail' game.id %}">
-                                <img class="featured-img object-fit-cover w-100" src="{{ game.screenshot_set.first.file.url }}" alt="screenshot for game: {{ game.title }}">
+                                <div class="w-100 img-container bg-secondary-subtle bg-gradient">
+                                    {% if game.screenshot_set.first %}
+                                        <img class="featured-img object-fit-cover w-100" src="{{ game.screenshot_set.first.file.url }}" alt="screenshot for game: {{ game.title }}">
+                                    {% else %}
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <i class="bi bi-controller featured-img empty-carousel-img text-secondary-emphasis"></i>
+                                        </div>
+
+                                    {% endif %}
+                                </div>
                             </a>
                             <div class="carousel-caption rounded-2 d-none d-md-block p-3">
                                     <h5 class=""><a href="{% url 'games_detail' game.id %}" class="text-secondary-emphasis text-decoration-none">{{ game.title }}</a></h5>
@@ -130,13 +144,16 @@
         {# search bar #}
         <form id="search-form" action="{% url 'games_index' %}" method="GET" class="mb-5 mt-5">
             <div class="hover-shadow shadow-sm input-group w-75 m-auto mt-4 mb-4 rounded-3">
-                {# search icon #}
-                <label for="search-input" class="input-group-text" id="basic-addon1">
-                        <i class="bi bi-search"></i>
-                </label>
-                {# text input #}
-                <input class="form-control w-75" id="search-input" type="text" name="q" placeholder="Search" value="{{ request.GET.q }}"/>
 
+                {# text input #}
+                <input list="search-suggestions" class="form-control w-75" id="search-input" type="text" name="q" placeholder="Search" value="{{ request.GET.q }}" autocomplete="off"/>
+                <datalist id="search-suggestions">
+
+                </datalist>
+                {# search icon #}
+                <button type="submit" class="input-group-text search-btn" id="basic-addon1">
+                    <i class="bi bi-search"></i>
+                </button>
                 {# hidden submit button #}
                 <input id="search-submit-btn" type="submit" class="btn btn-light input-group-text border-0" value="Go" hidden/>
             </div>
@@ -167,7 +184,35 @@
     <script src="{% static "js/setClassOnLightDarkMode.js" %}"></script>
     <script>
         window.addEventListener("load", evt => {
-            setClassOnLightDarkMode(["#search-submit-btn"], "btn-dark", "btn-light");
+            // setClassOnLightDarkMode(["#search-submit-btn"], "btn-dark", "btn-light");
+
+            const searchInput = document.getElementById("search-input");
+            if (!searchInput) {
+                console.error("error: could not get search-input");
+                return;
+            }
+
+            const searchSuggestions = document.getElementById("search-suggestions");
+            if (!searchSuggestions) {
+                console.error("error: could not get search-suggestions");
+                return;
+            }
+
+            searchInput.addEventListener("input", async evt => {
+                const getTags = await fetch("{% url 'search_top_tags' %}?q=" + searchInput.value);
+                const inputBefore = searchInput.value.substring(0, searchInput.value.lastIndexOf(" ")).trim()
+                const json = await getTags.json();
+                const tags = json["tags"];
+
+                let options = "";
+                tags.forEach(tag => {
+                    if (inputBefore.search(tag) === -1)
+                        options += `<option value="${inputBefore ? inputBefore + " " : ""}${tag}">${tag}</option>`;
+                });
+
+                searchSuggestions.innerHTML = options;
+                blur();
+            });
         });
     </script>
 {% endblock %}
