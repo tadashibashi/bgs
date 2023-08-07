@@ -29,6 +29,10 @@
     .tag:hover {
         text-decoration: underline;
     }
+
+    .empty-screenshot {
+        font-size: 12vmin;
+    }
 </style>
 
 <article class="card">
@@ -39,6 +43,14 @@
                 <a href="{% url 'games_detail' game.id %}" class="text-secondary text-decoration-none">
                     <img class="game-image" src="{{ game.screenshot_set.first.file.url }}" alt="game screenshot"/>
                 </a>
+            {% else %}
+                <a href="{% url 'games_detail' game.id %}">
+                    <p class="empty-screenshot w-100 h-100 d-flex justify-content-center align-items-center">
+                        <i class="bi bi-controller text-secondary mt-4"></i>
+                    </p>
+                </a>
+
+
             {% endif %}
         </div>
     </div>
