@@ -103,7 +103,7 @@
                 </p>
 
                 {# display title #}
-                <h3 class="card-title">{{ game.title }}
+                <h3 class="card-title"><a class="nav-link" href="{% url 'games_detail' game.id %}">{{ game.title }}</a>
                     {% if user.id == game.user_id %}
                         <a href="{% url 'games_update' game.id %}" class="button btn btn-outline-secondary ms-2 float-end">EDIT <i class="ms-1 bi bi-pencil"></i> </a>
                     {% endif %}

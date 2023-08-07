@@ -57,7 +57,7 @@
             <div class="me-4 navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     {# private links #}
-                    <a class="nav-link me-4" href="{% url 'profile_index' %}">{{ user.username }}</a>
+                    <a class="nav-link me-4" href="{% url 'profile_public' user.username %}">{{ user.username }}</a>
                     <a class="nav-link me-4" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     {# public links #}
@@ -85,5 +85,11 @@
 <script>
     window.addEventListener("load", evt => {
         setClassOnLightDarkMode(["brand-image"], "", "invert");
+
+        document.querySelectorAll("a.nav-link").forEach(item => {
+             if (item.getAttribute("href") === "{{ request.path }}") {
+                 item.classList.add("active");
+             }
+        });
     });
 </script>
