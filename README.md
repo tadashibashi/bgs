@@ -2,12 +2,10 @@
 ![Landing Page Mockup](readme/bgs-landing-page-mockup.png)
 
 
-## Getting Started
-Click to navigate -> https://brokemans-gamestation-903d50ec6ce7.herokuapp.com/
+## We're Live! 🚀
 
-### HTML5 game hosting & sharing site
-How it started: [Wireframe](https://whimsical.com/brokeman-s-wireframe-EQUcPbkTJ9ugSzMAjjwBa8)
-[Trello](https://trello.com/b/N7TDLKGa/brokemans-game-station)
+Play and share your game creations [here](https://brokemans-gamestation-903d50ec6ce7.herokuapp.com/)!
+
 
 ## Tools
 
@@ -17,41 +15,32 @@ How it started: [Wireframe](https://whimsical.com/brokeman-s-wireframe-EQUcPbkTJ
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
 
-### Requirements:
+## Featured Games
+![Game Display](readme/bgs-games-index.png)
 
-- Python version 3.11+
+## Play Games in Dark & Light Mode
+![Light & Dark Mode](readme/bgs-colormode.png)
 
-- Python libraries:
-  - Django
-  - django-environ
-  - psycopg2
-  - boto3
-
-
-##
-![Game Menu](readme/bgs-gamemenu.png)
-
-##
+## Search for Games 
 ![Search Bar Functions](readme/bgs-searchbar-games.png)
 
-##
-![Search Bar No Games Found](readme/bgs-searchbar-nogames.png)
-
-##
-![Game Display](readme/bgs-gameshown.png)
-
-##
+## Create and Edit Reviews
 ![Comments Display](readme/bgs-comments.png)
 
+## An Early Wireframe
+![Early Wireframe](readme/bgs-early-wireframe.png)
 
 ## Code Preview
 
-```js
-<!-- Edit Modal -->
+This is an example of using Bootstrap 5's modals to edit comments / reviews
 
+The script at the bottom forwards a button click to another form to confirm the deletion of a comment.
+
+```html django templating langauge
 <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -59,7 +48,7 @@ How it started: [Wireframe](https://whimsical.com/brokeman-s-wireframe-EQUcPbkTJ
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title" id="edit-title">
-                        Edit Review
+                        Edit Comment
                     </h5>
                     <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x-lg"></i>
@@ -102,28 +91,54 @@ How it started: [Wireframe](https://whimsical.com/brokeman-s-wireframe-EQUcPbkTJ
         });
     });
 </script>
-
 ```
 
 ## Icebox Features
 
-- Add reply function to comments
+- Enable replies to comments/reviews
 - Host games on AmazonS3
-- Email verification and  Admin's approval for user's game upload(s)
-- Antivirus to prevent malicious maleware uploads
+- Email verification and admin approval for game uploads
+- Antivirus to prevent malicious malware uploads
 
 
-## Interested in forking our app? Here are some tips and things you'll need:
+Please check out our [Trello](https://trello.com/b/N7TDLKGa/brokemans-game-station) for more info!
 
-A .env file should be located at `bgs/.env` containing
-the following:
 
-| Key        | Description                                                                                                     |
-|------------|-----------------------------------------------------------------------------------------------------------------|
-| SECRET_KEY | Arbitrary string for Django hashing & cryptographic signing.                                                    |
-| DEBUG      | "True": Debug mode "False": Production                                                                          |
-| DB_NAME    | Name for main postgresql database. Locally hosted for now. Make sure to create this db prior to running server. |
-| PORT       | Server port number. Left unspecified, it will default to 3000.                                                  |
+## Interested in contributing to our project?
+
+## Getting Started
+
+### Requirements:
+
+- Python version 3.11+
+
+- Python libraries:
+  - boto3
+  - Django
+  - django-environ
+  - psycopg2
+  - requests
+
+
+First, clone the repository.
+
+Next, you will need to create a .env file at `bgs/.env` containing the following:
+
+| Key                   | Description                                                                                                     |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------|
+| SECRET_KEY            | Arbitrary string for Django hashing & cryptographic signing.                                                    |
+| DEBUG                 | "True": Debug mode "False": Production                                                                          |
+| DB_NAME               | Name for main postgresql database. Locally hosted for now. Make sure to create this db prior to running server. |
+| PORT                  | Server port number. Left unspecified, it will default to 3000.                                                  |
+| DB_PASSWORD           | Password for PostgreSQL database                                                                                |
+| DB_USER               | Username for PostgreSQL database                                                                                |                                   
+| DB_HOST_LOCAL         | Host name for local testing branch of the database. Most likely: localhost                                      |
+| DB_HOST_DEBUG         | Host name for the testing branch of the database                                                                |
+| DB_HOST_DEPLOY        | Host name for the deployment branch of the database                                                             |
+| AWS_ACCESS_KEY_ID     | AWS access key id credential                                                                                    |
+| AWS_SECRET_ACCESS_KEY | AWS secret access key credential                                                                                |
+| S3_BUCKET             | Name of the S3 bucket                                                                                           |
+| S3_BASE_URL           | Regional URL location where bucket is hosted                                                                    |
 
 Migrate database changes to your local database
 ```shell
@@ -138,3 +153,6 @@ python3 manage.py runserver
 Optional: Use `do` script shortcut to run commands. Unix-only.
 - Make `do` script executable `chmod +x ./do`
 - Run python manage.py commands `./do <command>`
+
+Optional: Make `crudhelper` executable using the same command as with `do`
+- This script allows you to access the Python shell with all Models preloaded
