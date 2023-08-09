@@ -1,9 +1,9 @@
 """
-    Search api for games
+    Search api views for games and tags. All functions return JSON data.
 
-    top_tags - find tags related to query in order of most-used to least-used
+    top_tags     - find tags in order of most-used to least-used
+    search_games - find games taking tags, game title, username into account
 """
-
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -16,7 +16,6 @@ def top_tags(request: HttpRequest) -> HttpResponse:
     """
         Finds tags from a query, from most-used to least-used
         Currently grabs the top 8
-        TODO: add a parameter to give user ability limit the count
     """
     q = request.GET.get("q", "")
     limit = clamp(request.GET.get("limit", 8), 1, 500)
@@ -30,6 +29,13 @@ def top_tags(request: HttpRequest) -> HttpResponse:
     return JsonResponse({"tags": tags})
 
 def search_games(request: HttpRequest) -> HttpResponse:
+    """
+        Finds games from a query, based on a point system:
+        Level of significance from most to least:
+            - game tags
+            - game title
+            - creator's username
+    """
     params = request.GET
     q = params.get("q", "")
 
