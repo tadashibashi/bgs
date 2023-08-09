@@ -13,10 +13,10 @@ class GameCreateForm(forms.ModelForm):
         Form to create and edit games
     """
     # game = forms.FileField(widget=forms.FileInput(attrs={"accept": ".zip"}))
-    tags = TagsField(required=False) #ArrayField(CharField(), size=4)
+    tags = TagsField(required=False)
     tags.widget.attrs.update({"placholder": "no tags"})
 
-    add_fullscreen_btn = CheckboxField(label="Add fullscreen button?")
+    add_fullscreen_btn = CheckboxField(label="Add fullscreen button?", required=False)
 
     is_published = CheckboxField(label="Publish", required=False)
 
