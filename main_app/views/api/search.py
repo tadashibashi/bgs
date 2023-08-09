@@ -52,7 +52,7 @@ def search_games(request: HttpRequest) -> HttpResponse:
                 game_ids[game.id] = .15
             else:
                 game_ids[game.id] += .15
-    print(game_ids)
+
     game_ids = [key for key, value in sorted(game_ids.items(), key=lambda k: k[1], reverse=True)]
 
     return JsonResponse({"games": game_ids})
