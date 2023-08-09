@@ -36,8 +36,10 @@ urlpatterns: list[partial] = [
     path('accounts/signup/', views.accounts.signup, name='signup'),
 
     # api
-    path("api/color-mode/<str:mode>/", views.profile.color_mode_set, name="profile_color_mode_set"),
-    path("api/color-mode/", views.profile.color_mode_get, name="profile_color_mode_get"),
+    # - color-mode
+    path("api/color-mode/<str:mode>/", views.api.color_mode.set, name="profile_color_mode_set"),
+    path("api/color-mode/", views.api.color_mode.get, name="profile_color_mode_get"),
+    # - search
     path("api/search/games/", views.api.search.search_games, name="search_games"),
     path("api/search/top-tags/", views.api.search.top_tags, name="search_top_tags"),
 
