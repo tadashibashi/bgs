@@ -1,7 +1,10 @@
 """
-    View functions
-    main_app / views.py
+    View functions for webroot
+    main_app / views / index.py
+
+    home - displays landing page
 """
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 

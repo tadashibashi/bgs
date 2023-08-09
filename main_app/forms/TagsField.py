@@ -1,8 +1,6 @@
 """
-    Custom forms for main_app
+    Contains custom form field for game tags
 """
-from typing import Any
-
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django import forms
@@ -11,6 +9,11 @@ from django.template.defaultfilters import slugify
 from ..models import Tag
 
 class TagsWidget(forms.TextInput):
+    """
+        Text field for tags, makes sure to include the corresponding css/js
+        for custom writable div frontend behavior
+    """
+
     input_type = "text"
     is_required = False
 
@@ -19,7 +22,6 @@ class TagsWidget(forms.TextInput):
             "all": ["/static/css/widgets/TagsWidget.css"]
         }
         js = ["/static/js/widgets/TagsWidget.js"]
-
 
 
 class TagsField(forms.Field):
@@ -34,7 +36,7 @@ class TagsField(forms.Field):
         """
             Converts input string of space separated tag strings
             to a QuerySet of Tag models.
-            Create Tags if it doesn't exist
+            Create Tags in the database if any do not exist
         """
 
         # Return an empty QuerySet if there is no tag data

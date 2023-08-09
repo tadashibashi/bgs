@@ -2,7 +2,9 @@ from django import forms
 from django.contrib.postgres.forms import SimpleArrayField
 
 class ProfileForm(forms.Form):
-
+    """
+        Form to update a profile
+    """
 
     username = forms.CharField()
     """

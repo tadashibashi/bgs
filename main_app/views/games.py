@@ -1,3 +1,13 @@
+"""
+    View functions for the Game model
+    main_app / views/ games.py
+
+    index - displays games, with search feature - publicly accessible
+    create - displays add game form, and handles submissions on post
+    update - displays update game form, and handles submissions on post
+    delete - deletes a game
+"""
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
