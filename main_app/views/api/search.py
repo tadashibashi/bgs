@@ -1,19 +1,31 @@
+"""
+    Search api for games
+
+    top_tags - find tags related to query in order of most-used to least-used
+"""
+
 from django.contrib.auth.models import User
-from django.contrib.postgres.search import SearchVector
 from django.db.models import Count
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.utils.text import slugify
 
-from main_app.models import Game, Tag
+from ...math import clamp
+from ...models import Game, Tag
 
 def top_tags(request: HttpRequest) -> HttpResponse:
+    """
+        Finds tags from a query, from most-used to least-used
+        Currently grabs the top 8
+        TODO: add a parameter to give user ability limit the count
+    """
     q = request.GET.get("q", "")
+    limit = clamp(request.GET.get("limit", 8), 1, 500)
 
     tokens: list[str] = [slugify(token.lower()) for token in q.split(" ")]
 
     token = tokens[-1]
 
-    tags = [tag["text"] for tag in Tag.objects.filter(text__icontains=token).annotate(count=Count("game")).order_by("-count")[:8].values() if tag["count"] > 0]
+    tags = [tag["text"] for tag in Tag.objects.filter(text__icontains=token).annotate(count=Count("game")).order_by("-count")[:limit].values() if tag["count"] > 0]
 
     return JsonResponse({"tags": tags})
 
