@@ -37,7 +37,13 @@
 
     {% if can_review %}
     <script>
+        const bootstrap = window.bootstrap;
+        if (!bootstrap) {
+            console.error("Bootstrap needs to be loaded before this script!");
+        }
+
         window.addEventListener("load", () => {
+
             const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
             if (!editModal) {
                 console.error("Failed to create edit modal");
@@ -73,7 +79,6 @@
 
     <script>
         window.addEventListener("load", () => {
-
             if (!bootstrap) {
                 console.error("Bootstrap 5.3 was not found: plase load it for review edit modal to function.");
                 return;
