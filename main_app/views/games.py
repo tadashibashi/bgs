@@ -80,8 +80,7 @@ def create(request: HttpRequest):
             # user, a required field, must be associated to game before saving to postgres
             new_game: Game = form.save(commit=False)
             new_game.user_id = request.user.id
-
-
+            new_game.save()
 
             # upload and set screenshot if user provided one
             screenshot_file = request.FILES.get("screenshot", None)
@@ -96,11 +95,12 @@ def create(request: HttpRequest):
                         print(f"failed to upload or create screenshot for game: {new_game.title}")
                     else:
                         new_game.screenshot_set.add(screenshot)
+                        new_game.save()
 
             except Exception as e:
                 print(f"failed to upload screenshot file for game: {new_game.title}", e)
 
-            new_game.save()
+
 
             return redirect("games_detail", pk=new_game.id)
         else:
