@@ -1,10 +1,9 @@
-
-
 import typing
 from zipfile import ZipFile
 from pathlib import PurePath
 import re
 
+# Regex pattern-matching for undesired files in zip
 _IGNORE_LIST = [
     ".*\.DS_Store",
     "Thumbs.db",
@@ -13,16 +12,18 @@ _IGNORE_LIST = [
 
 class BgsZipfile:
     """
-        Handles a zip file
+        Zip file utility class
     """
+
 
     def __init__(self):
         self.file: ZipFile|None = None
         self.files: list[typing.BinaryIO] = []
 
+
     def __del__(self):
         """
-            Cleans up any remaining file in case user forgot to clean up
+            Clean up in case user forgets call to close()
         """
         self.close()
 
@@ -76,10 +77,12 @@ class BgsZipfile:
         """
         return bool(self.file and self.file.fp)
 
+
     def close(self):
         """
             Clean up the file. Automatically called during the destructor,
             but best if called when done with the zip file.
+            Safe to call even if file is not open.
         """
 
         # handle & report all exceptions, should not throw
@@ -111,7 +114,8 @@ class BgsZipfile:
             # get correct files: no folders or system files
             if (not info.is_dir() and filepath.parts[0] == path.stem and
             not [
-                match for match in _IGNORE_LIST
+                match
+                for match in _IGNORE_LIST
                 if re.search(match, info.filename)
             ]):
                 files.append(zip_file.open(info.filename, "r"))
