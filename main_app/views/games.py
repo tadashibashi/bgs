@@ -16,8 +16,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-
 from ..forms import GameCreateForm
+from ..forms.GameEditForm import GameEditForm
 from ..models import Game
 from ..models.helpers import create_screenshot, create_or_update_single_screenshot
 import requests
@@ -194,7 +194,7 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
     if request.method == "GET":
         # display update form to the user
 
-        form = GameCreateForm(instance=game)
+        form = GameEditForm(instance=game)
 
         return render(request, "games/form.html",
                       {"game": game, "form": form})
@@ -203,7 +203,7 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
         # update the game
 
         #populate form
-        form = GameCreateForm(request.POST, instance=game)
+        form = GameEditForm(request.POST, instance=game)
 
         if form.is_valid():
 

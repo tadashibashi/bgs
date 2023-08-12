@@ -1,6 +1,6 @@
 from .GameForm import GameForm
 
-class GameCreateForm(GameForm):
+class GameEditForm(GameForm):
     """
         Form to edit games
     """

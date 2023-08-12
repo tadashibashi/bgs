@@ -6,7 +6,7 @@ from django.db.models import QuerySet
 from django import forms
 from django.template.defaultfilters import slugify
 
-from ..models import Tag
+from ...models import Tag
 
 class TagsWidget(forms.TextInput):
     """
