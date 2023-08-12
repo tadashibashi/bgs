@@ -17,6 +17,10 @@
             <link rel="stylesheet" href="{% static file %}" />
         {% endfor %}
     {% endif %}
+
+
+    <script src="{% static 'thirdparty/bootstrap/popper.min.js' %}"></script>
+    <script src="{% static 'thirdparty/bootstrap/bootstrap@5.3.1.min.js' %}"></script>
 </head>
 <body>
     {# Main header #}
@@ -40,8 +44,6 @@
     </footer>
 
     {# JavaScript #}
-    <script src="{% static 'thirdparty/bootstrap/popper.min.js' %}"></script>
-    <script src="{% static 'thirdparty/bootstrap/bootstrap@5.3.1.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     {% if js %}
         {% for file in js %}
