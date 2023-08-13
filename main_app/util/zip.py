@@ -16,9 +16,12 @@ class BgsZipfile:
     """
 
 
-    def __init__(self):
+    def __init__(self, bytes_or_path=None):
         self.file: ZipFile|None = None
         self.files: list[typing.BinaryIO] = []
+
+        if bytes_or_path:
+            self.open(bytes_or_path)
 
 
     def __del__(self):
