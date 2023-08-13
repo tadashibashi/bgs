@@ -1,4 +1,4 @@
-import boto3
+
 import os
 import uuid
 
@@ -6,15 +6,8 @@ from django.core.files.uploadedfile import UploadedFile
 from django.utils.text import slugify
 
 from . import Screenshot, File, Game
+from ..util.s3 import boto3_client, get_bucket_name, get_base_url
 
-
-def boto3_client(service_name: str):
-    """
-        Get boto3 client with keys from the environment automatically added
-    """
-    return boto3.client(service_name,
-                 aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
-                 aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"])
 
 def create_file(uploaded_file: UploadedFile, key: str) -> File:
     """
@@ -27,8 +20,8 @@ def create_file(uploaded_file: UploadedFile, key: str) -> File:
             created File object
     """
     s3 = boto3_client("s3")
-    bucket = os.environ["S3_BUCKET"]
-    base_url = os.environ["S3_BASE_URL"]
+    bucket = get_bucket_name()
+    base_url = get_base_url()
 
     s3.upload_fileobj(uploaded_file, bucket, key)
 
