@@ -1,16 +1,9 @@
-
-import os
 import uuid
 
 from django.core.files.uploadedfile import UploadedFile
 from django.utils.text import slugify
 
 from . import Screenshot, File, Game
-from ..util.s3 import boto3_client, get_bucket_name, get_base_url
-
-
-
-
 
 def get_fileext(uploaded_file: UploadedFile) -> str:
     if uploaded_file.name:
