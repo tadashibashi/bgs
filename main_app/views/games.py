@@ -61,7 +61,7 @@ def index(request: HttpRequest):
         featured_games.append(Game.objects.filter(user__username="aaron").last())
         featured_games.append(Game.objects.filter(user__username="user1").first())
 
-        games = Game.objects.all().order_by("-times_viewed")
+        games = Game.objects.filter(is_published=True).order_by("-times_viewed")
         query_title = "Popular Games"
     return render(request, "games/index.html", {
         "games": games,

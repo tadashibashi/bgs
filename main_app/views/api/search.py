@@ -52,20 +52,20 @@ def search_games(request: HttpRequest) -> HttpResponse:
 
     game_ids = {}
     for tag in filtered_tags:
-        for game in tag.game_set.all():
+        for game in tag.game_set.filter(is_published=True):
             if not game.id in game_ids:
                 game_ids[game.id] = 1
             else:
                 game_ids[game.id] += 1
 
-    for game in filtered_games:
+    for game in filtered_games.filter(is_published=True):
         if not game.id in game_ids:
             game_ids[game.id] = .5
         else:
             game_ids[game.id] += .5
 
     for user in filtered_users:
-        for game in user.game_set.all():
+        for game in user.game_set.filter(is_published=True):
             if not game.id in game_ids:
                 game_ids[game.id] = .15
             else:
