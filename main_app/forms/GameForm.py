@@ -11,7 +11,6 @@ class GameForm(forms.ModelForm):
     """
         Form to edit games
     """
-    # game = forms.FileField(widget=forms.FileInput(attrs={"accept": ".zip"}))
 
     description = CharField(widget=Textarea(attrs={"rows": "10"}), required=False)
 
@@ -27,4 +26,4 @@ class GameForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = ["title", "description", "tags", "frame_width", "frame_height",
-                  "add_fullscreen_btn", "url", "is_published"]
+                  "add_fullscreen_btn", "is_published"]
