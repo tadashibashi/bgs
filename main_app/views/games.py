@@ -7,20 +7,28 @@
     update - displays update game form, and handles submissions on post
     delete - deletes a game
 """
+from pathlib import PurePath
 
+import botocore.client
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.files.uploadedfile import UploadedFile
 from django.db.models import F
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+
+import boto3
 
 from ..forms import GameCreateForm
 from ..forms.GameEditForm import GameEditForm
 from ..models import Game
 from ..models.helpers import create_screenshot, create_or_update_single_screenshot
 import requests
+
+from ..util.s3 import get_base_url, boto3_client, get_bucket_name
+from ..util.zip import BgsZipfile
 
 
 def index(request: HttpRequest):
@@ -62,6 +70,53 @@ def index(request: HttpRequest):
     })
 
 
+def _upload_game_file(file, s3, bucket: str, key: str):
+    path = PurePath(file.name)
+    path = PurePath(*path.parts[1:])
+
+    content_type = "application/octet-stream"
+    match path.suffix:
+        case ".html":
+            content_type = "text/html"
+        case ".json":
+            content_type = "application/json"
+        case ".css":
+            content_type = "text/css"
+        case ".js":
+            content_type = "text/javascript"
+        case ".wasm":
+            content_type = "application/wasm"
+
+    s3.upload_fileobj(file, bucket, key + str(path), ExtraArgs={"ContentType": content_type})
+
+
+def _process_zip_upload_for_game(zip_upload: UploadedFile, game: Game):
+    """
+        Uploads zip file to s3.
+        If None, do nothing.
+        Make sure to save game afterward, since its URL gets updated.
+
+        location of files: base_url + "user/<user_id>/games/<game_id>/files/"
+    """
+
+    if not zip_upload:
+        return
+
+    zip_file = BgsZipfile(zip_upload)
+
+
+    s3 = boto3_client("s3")
+    base_url = get_base_url()
+    key = f"user/{game.user_id}/games/{game.id}/files/"
+
+    bucket = get_bucket_name()
+
+    for file in zip_file.files:
+        _upload_game_file(file, s3, bucket, key)
+
+    game.url = base_url + bucket + "/" + key + "index.html"
+
+    zip_file.close()
 
 @login_required
 def create(request: HttpRequest):
@@ -110,6 +165,10 @@ def create(request: HttpRequest):
             except Exception as e:
                 print(f"failed to upload screenshot file for game: {new_game.title}", e)
 
+            zip_upload = request.FILES.get("zip_upload", None)
+            if zip_upload:
+                _process_zip_upload_for_game(zip_upload, new_game)
+                new_game.save()
 
 
             return redirect("games_detail", pk=new_game.id)
@@ -208,16 +267,45 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
         if form.is_valid():
 
             # update game's screenshot if user uploaded one
-            if request.FILES.get("screenshot"):
+            screenshot_upload = request.FILES.get("screenshot")
+            if screenshot_upload:
 
-                if not create_or_update_single_screenshot(request.FILES.get("screenshot"), game.id):
+                if not create_or_update_single_screenshot(screenshot_upload, game.id):
                     print("error while creating or updating Game's screenshot")
+
+
+            # update zip file upload if user uploaded one
+            _process_zip_upload_for_game(request.FILES.get("zip_upload"), game)
 
             # done, commit changes
             form.save()
 
     return redirect( "games_detail", pk=game.id)
 
+def _delete_contents(s3, bucket: str, folder_key: str, delete_folder=True):
+    objects = s3.list_objects(Bucket=bucket, Prefix=folder_key)
+    for obj in objects["Contents"]:
+        s3.delete_object(Bucket=bucket, Key=obj["Key"])
+
+    if delete_folder:
+        s3.delete_object(Bucket=bucket, Key=folder_key)
+
+def delete_files(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+        Delete files for a game, but not the game itself
+        JSON api request
+        url: games/<int:pk>/files/delete
+    """
+    try:
+        game = get_object_or_404(Game, pk=pk)
+        s3 = boto3_client("s3")
+
+        bucket = get_bucket_name()
+        key = f"user/{game.user_id}/games/{game.id}/files/"
+        _delete_contents(s3, bucket, key)
+        return JsonResponse({"success": "deleted"})
+    except Exception as e:
+        return JsonResponse({"error": e})
 
 
 @login_required
@@ -233,6 +321,12 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
 
     # only staff and game creator can delete game
     if request.user.is_staff or request.user.id == game.user_id:
+        s3 = boto3_client("s3")
+        bucket = get_bucket_name()
+        key = f"user/{game.user_id}/games/{game.id}/"
+
+        _delete_contents(s3, bucket, key)
+
         game.delete()
     else:
         raise PermissionDenied()
