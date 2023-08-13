@@ -214,7 +214,15 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
         name: "games_detail"
     """
 
-    game = get_object_or_404(Game, id=pk)
+    try:
+        game = get_object_or_404(Game, id=pk)
+    except Exception as e:
+        return render(request, "games/unavailable.html")
+
+    if not game.is_published:
+        if game.user_id != request.user.id and not request.user.is_staff:
+            return render(request, "games/unavailable.html")
+
 
     # increase times_viewed when any user except the creator views it
     if request.user.id != game.user_id:

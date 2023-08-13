@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3 class="text-center mt-4">Error 404</h3>
+<p class="text-center mt-4">Sorry, this game does not exist or is not available...</p>
+<div class="d-flex flex-column align-items-center mt-4">
+    <h1><i class="bi bi-controller"></i></h1>
+    <a href="{% url 'games_index' %}">Return to Games</a>
+</div>
+
+{% endblock %}
