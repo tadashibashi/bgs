@@ -39,7 +39,6 @@ def derive_mime_type_from_ext(ext: str) -> str:
         Amazon S3 doesn't automatically add this to files,
         so we need to find & add this manually on our end when uploading.
     """
-    content_type = ""
     match ext:
         case ".aac":  # AAC audio
             content_type = "audio/aac"
@@ -219,7 +218,7 @@ def create_screenshot(uploaded_file: UploadedFile, game_id: int) -> Screenshot |
     user_id = game.user_id
 
     # get filename
-    filename = gen_filename(uploaded_file)
+    filename = gen_filename(uploaded_file.name)
     if not filename:
         return None  # not a valid filename
 
@@ -245,7 +244,7 @@ def update_screenshot(screenshot_id: int, uploaded_file: UploadedFile):
               str(screenshot.game_id) + "/screenshots/")
 
     # get filename
-    filename = gen_filename(uploaded_file)
+    filename = gen_filename(uploaded_file.name)
     if not filename:
         print("update_screenshot error: failed to get name from uploaded file")
         return False  # not a valid filename
