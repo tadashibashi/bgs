@@ -4,6 +4,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.utils import timezone
 
+from main_app.models.helpers import derive_mime_type_from_ext
 from main_app.util.s3 import get_bucket_name, boto3_client, get_base_url
 
 
@@ -58,13 +59,15 @@ class File(models.Model):
 
     class helpers:
         @staticmethod
-        def create_and_upload(uploaded_file: UploadedFile, key: str) -> "File":
+        def create_and_upload(uploaded_file: UploadedFile, key: str, content_type="") -> "File":
             """
                 Uploads a file on Amazon S3, returning its file model object
                 Args:
                     uploaded_file: the file to upload, retrieved from `request.FILES`
                     key: the path to append to the base_url to upload the file to.
-                        e.g. "users/1/games/17/screenshots/xyz_my_file.png
+                        e.g. "users/1/games/17/screenshots/xyz_my_file.png"
+                    content_type: adds specific mime type; left blank, it will be derived
+                        from the file's extension
                 Returns:
                     created File object
             """
@@ -72,7 +75,10 @@ class File(models.Model):
             bucket = get_bucket_name()
             base_url = get_base_url()
 
-            s3.upload_fileobj(uploaded_file, bucket, key)
+            if content_type == "":
+                content_type = derive_mime_type_from_ext(uploaded_file.name)
+
+            s3.upload_fileobj(uploaded_file, bucket, key, ExtraArgs={"ContentType": content_type})
 
             url = f"{base_url}{bucket}/{key}"
 
