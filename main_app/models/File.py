@@ -1,7 +1,10 @@
+from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.utils import timezone
+
+from main_app.util.s3 import get_bucket_name, boto3_client, get_base_url
 
 
 class File(models.Model):
@@ -52,6 +55,30 @@ class File(models.Model):
 
     def __str__(self):
         return self.__repr__()
+
+    class helpers:
+        @staticmethod
+        def create_and_upload(uploaded_file: UploadedFile, key: str) -> "File":
+            """
+                Uploads a file on Amazon S3, returning its file model object
+                Args:
+                    uploaded_file: the file to upload, retrieved from `request.FILES`
+                    key: the path to append to the base_url to upload the file to.
+                        e.g. "users/1/games/17/screenshots/xyz_my_file.png
+                Returns:
+                    created File object
+            """
+            s3 = boto3_client("s3")
+            bucket = get_bucket_name()
+            base_url = get_base_url()
+
+            s3.upload_fileobj(uploaded_file, bucket, key)
+
+            url = f"{base_url}{bucket}/{key}"
+
+            return File.objects.create(url=url, key=key,
+                                       mime_type=uploaded_file.content_type,
+                                       filename=uploaded_file.name)
 
 
 

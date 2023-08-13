@@ -9,27 +9,7 @@ from . import Screenshot, File, Game
 from ..util.s3 import boto3_client, get_bucket_name, get_base_url
 
 
-def create_file(uploaded_file: UploadedFile, key: str) -> File:
-    """
-        Uploads a file on Amazon S3, returning its file model object
-        Args:
-            uploaded_file: the file to upload, retrieved from `request.FILES`
-            key: the path to append to the base_url to upload the file to.
-                e.g. "users/1/games/17/screenshots/xyz_my_file.png
-        Returns:
-            created File object
-    """
-    s3 = boto3_client("s3")
-    bucket = get_bucket_name()
-    base_url = get_base_url()
 
-    s3.upload_fileobj(uploaded_file, bucket, key)
-
-    url = f"{base_url}{bucket}/{key}"
-
-    return File.objects.create(url=url, key=key,
-                mime_type=uploaded_file.content_type,
-                filename=uploaded_file.name)
 
 
 def get_fileext(uploaded_file: UploadedFile) -> str:
@@ -58,7 +38,9 @@ def get_filename(uploaded_file: UploadedFile, prepend_hash=6) -> str:
 
     return filename
 
-
+#
+# TODO: VVV All code below needs to be refactored to allow multiple screenshot files & reordering VVV
+#
 
 def create_screenshot(uploaded_file: UploadedFile, game_id: int) -> Screenshot | None:
     """
@@ -88,7 +70,7 @@ def create_screenshot(uploaded_file: UploadedFile, game_id: int) -> Screenshot |
     folder = "user/" + str(user_id) + "/games/" + str(game_id) + "/screenshots/"
 
     # create file
-    file = create_file(uploaded_file, folder + filename)
+    file = File.helpers.create_and_upload(uploaded_file, folder + filename)
 
     # attach file to new screenshot
     return Screenshot.objects.create(file=file, game_id=game_id)
@@ -112,7 +94,7 @@ def update_screenshot(screenshot_id: int, uploaded_file: UploadedFile):
         return False  # not a valid filename
 
     # create file
-    file = create_file(uploaded_file, folder + filename)
+    file = File.helpers.create_and_upload(uploaded_file, folder + filename)
     if not file:
         print("update_screenshot error: File failed to create")
         return False  # file failed to create
