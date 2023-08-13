@@ -17,5 +17,19 @@ class TestZipFile(TestCase):
 
         file.open(str(Path(__file__).parent.resolve()) + "/files/ziptest.zip")
 
+        self.assertTrue(file.is_open())
         self.assertEqual(len(file.files), 4)
 
+    def test_close_file(self):
+        file = self.file
+        file.open(str(Path(__file__).parent.resolve()) + "/files/ziptest.zip")
+
+        self.assertTrue(file.is_open())
+        self.assertTrue(len(file.files) > 0)
+        self.assertTrue(file.file is not None)
+
+        file.close()
+
+        self.assertEqual(file.file, None)
+        self.assertEqual(len(file.files), 0)
+        self.assertTrue(not file.is_open())
