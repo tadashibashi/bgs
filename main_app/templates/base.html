@@ -44,7 +44,7 @@
     </footer>
 
     {# JavaScript #}
-    <script src="{% static 'js/main.js' %}"></script>
+
     {% if js %}
         {% for file in js %}
             <script type="text/javascript" src="{% static file %}" ></script>
@@ -90,5 +90,7 @@
 
 
     </script>
+
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
