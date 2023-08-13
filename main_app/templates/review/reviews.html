@@ -69,6 +69,13 @@
                     return;
                 }
 
+                const ratingEl = document.getElementById("edit-rating");
+                const textEl = document.getElementById("edit-text");
+                const deleteBtn = document.getElementById("delete-review-form-submit-delegate");
+                deleteBtn.setAttribute("hidden", "true");
+                ratingEl.value = "0";
+                textEl.value = "";
+
                 editTitleEl.innerText = "Write Comment";
                 editForm.setAttribute("action", "{% url 'add_review' game.id %}");
                 editModal.show();
@@ -80,7 +87,7 @@
     <script>
         window.addEventListener("load", () => {
             if (!bootstrap) {
-                console.error("Bootstrap 5.3 was not found: plase load it for review edit modal to function.");
+                console.error("Bootstrap 5 was not found: plase load it for review edit modal to function.");
                 return;
             }
             const btns = document.getElementsByClassName("edit-review-btn");
@@ -136,6 +143,8 @@
                     const editTitleEl = document.getElementById("edit-title");
                     const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
 
+                    const deleteBtn = document.getElementById("delete-review-form-submit-delegate");
+                    deleteBtn.removeAttribute("hidden");
 
                     // found everything, now commit changes
 
