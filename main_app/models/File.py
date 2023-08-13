@@ -58,6 +58,37 @@ class File(models.Model):
 
     class helpers:
         @staticmethod
+        def s3_upload(uploaded_file: UploadedFile, key: str, content_type="") -> str:
+            """
+                Upload a file on Amazon S3, but do not return a File model object.
+                Memory/file management is left to the user.
+                Please make sure to call delete when the object is no longer
+                needed and referencable.
+            """
+            s3 = boto3_client("s3")
+            bucket = get_bucket_name()
+            base_url = get_base_url()
+
+            if content_type == "":
+                content_type = derive_mime_type_from_ext(uploaded_file.name)
+
+            s3.upload_fileobj(uploaded_file, bucket, key, ExtraArgs={"ContentType": content_type})
+
+            return f"{base_url}{bucket}/{key}"
+
+        @staticmethod
+        def s3_delete(key: str):
+            """
+                Delete a file on Amazon S3
+            """
+            if not key: return
+
+            s3 = boto3_client("s3")
+            bucket = get_bucket_name()
+
+            s3.delete_object(Bucket=bucket, Key=key)
+
+        @staticmethod
         def create_and_upload(uploaded_file: UploadedFile, key: str, content_type="") -> "File":
             """
                 Uploads a file on Amazon S3, returning its file model object
@@ -70,16 +101,7 @@ class File(models.Model):
                 Returns:
                     created File object
             """
-            s3 = boto3_client("s3")
-            bucket = get_bucket_name()
-            base_url = get_base_url()
-
-            if content_type == "":
-                content_type = derive_mime_type_from_ext(uploaded_file.name)
-
-            s3.upload_fileobj(uploaded_file, bucket, key, ExtraArgs={"ContentType": content_type})
-
-            url = f"{base_url}{bucket}/{key}"
+            url = File.helpers.s3_upload(uploaded_file, key, content_type)
 
             return File.objects.create(url=url, key=key,
                                        mime_type=uploaded_file.content_type,
