@@ -11,6 +11,7 @@
 
     delete - deletes profile
 """
+from pathlib import PurePath
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -19,7 +20,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms import ProfileForm
-from ..models.helpers import create_file, get_fileext
+from ..models import File
 
 
 @login_required
@@ -96,8 +97,8 @@ def update(request: HttpRequest) -> HttpResponse:
             if avatar_file:
 
                 # create and upload avatar
-                avatar = create_file(avatar_file,
-                 f"user/{str(user.id)}/profile/avatar{get_fileext(avatar_file)}")
+                avatar = File.helpers.create_and_upload(avatar_file,
+                 f"user/{str(user.id)}/profile/avatar{PurePath(avatar_file.name).suffix}")
 
                 if avatar:
 
