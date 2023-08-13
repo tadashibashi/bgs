@@ -114,7 +114,8 @@ def _delete_file(sender, instance: File, **kwargs):
     """
         This callback deletes the file from Amazon S3 right before its File Model gets destroyed
     """
-    pass
+    File.helpers.s3_delete(instance.key)
+
 
 def derive_mime_type_from_ext(ext: str) -> str:
     """
