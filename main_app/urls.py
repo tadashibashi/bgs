@@ -20,9 +20,13 @@ urlpatterns: list[partial] = [
     path("games/<int:pk>/delete/", views.games.delete, name="games_delete"),
     path("games/<int:pk>/delete/files/", views.games.delete_files, name="games_delete_files"),
     # game reviews/comments
-    path('games/<int:game_id>/add_review/', views.reviews.add_review, name='add_review'),
-    path('reviews/<int:review_id>/edit/', views.reviews.edit_review, name='edit_review'),
-    path('reviews/<int:review_id>/delete/', views.reviews.delete_review, name='delete_review'),
+    path("games/<int:game_id>/add_review/", views.reviews.add_review, name="add_review"),
+    path("reviews/<int:review_id>/edit/", views.reviews.edit_review, name="edit_review"),
+    path("reviews/<int:review_id>/delete/", views.reviews.delete_review, name="delete_review"),
+
+    # favorites
+    path("favorites/add/<int:game_id>/<int:user_id>/", views.api.favorite.add, name="favorite_add"),
+    path("favorites/remove/<int:game_id>/<int:user_id>/", views.api.favorite.remove, name="favorite_remove"),
 
     # game screenshot
     path('games/<int:game_id>/add_screenshot/', views.screenshots.create, name="screenshots_add"),
@@ -34,7 +38,7 @@ urlpatterns: list[partial] = [
     path("profile/delete/", views.profile.delete, name="profile_delete"),
 
     # registration
-    path('accounts/signup/', views.accounts.signup, name='signup'),
+    path("accounts/signup/", views.accounts.signup, name="signup"),
 
     # api
     # - color-mode
