@@ -2,14 +2,18 @@ import os
 import boto3
 from botocore.client import BaseClient
 
+from mypy_boto3_s3 import Client
 
-def boto3_client(service_name: str) -> BaseClient:
+def boto3_client(service_name: str) -> BaseClient | Client:
     """
         Get boto3 client with keys from the environment automatically added
     """
     return boto3.client(service_name,
                         aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
                         aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"])
+
+def s3_client() -> Client:
+    return boto3_client("s3")
 
 _base_url: str = ""
 
