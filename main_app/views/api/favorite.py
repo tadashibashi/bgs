@@ -27,3 +27,10 @@ def game_favorite_count(request: HttpRequest, game_id: int) -> JsonResponse:
         return JsonResponse({"count": favs.count()})
     except Exception as e:
         return JsonResponse({"error": e})
+
+def exists(request: HttpRequest, game_id: int, user_id: int) -> JsonResponse:
+    try:
+        fav = Favorite.objects.get(game_id=game_id, user_id=user_id)
+        return JsonResponse({"exists": "1" if fav else "0"})
+    except Exception as e:
+        return JsonResponse({"error": e})
