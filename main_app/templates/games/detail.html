@@ -96,9 +96,11 @@
 
 
             <div class="card-footer p-3">
-
+                {# favorites #}
+                <span class="float-end text-secondary position-relative"><i id="fave-btn" class="bi bi-heart me-1"></i>{{ game.favorite_set.count }}</span>
                 {# views #}
-                <span class="text-secondary position-absolute end-0 me-3">{{ game.times_viewed }} views</span>
+                <span class="text-secondary float-end me-2">{{ game.times_viewed }} views</span>
+
 
 
                 {# hashtags #}
@@ -172,5 +174,18 @@
 {% if game.add_fullscreen_btn %}
     <script src="{% static 'js/fullscreenToggle.js' %}"></script>
 {% endif %}
-
+    <script>
+        window.addEventListener("load", () => {
+            const faveBtn = document.getElementById("fave-btn");
+            faveBtn.addEventListener("click", e => {
+                if (faveBtn.classList.contains("bi-heart")) {
+                    faveBtn.classList.remove("bi-heart");
+                    faveBtn.classList.add("bi-heart-fill");
+                } else {
+                    faveBtn.classList.remove("bi-heart-fill");
+                    faveBtn.classList.add("bi-heart");
+                }
+            });
+        });
+    </script>
 {% endblock %}
