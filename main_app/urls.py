@@ -27,6 +27,7 @@ urlpatterns: list[partial] = [
     # favorites
     path("favorites/add/<int:game_id>/<int:user_id>/", views.api.favorite.add, name="favorite_add"),
     path("favorites/remove/<int:game_id>/<int:user_id>/", views.api.favorite.remove, name="favorite_remove"),
+    path("favorites/count/game/<int:game_id>/", views.api.favorite.game_favorite_count, name="game_favorite_count"),
 
     # game screenshot
     path('games/<int:game_id>/add_screenshot/', views.screenshots.create, name="screenshots_add"),

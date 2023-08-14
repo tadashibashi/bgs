@@ -19,3 +19,11 @@ def remove(request: HttpRequest, game_id: int, user_id: int) -> JsonResponse:
             return JsonResponse({"success": "true"})
     except Exception as e:
         return JsonResponse({"error": e})
+
+
+def game_favorite_count(request: HttpRequest, game_id: int) -> JsonResponse:
+    try:
+        favs = Favorite.objects.filter(game_id=game_id)
+        return JsonResponse({"count": favs.count()})
+    except Exception as e:
+        return JsonResponse({"error": e})
