@@ -53,6 +53,15 @@ class File(models.Model):
         """
         return f"{get_base_url()}{get_bucket_name()}/{self.key}"
 
+    def mime_type(self):
+        """
+            Checks s3 for file's mimetype
+            If used multiple times, best if cached
+        """
+        s3 = s3_client()
+        header = s3.head_object(Bucket=get_bucket_name(), Key=self.key)
+        return header["ContentType"]
+
 
     class helpers:
         @staticmethod
