@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 
 from .Tag import Tag
+from ..util.s3 import get_base_url, get_bucket_name
+
 
 class Game(models.Model):
     """
@@ -10,13 +12,6 @@ class Game(models.Model):
     """
 
     # ===== fields ============================================================
-
-
-    url = models.URLField(default="")
-    """
-        url to the folder on Amazon S3
-    """
-
 
     title = models.CharField(max_length=128, default="")
     """
@@ -78,6 +73,9 @@ class Game(models.Model):
 
 
     # ===== functions =========================================================
+
+    def url(self):
+        return f"{get_base_url()}{get_bucket_name()}/user/{self.user_id}/games/{self.id}/files/index.html"
 
     def save(self):
         self.updated_at = timezone.now()

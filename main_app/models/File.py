@@ -1,3 +1,5 @@
+from pathlib import PurePath
+
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models.signals import pre_delete
@@ -56,44 +58,60 @@ class File(models.Model):
     def __str__(self):
         return self.__repr__()
 
+
     class helpers:
         @staticmethod
-        def s3_upload(uploaded_file: UploadedFile, key: str, content_type="") -> str:
+        def s3_upload(uploaded_file: UploadedFile, key: str,
+                      bucket: str = get_bucket_name(), base_url=get_base_url(),
+                      content_type="") -> str:
             """
                 Upload a file on Amazon S3, but do not return a File model object.
                 Memory/file management is left to the user.
                 Please make sure to call delete when the object is no longer
                 needed and referencable.
+
+                Args:
+                    uploaded_file: file to upload to s3
+                    key: key to upload the file to, must be unique, indicates filepath:
+                        e.g. "user/1/games/image.png"
+                    bucket: bucket to upload the file to, defaults to the main bucket set in the .env
+                    base_url: base url to prepend the returned url value with, entirely optional, defaults
+                         to the base url in the .env
+                    content_type: manually set the content mime type, otherwise, it automatically sets
+                        this value from its file extension; if none: "application/octet-stream"
+
             """
             s3 = boto3_client("s3")
-            bucket = get_bucket_name()
-            base_url = get_base_url()
 
             if content_type == "":
-                content_type = derive_mime_type_from_ext(uploaded_file.name)
+                content_type = derive_mime_type_from_ext(PurePath(uploaded_file.name).suffix)
 
             s3.upload_fileobj(uploaded_file, bucket, key, ExtraArgs={"ContentType": content_type})
 
             return f"{base_url}{bucket}/{key}"
 
+
         @staticmethod
-        def s3_delete(key: str):
+        def s3_delete(key: str, bucket=get_bucket_name()):
             """
                 Delete a file on Amazon S3
             """
             if not key: return
 
             s3 = boto3_client("s3")
-            bucket = get_bucket_name()
 
             s3.delete_object(Bucket=bucket, Key=key)
 
+
         @staticmethod
-        def create_and_upload(uploaded_file: UploadedFile, key: str, content_type="") -> "File":
+        def create_and_upload(uploaded_file: UploadedFile, key: str,
+                              content_type="", bucket=get_bucket_name(),
+                              base_url=get_base_url()) -> "File":
             """
                 Uploads a file on Amazon S3, returning its file model object
                 Args:
                     uploaded_file: the file to upload, retrieved from `request.FILES`
+                    bucket: the bucket to upload to
                     key: the path to append to the base_url to upload the file to.
                         e.g. "users/1/games/17/screenshots/xyz_my_file.png"
                     content_type: adds specific mime type; left blank, it will be derived
@@ -101,11 +119,12 @@ class File(models.Model):
                 Returns:
                     created File object
             """
-            url = File.helpers.s3_upload(uploaded_file, key, content_type)
+            url = File.helpers.s3_upload(uploaded_file, key, bucket=bucket,
+                                         content_type=content_type, base_url=base_url)
 
             return File.objects.create(url=url, key=key,
                                        mime_type=uploaded_file.content_type,
-                                       filename=uploaded_file.name)
+                                       filename=uploaded_file.name,)
 
 
 
@@ -114,7 +133,7 @@ def _delete_file(sender, instance: File, **kwargs):
     """
         This callback deletes the file from Amazon S3 right before its File Model gets destroyed
     """
-    File.helpers.s3_delete(instance.key)
+    File.helpers.s3_delete(get_bucket_name(), instance.key)
 
 
 def derive_mime_type_from_ext(ext: str) -> str:

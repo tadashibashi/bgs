@@ -23,7 +23,7 @@ import boto3
 
 from ..forms import GameCreateForm
 from ..forms.GameEditForm import GameEditForm
-from ..models import Game
+from ..models import Game, File
 from ..models.helpers import create_screenshot, create_or_update_single_screenshot
 import requests
 
@@ -70,24 +70,19 @@ def index(request: HttpRequest):
     })
 
 
-def _upload_game_file(file, s3, bucket: str, key: str):
+def _upload_game_file(file, key_base: str):
+    """
+        Helper file that uploads a file directly opened from a zip.
+
+        Args:
+            file: the file to upload
+            key_base: the root folder in s3 to upload the file to
+    """
     path = PurePath(file.name)
-    path = PurePath(*path.parts[1:])
+    path = PurePath(*path.parts[1:]) #  since this is a file extracted from a zip,
+                                     #  the first part of the filename is discarded
 
-    content_type = "application/octet-stream"
-    match path.suffix:
-        case ".html":
-            content_type = "text/html"
-        case ".json":
-            content_type = "application/json"
-        case ".css":
-            content_type = "text/css"
-        case ".js":
-            content_type = "text/javascript"
-        case ".wasm":
-            content_type = "application/wasm"
-
-    s3.upload_fileobj(file, bucket, key + str(path), ExtraArgs={"ContentType": content_type})
+    return File.helpers.s3_upload(file, key_base + str(path))
 
 
 def _process_zip_upload_for_game(zip_upload: UploadedFile, game: Game):
@@ -102,19 +97,15 @@ def _process_zip_upload_for_game(zip_upload: UploadedFile, game: Game):
     if not zip_upload:
         return
 
+    # open zip
     zip_file = BgsZipfile(zip_upload)
 
+    # folder key on s3 to upload to
+    folder = f"user/{game.user_id}/games/{game.id}/files/"
 
-    s3 = boto3_client("s3")
-    base_url = get_base_url()
-    key = f"user/{game.user_id}/games/{game.id}/files/"
-
-    bucket = get_bucket_name()
-
+    # upload each file to folder
     for file in zip_file.files:
-        _upload_game_file(file, s3, bucket, key)
-
-    game.url = base_url + bucket + "/" + key + "index.html"
+        _upload_game_file(file, folder)
 
     zip_file.close()
 
