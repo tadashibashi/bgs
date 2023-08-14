@@ -6,7 +6,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.utils import timezone
 
-from main_app.util.s3 import get_bucket_name, boto3_client, get_base_url
+from main_app.util.s3 import get_bucket_name, boto3_client
 
 
 class File(models.Model):
