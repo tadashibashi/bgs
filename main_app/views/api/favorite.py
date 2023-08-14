@@ -7,7 +7,7 @@ def add(request: HttpRequest, game_id: int, user_id: int) -> JsonResponse:
         Favorite.objects.create(user_id=user_id, game_id=game_id)
         return JsonResponse({"success": "true"})
     except Exception as e:
-        return JsonResponse({"error": e})
+        return JsonResponse({"success": "false", "error": e})
 
 def remove(request: HttpRequest, game_id: int, user_id: int) -> JsonResponse:
     try:
@@ -19,7 +19,7 @@ def remove(request: HttpRequest, game_id: int, user_id: int) -> JsonResponse:
             fav.delete()
             return JsonResponse({"success": "true"})
     except Exception as e:
-        return JsonResponse({"error": e})
+        return JsonResponse({"success": "false", "error": e})
 
 
 def game_favorite_count(request: HttpRequest, game_id: int) -> JsonResponse:
@@ -31,9 +31,7 @@ def game_favorite_count(request: HttpRequest, game_id: int) -> JsonResponse:
 
 def exists(request: HttpRequest, game_id: int, user_id: int) -> JsonResponse:
     try:
-        fav = Favorite.objects.get(game_id=game_id, user_id=user_id)
-        return JsonResponse({"exists": "1" if fav else "0"})
-    except Favorite.DoesNotExist:
-        return JsonResponse({"exists": "0"})
+        favs = Favorite.objects.filter(game_id=game_id, user_id=user_id)
+        return JsonResponse({"exists": "1" if favs.count() else "0"})
     except Exception as e:
         return JsonResponse({"error": e})

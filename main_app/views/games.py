@@ -230,12 +230,9 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
         game.times_viewed = times_viewed + 1
 
     is_faved = False
-    try:
-        if request.user.is_authenticated and \
-            request.user.favorite_set.get(game_id=pk, user_id=request.user.id):
-            is_faved = True
-    except Favorite.DoesNotExist:
-        is_faved = False
+    if request.user.is_authenticated and \
+        request.user.favorite_set.filter(game_id=pk, user_id=request.user.id).count():
+        is_faved = True
 
     return render(request, "games/detail.html",
                   {
