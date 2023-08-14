@@ -97,7 +97,11 @@
 
             <div class="card-footer p-3">
                 {# favorites #}
-                <span class="float-end text-secondary position-relative"><i id="fave-btn" class="bi bi-heart me-1"></i>{{ game.favorite_set.count }}</span>
+                <span class="float-end text-secondary position-relative">
+                    <i id="fave-btn" class="bi {% if is_faved %}bi-heart-fill{% else %}bi-heart{% endif %} me-1"></i>
+                    <span id="fave-count">{{ game.favorite_set.count }}</span>
+                </span>
+
                 {# views #}
                 <span class="text-secondary float-end me-2">{{ game.times_viewed }} views</span>
 
@@ -174,18 +178,36 @@
 {% if game.add_fullscreen_btn %}
     <script src="{% static 'js/fullscreenToggle.js' %}"></script>
 {% endif %}
-    <script>
-        window.addEventListener("load", () => {
-            const faveBtn = document.getElementById("fave-btn");
-            faveBtn.addEventListener("click", e => {
-                if (faveBtn.classList.contains("bi-heart")) {
-                    faveBtn.classList.remove("bi-heart");
-                    faveBtn.classList.add("bi-heart-fill");
-                } else {
-                    faveBtn.classList.remove("bi-heart-fill");
-                    faveBtn.classList.add("bi-heart");
-                }
-            });
+
+{% if user.is_authenticated %}
+<script>
+    // Makes fave button interactive
+    window.addEventListener("load", () => {
+        const faveBtn = document.getElementById("fave-btn");
+        const faveCount = document.getElementById("fave-count");
+
+        faveBtn.addEventListener("click", async e => {
+            if (faveBtn.classList.contains("bi-heart")) {
+                faveBtn.classList.remove("bi-heart");
+                faveBtn.classList.add("bi-heart-fill");
+                await fetch("{% url 'favorite_add' game.id user.id %}")
+            } else {
+                faveBtn.classList.remove("bi-heart-fill");
+                faveBtn.classList.add("bi-heart");
+                await fetch("{% url 'favorite_remove' game.id user.id %}")
+            }
+
+            const res = await fetch("{% url 'game_favorite_count' game.id %}")
+            const json = await res.json();
+            const count = json["count"];
+
+            // only update the count if there was no error
+            if (count !== undefined) {
+                faveCount.innerText = String(count);
+            }
         });
-    </script>
+    });
+</script>
+{% endif %}
+
 {% endblock %}

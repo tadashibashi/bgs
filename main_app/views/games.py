@@ -210,7 +210,7 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
     try:
         game = get_object_or_404(Game, id=pk)
     except Exception as e:
-        return render(request, "games/unavailable.html")
+        return render(request, "games/unavailable.html", {"error": e})
 
     if not game.is_published:
         if game.user_id != request.user.id and not request.user.is_staff:
@@ -229,10 +229,16 @@ def detail(request: HttpRequest, pk: int) -> HttpResponse:
         # (otherwise it appears as F(times_viewed) + 1)
         game.times_viewed = times_viewed + 1
 
+    is_faved = False
+    if request.user.is_authenticated and \
+        request.user.favorite_set.get(game_id=pk, user_id=request.user.id):
+        is_faved = True
+
     return render(request, "games/detail.html",
                   {
                       "game": game,
-                      "can_review": _can_review_game(request.user, game)
+                      "can_review": _can_review_game(request.user, game),
+                      "is_faved": is_faved
                   })
 
 
@@ -249,7 +255,6 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
     """
 
     game = get_object_or_404(Game, id=pk)
-
 
     if request.method == "GET":
         # display update form to the user
