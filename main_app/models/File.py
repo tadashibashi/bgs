@@ -7,7 +7,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.utils import timezone
 
-from main_app.util.s3 import get_bucket_name, boto3_client, get_base_url
+from main_app.util.s3 import get_bucket_name, boto3_client, get_base_url, s3_client
 
 
 class File(models.Model):
@@ -41,6 +41,9 @@ class File(models.Model):
 
 
     def __repr__(self):
+        """
+            String representation of the file in Python
+        """
         return f"{self.filename}, created {self.created_at}"
 
 
@@ -49,7 +52,7 @@ class File(models.Model):
 
     def url(self):
         """
-            Constructs and gets the database url
+            Constructs and gets the visitable url
         """
         return f"{get_base_url()}{get_bucket_name()}/{self.key}"
 
@@ -134,7 +137,7 @@ def _delete_file(sender, instance: File, **kwargs):
 
 def derive_mime_type_from_ext(ext: str) -> str:
     """
-        Amazon S3 doesn't automatically add this to files,
+        Amazon S3 doesn't automatically add content type to files,
         so we need to find & add this manually on our end when uploading.
     """
     match ext:
