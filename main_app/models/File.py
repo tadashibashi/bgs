@@ -1,3 +1,4 @@
+import typing
 from pathlib import PurePath
 
 from django.core.files.uploadedfile import UploadedFile
@@ -6,7 +7,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.utils import timezone
 
-from main_app.util.s3 import get_bucket_name, boto3_client
+from main_app.util.s3 import get_bucket_name, boto3_client, get_base_url
 
 
 class File(models.Model):
@@ -30,18 +31,6 @@ class File(models.Model):
     """
 
 
-    url = models.URLField(default="")
-    """
-        Amazon S3 url
-    """
-
-
-    mime_type = models.CharField(max_length=64, default="")
-    """
-        file type
-    """
-
-
     created_at = models.DateTimeField(default=timezone.now)
     """
         date that the file was uploaded
@@ -58,11 +47,17 @@ class File(models.Model):
     def __str__(self):
         return self.__repr__()
 
+    def url(self):
+        """
+            Constructs and gets the database url
+        """
+        return f"{get_base_url()}{get_bucket_name()}/{self.key}"
+
 
     class helpers:
         @staticmethod
-        def s3_upload(uploaded_file: UploadedFile, key: str,
-                      bucket: str = get_bucket_name(), content_type="") -> str:
+        def s3_upload(uploaded_file: typing.IO[bytes], key: str,
+                      bucket: str = get_bucket_name(), content_type="") -> None:
             """
                 Upload a file on Amazon S3, but do not return a File model object.
                 Memory/file management is left to the user.
@@ -99,7 +94,7 @@ class File(models.Model):
 
 
         @staticmethod
-        def create_and_upload(uploaded_file: UploadedFile, key: str,
+        def create_and_upload(uploaded_file: typing.BinaryIO, key: str,
                               content_type="", bucket=get_bucket_name()) -> "File":
             """
                 Uploads a file on Amazon S3, returning its file model object
@@ -113,12 +108,10 @@ class File(models.Model):
                 Returns:
                     created File object
             """
-            url = File.helpers.s3_upload(uploaded_file, key, bucket=bucket,
-                                         content_type=content_type)
+            File.helpers.s3_upload(uploaded_file, key, bucket=bucket,
+                                    content_type=content_type)
 
-            return File.objects.create(url=url, key=key,
-                                       mime_type=uploaded_file.content_type,
-                                       filename=uploaded_file.name,)
+            return File.objects.create(key=key, filename=uploaded_file.name)
 
 
 
