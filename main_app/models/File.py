@@ -62,8 +62,7 @@ class File(models.Model):
     class helpers:
         @staticmethod
         def s3_upload(uploaded_file: UploadedFile, key: str,
-                      bucket: str = get_bucket_name(), base_url=get_base_url(),
-                      content_type="") -> str:
+                      bucket: str = get_bucket_name(), content_type="") -> str:
             """
                 Upload a file on Amazon S3, but do not return a File model object.
                 Memory/file management is left to the user.
@@ -75,8 +74,6 @@ class File(models.Model):
                     key: key to upload the file to, must be unique, indicates filepath:
                         e.g. "user/1/games/image.png"
                     bucket: bucket to upload the file to, defaults to the main bucket set in the .env
-                    base_url: base url to prepend the returned url value with, entirely optional, defaults
-                         to the base url in the .env
                     content_type: manually set the content mime type, otherwise, it automatically sets
                         this value from its file extension; if none: "application/octet-stream"
 
@@ -87,8 +84,6 @@ class File(models.Model):
                 content_type = derive_mime_type_from_ext(PurePath(uploaded_file.name).suffix)
 
             s3.upload_fileobj(uploaded_file, bucket, key, ExtraArgs={"ContentType": content_type})
-
-            return f"{base_url}{bucket}/{key}"
 
 
         @staticmethod
@@ -105,8 +100,7 @@ class File(models.Model):
 
         @staticmethod
         def create_and_upload(uploaded_file: UploadedFile, key: str,
-                              content_type="", bucket=get_bucket_name(),
-                              base_url=get_base_url()) -> "File":
+                              content_type="", bucket=get_bucket_name()) -> "File":
             """
                 Uploads a file on Amazon S3, returning its file model object
                 Args:
@@ -120,7 +114,7 @@ class File(models.Model):
                     created File object
             """
             url = File.helpers.s3_upload(uploaded_file, key, bucket=bucket,
-                                         content_type=content_type, base_url=base_url)
+                                         content_type=content_type)
 
             return File.objects.create(url=url, key=key,
                                        mime_type=uploaded_file.content_type,

@@ -82,7 +82,7 @@ def _upload_game_file(file, key_base: str):
     path = PurePath(*path.parts[1:]) #  since this is a file extracted from a zip,
                                      #  the first part of the filename is discarded
 
-    return File.helpers.s3_upload(file, key_base + str(path))
+    File.helpers.s3_upload(file, key_base + str(path))
 
 
 def _process_zip_upload_for_game(zip_upload: UploadedFile, game: Game):
