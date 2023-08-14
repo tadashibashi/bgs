@@ -101,11 +101,13 @@ def _process_zip_upload_for_game(zip_upload: UploadedFile, game: Game):
     zip_file = BgsZipfile(zip_upload)
 
     # folder key on s3 to upload to
-    folder = f"user/{game.user_id}/games/{game.id}/files/"
+    folder = f"user/{game.user_id}/games/{game.id}/"
 
     # upload each file to folder
     for file in zip_file.files:
-        _upload_game_file(file, folder)
+        _upload_game_file(file, folder + "files/")
+
+    File.helpers.s3_upload(zip_file.file.fp, folder + "/compressed.zip")
 
     zip_file.close()
 
